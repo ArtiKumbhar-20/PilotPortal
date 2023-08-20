@@ -1,4 +1,59 @@
+import React, { useState} from 'react';
+import axios from "axios";
+
 export default function EventForm() {
+
+  const [eventTitle, seteventTitle] = useState("");
+  const [eventInstiID, seteventInstiID] = useState("");
+  const [eventType, seteventType] = useState("");
+  const [eventLocation, seteventLocation] = useState("");
+  const [eventDescr, seteventDescr] = useState("");
+  const [eventSPOCFname, seteventSPOCFname] = useState("");
+  const [eventSPOCLname, seteventSPOCLname] = useState("");
+  const [eventSPOCMobile, seteventSPOCMobile] = useState("");
+  const [eventSPOCWhatsapp, seteventSPOCWhatsapp] = useState("");
+  const [eventSPOCEmail, seteventSPOCEmail] = useState("");
+  const [eventSPOCWeb, seteventSPOCWeb] = useState("");
+  const [eventStartTime, seteventStartTime] = useState("");
+  const [eventEndTime, seteventEndTime] = useState("");
+  const [eventStartDate, seteventStartDate] = useState("");
+  const [eventEndDate, seteventEndDate] = useState("");
+  const [eventGuidelines, seteventGuidelines] = useState("");
+
+  // Reset from after successfull submission
+  //const Event = useRef(null);
+
+  const sendEventDetails = (event) => {
+    event.preventDefault();
+
+    axios({
+      method: "post",
+      url: "http://localhost:8000/event/",
+      data: {
+        eventTitle,
+        eventInstiID,
+        eventType,
+        eventLocation,
+        eventDescr,
+        eventSPOCFname,
+        eventSPOCLname,
+        eventSPOCMobile,
+        eventSPOCWhatsapp,
+        eventSPOCEmail,
+        eventSPOCWeb,
+        eventStartTime,
+        eventEndTime,
+        eventStartDate,
+        eventEndDate,
+        eventGuidelines
+      },
+    }).then((response) => {
+      alert(`Thank you for submitting the details.`);
+      console.log(response.data);
+      document.getElementById('contact-form').reset();
+    });
+  };
+
   return (
     <div className='section-padding'>
       <div className='container'>
@@ -10,9 +65,11 @@ export default function EventForm() {
               data-wow-duration='1.5s'
               data-wow-delay='.1s'
               action='#'
+              onSubmit={sendEventDetails}
             >
                 {/* Title */}
               <h2 className='title'>Event Details</h2>
+              
 
                {/* row-1 */}
               <div className='row'>
@@ -22,6 +79,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventTitle(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Event Title'
                   />
@@ -32,6 +90,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventInstiID(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Event Institute ID'
                   />
@@ -45,6 +104,7 @@ export default function EventForm() {
                     </option>
                     <option value='1'>Health</option>
                     <option value='1'>Agriculture</option>
+                    onChange={(e) => seteventType(e.target.value)}
                   </select>
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -53,6 +113,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventLocation(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Event Location'
                   />
@@ -63,6 +124,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventDescr(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Event Description'
                   />
@@ -73,6 +135,7 @@ export default function EventForm() {
                     type='date'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventStartDate(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Date'
                   />
@@ -83,6 +146,7 @@ export default function EventForm() {
                     type='time'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventStartTime(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Start Time'
                   />
@@ -93,6 +157,7 @@ export default function EventForm() {
                     type='date'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventEndDate(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Date'
                   />
@@ -103,6 +168,7 @@ export default function EventForm() {
                     type='time'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventEndTime(e.target.value)}
                     aria-describedby='emailHelp'
                   />
                 </div>
@@ -114,6 +180,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventGuidelines(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Guidelines'
                   />
@@ -129,8 +196,9 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventSPOCFname(e.target.value)}
                     aria-describedby='emailHelp'
-                    placeholder='Event Institute ID'
+                    placeholder='First Name'
                   />
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -139,6 +207,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventSPOCLname(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Last Name'
                   />
@@ -149,6 +218,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventSPOCEmail(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Email'
                   />
@@ -159,6 +229,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventSPOCMobile(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Mobile'
                   />
@@ -169,6 +240,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventSPOCWhatsapp(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Whatsapp Number'
                   />
@@ -180,6 +252,7 @@ export default function EventForm() {
                     type='name'
                     className='form-control'
                     id='name'
+                    onChange={(e) => seteventSPOCWeb(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Website'
                   />
