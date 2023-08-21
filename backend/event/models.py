@@ -18,7 +18,7 @@ class Event(models.Model):
     eventSPOCEmail = models.EmailField()
     eventSPOCWeb = models.CharField(max_length=100)
     eventStartTime = models.TimeField()
-    eventEndTime = models.TextField
+    eventEndTime = models.TextField(default='00:00:00')
     eventStartDate = models.DateField()
     eventEndDate = models.DateField()
     eventGuidelines = models.TextField()
