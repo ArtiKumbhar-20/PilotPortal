@@ -25,6 +25,10 @@ export const validateRequired = (value) => {
 
 // Email Validator
 export const validateEmail = (email) => {
+  if (!email || email.trim() === "") {
+    return "This field is required";
+  }
+
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return "Invalid email format";
@@ -50,6 +54,17 @@ export const validateMobile = (mobile) => {
     return "This field is required";
   } else if (!mobileRegex.test(mobile)) {
     return "Invalid Mobile Number format";
+  }
+  return "";
+};
+
+// Pincode Validator
+export const validatePincode = (pincode) => {
+  const pincodeRegex = /^\d{6}$/;
+  if (!pincode) {
+    return "This field is required";
+  } else if (!pincodeRegex.test(pincode)) {
+    return "Invalid Pincode format";
   }
   return "";
 };
