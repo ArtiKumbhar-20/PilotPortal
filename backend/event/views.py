@@ -8,7 +8,7 @@ from .models import Event
 from .serializers import EventSerializer
 
 
-class Event(APIView):
+class EventCreateView(APIView):
     def post(self, request):
         serializer = EventSerializer(data=request.data)
         if serializer.is_valid():
