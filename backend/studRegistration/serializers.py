@@ -1,9 +1,5 @@
 from rest_framework import serializers
-from .models import Student
-from .models import Panelist
-from .models import Institute
-from .models import Incubators
-from .models import Catalyst
+from .models import *
 
 # Student Registration
 class StudentSerializer(serializers.ModelSerializer):
@@ -33,4 +29,10 @@ class IncubatorsSerializer(serializers.ModelSerializer):
 class CatalystSerializer(serializers.ModelSerializer):
     class Meta:
         model = Catalyst
+        fields = '__all__'
+
+# Team Registration
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
         fields = '__all__'

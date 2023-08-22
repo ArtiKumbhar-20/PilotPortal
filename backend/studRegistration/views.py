@@ -1,14 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Student
-from .models import Institute
-from .models import Incubators
-from .serializers import StudentSerializer
-from .serializers import PanelistSerializer
-from .serializers import InstituteSerializer
-from .serializers import IncubatorsSerializer
-from .serializers import CatalystSerializer
+from .serializers import *
 
 # Student Registration
 class StudentRegistration(APIView):
@@ -50,6 +43,15 @@ class IncubatorsRegistration(APIView):
 class CatalystRegistration(APIView):
     def post(self, request):
         serializer = CatalystSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# Team Registration
+class TeamRegistration(APIView):
+    def post(self, request):
+        serializer = TeamSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -1,10 +1,6 @@
 # Register your models here.
 from django.contrib import admin
-from .models import Student
-from .models import Panelist
-from .models import Institute
-from .models import Incubators
-from .models import Catalyst
+from .models import *
 
 # Student Registration
 @admin.register(Student)
@@ -61,3 +57,13 @@ class CatalystAdmin(admin.ModelAdmin):
         'catalystCountry', 'catalystBelongsTo',  'recordCreatedBy',
         'recordUpdatedOn', 'recordUpdatedBy'
     )
+
+# Team Registration
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
+    list_display = (
+        'teamID', 'teamName', 'teamCEO', 'teamCOO', 'teamCFO',
+        'teamCMO', 'teamCTO', 'teamInstiID','recordCreatedOn', 'recordCreatedBy',
+        'recordUpdatedOn', 'recordUpdatedBy'
+    )
+    
