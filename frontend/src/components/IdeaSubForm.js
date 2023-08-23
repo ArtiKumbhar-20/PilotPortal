@@ -1,6 +1,11 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
 
+//Step 1:
+import {
+  validateRequired,
+} from "./formValidator";
+
 export const IdeaSubForm = () => {
   // const [ideaID, setIdeaID] = useState('');
   const [ideaTeamID, setIdeaTeamID] = useState('');
@@ -33,10 +38,41 @@ export const IdeaSubForm = () => {
   const [ideaTeamProtoTime, setIdeaTeamProtoTime] = useState('');
   const [ideaTeamProtoCost, setIdeaTeamProtoCost] = useState('');
   const [ideaTeamIncuSupport, setIdeaTeamIncuSupport] = useState('');
-  // const [recordCreatedOn, setRecordCreatedOn] = useState('');
-  // const [recordCreatedBy, setRecordCreatedBy] = useState('');
-  // const [recordUpdatedOn, setRecordUpdatedOn] = useState('');
-  // const [recordUpdatedBy, setRecordUpdatedBy] = useState('');
+  
+ // Step 2: For Validation
+  // State to hold form field errors
+  const [formErrors, setFormErrors] = useState({
+ideaTeamID: "",
+ideaTeamName: "",
+ideaTeamInstiID: "",
+ideaTeamCFO: "",
+ideaTeamCEO: "",
+ideaTeamCTO: "",
+ideaTeamCOO: "",
+ideaTeamCMO: "",
+ideaTeamPSdetail: "",
+ideaTeamPersona1: "",
+ideaTeamPersona2: "",
+ideaTeamInterviews: "",
+ideaTeamQuestions: "",
+ideaTeamInsights: "",
+ideaTeamFinalPS: "",
+ideaTeamDomain: "",
+ideaTeamSDG: "",
+ideaTeamSolnCount: "",
+ideaTeamTopSoln1: "",
+ideaTeamTopSoln2: "",
+ideaTeamTopSoln3: "",
+ideaTeamQuickVal: "",
+ideaTeamFinalSoln: "",
+ideaTeamOfferingType: "",
+TeamTechReq: "",
+ideaTeamHardwareReq: "",
+ideaTeamNonTechReq: "",
+ideaTeamProtoTime: "",
+ideaTeamProtoCost: "",
+ideaTeamIncuSupport: "",
+  });
   
   // Reset from after successfull submission
   const ideaForm = useRef(null);
@@ -44,10 +80,50 @@ export const IdeaSubForm = () => {
   const sendIdeaDetails = (event) => {
     event.preventDefault();
 
+  // Step 3: For Validation
+const newFormErrors = {
+  ideaTeamID: validateRequired(ideaTeamID),
+  ideaTeamName: validateRequired(ideaTeamName),
+  ideaTeamInstiID: validateRequired(ideaTeamInstiID),
+  ideaTeamCFO: validateRequired(ideaTeamCFO),
+  ideaTeamCEO: validateRequired(ideaTeamCEO),
+  ideaTeamCTO: validateRequired(ideaTeamCTO),
+  ideaTeamCOO: validateRequired(ideaTeamCOO),
+  ideaTeamCMO: validateRequired(ideaTeamCMO),
+  ideaTeamPSdetail: validateRequired(ideaTeamPSdetail),
+  ideaTeamPersona1: validateRequired(ideaTeamPersona1),
+  ideaTeamPersona2: validateRequired(ideaTeamPersona2),
+  ideaTeamInterviews: validateRequired(ideaTeamInterviews),
+  ideaTeamQuestions: validateRequired(ideaTeamQuestions),
+  ideaTeamInsights: validateRequired(ideaTeamInsights),
+  ideaTeamFinalPS: validateRequired(ideaTeamFinalPS),
+  ideaTeamDomain: validateRequired(ideaTeamDomain),
+  ideaTeamSDG: validateRequired(ideaTeamSDG),
+  ideaTeamSolnCount: validateRequired(ideaTeamSolnCount),
+  ideaTeamTopSoln1: validateRequired(ideaTeamTopSoln1),
+  ideaTeamTopSoln2: validateRequired(ideaTeamTopSoln2),
+  ideaTeamTopSoln3: validateRequired(ideaTeamTopSoln3),
+  ideaTeamQuickVal: validateRequired(ideaTeamQuickVal),
+  ideaTeamFinalSoln: validateRequired(ideaTeamFinalSoln),
+  ideaTeamOfferingType: validateRequired(ideaTeamOfferingType),
+  ideaTeamTechReq: validateRequired(ideaTeamTechReq),
+  ideaTeamHardwareReq: validateRequired(ideaTeamHardwareReq),
+  ideaTeamNonTechReq: validateRequired(ideaTeamNonTechReq),
+  ideaTeamProtoTime: validateRequired(ideaTeamProtoTime),
+  ideaTeamProtoCost: validateRequired(ideaTeamProtoCost),
+  ideaTeamIncuSupport: validateRequired(ideaTeamIncuSupport),
+};
+
+// Step 4: For Validation : Will Not Change
+setFormErrors(newFormErrors);
+
+// Step 5: For Validation : If statement
+if (!Object.values(newFormErrors).some((error) => error !== "")) {
+  console.log(formErrors); // Add this line before the axios call
     axios({
       method: "post",
       url: "http://localhost:8000/ideasub/",
-      data: {
+     data: {
         // ideaID,
   ideaTeamID,
   ideaTeamName,
@@ -78,24 +154,22 @@ export const IdeaSubForm = () => {
   ideaTeamNonTechReq,
   ideaTeamProtoTime,
   ideaTeamProtoCost,
-  ideaTeamIncuSupport,
-  // recordCreatedBy,
-  // recordCreatedOn,
-  // recordUpdatedOn,
-  // recordUpdatedBy
-      },
+  ideaTeamIncuSupport
+  },
 
     }).then((response) => {
       alert(`Thank you for submitting your details.`);
       console.log(response.data);
-      // studentForm.current.reset();
+      ideaForm.current.reset();
     });
+  } // Closing of If statment
   };
 
   return (
     // <h1>Idea Submission Form</h1>
+    
     <div className='section-padding'>
-      <div className='container'>
+      <div className='container'  >
         <div className='mb-n30'>
           <div className='col-lg-12 mb-30'>
             <form
@@ -106,103 +180,213 @@ export const IdeaSubForm = () => {
               ref={ideaForm}
               onSubmit={sendIdeaDetails}
             >
+              
               <h2 className='title'>Team Details</h2>
               <div className='row'>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Team ID</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
-                    placeholder='Team ID'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamID(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamID: validateRequired(value),
+                      }));
+                    }}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamID ? "is-invalid" : "")
+                    }
+                    placeholder='Enter Team ID'
                     name={ideaTeamID}
-                    onChange={(e) => setIdeaTeamID(e.target.value)}
                   />
+                  {formErrors.ideaTeamID && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamID}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Team Name</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
-                    placeholder='Team Name'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamName(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamName: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamName ? "is-invalid" : "")
+                    }
+                    placeholder='Enter Team Name'
                     name={ideaTeamName}
-                    onChange={(e) => setIdeaTeamName(e.target.value)}
                   />
+                  {formErrors.ideaTeamName && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamName}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Institute Name</label>
-                  <select className='form-select'
-                  name={ideaTeamInstiID}
-                  onChange={(e) => setIdeaTeamInstiID(e.target.value)}
+                  <select className={
+                      "form-select " +
+                      (formErrors.ideaTeamInstiID ? "is-invalid" : "")
+                    }
+                    name={ideaTeamInstiID}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamInstiID(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamInstiID: validateRequired(value),
+                      }));
+                    }}
                   >
                     <option selected disabled>
                       Select Institute
                     </option>
                     <option value='1'>DYP</option>
                   </select>
+                  {formErrors.ideaTeamInstiID && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamInstiID}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>CEO</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
-                    placeholder='Team Member looking after Executive aspects of your ideas'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamCEO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamCEO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamCEO ? "is-invalid" : "")
+                    }
+                    placeholder='Enter Team CEO'
                     name={ideaTeamCEO}
-                    onChange={(e) => setIdeaTeamCEO(e.target.value)}
                   />
+                  {formErrors.ideaTeamCEO && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamCEO}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>CFO</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
-                    placeholder='Team Member looking after Financial aspects of your ideas'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamCFO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamCFO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamCFO ? "is-invalid" : "")
+                    }
+                    placeholder='Enter Team CFO'
                     name={ideaTeamCFO}
-                    onChange={(e) => setIdeaTeamCFO(e.target.value)}
                   />
+                  {formErrors.ideaTeamCFO && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamCFO}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>CTO</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamCTO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamCTO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamCTO ? "is-invalid" : "")
+                    }
                     placeholder='Team Member looking after Technological aspects of your ideas'
                     name={ideaTeamCTO}
-                    onChange={(e) => setIdeaTeamCTO(e.target.value)}
                   />
+                  {formErrors.ideaTeamCTO && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamCTO}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>COO</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamCOO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamCOO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamCOO ? "is-invalid" : "")
+                    }
                     placeholder='Team Member looking after Operational aspects of your ideas'
                     name={ideaTeamCOO}
-                    onChange={(e) => setIdeaTeamCOO(e.target.value)}
                   />
+                  {formErrors.ideaTeamCOO && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamCOO}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>CMO</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamCMO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamCMO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamCMO ? "is-invalid" : "")
+                    }
                     placeholder='Team Member looking after Marketing aspects of your ideas'
                     name={ideaTeamCMO}
-                    onChange={(e) => setIdeaTeamCMO(e.target.value)}
                   />
+                  {formErrors.ideaTeamCMO && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamCMO}
+                    </div>
+                  )}
                 </div>
               </div>
               <br />
@@ -211,56 +395,121 @@ export const IdeaSubForm = () => {
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Problem Statement</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamPSdetail(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamPSdetail: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamPSdetail ? "is-invalid" : "")
+                    }
                     placeholder='Initial Problem Statement in detail'
                     name={ideaTeamPSdetail}
-                    onChange={(e) => setIdeaTeamPSdetail(e.target.value)}
                   />
+                  {formErrors.ideaTeamPSdetail && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamPSdetail}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     Persona 1 - Customer Segment 1
                   </label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamPersona1(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamPersona1: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamPersona1 ? "is-invalid" : "")
+                    }
                     placeholder='Persona 1 - Customer Segment 1'
                     name={ideaTeamPersona1}
-                    onChange={(e) => setIdeaTeamPersona1(e.target.value)}
                   />
+                  {formErrors.ideaTeamPersona1 && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamPersona1}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     Persona 2 - Customer Segment 2
                   </label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamPersona2(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamPersona2: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamPersona2 ? "is-invalid" : "")
+                    }
                     placeholder='Persona 2 - Customer Segment 2'
                     name={ideaTeamPersona2}
-                    onChange={(e) => setIdeaTeamPersona2(e.target.value)}
                   />
+                  {formErrors.ideaTeamPersona2 && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamPersona2}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     How many interviews you had about this idea?
                   </label>
-                  <select className='form-select'
-                   name={ideaTeamInterviews}
-                   onChange={(e) => setIdeaTeamInterviews(e.target.value)}
+                  <select 
+                   className={
+                    "form-select " +
+                    (formErrors.ideaTeamInterviews ? "is-invalid" : "")
+                  }
+                  name={ideaTeamInterviews}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setIdeaTeamInterviews(value);
+                    setFormErrors((prevErrors) => ({
+                      ...prevErrors,
+                      ideaTeamInterviews: validateRequired(value),
+                    }));
+                  }}
                   >
                     <option selected disabled>
                       Select Number of Interviews
                     </option>
                     <option value='1'>1</option>
+                    <option value='2'>2</option>
+                    <option value='3'>3</option>
+                    <option value='4'>4</option>
+                    <option value='5'>5</option>
+                    <option value='6'>6</option>
+                    <option value='7'>7</option>
+                    <option value='8'>8</option>
+                    <option value='9'>9</option>
+                    <option value='10'>10</option>
+                    <option value='more than 10'>More Than 10</option>
                   </select>
+                  {formErrors.ideaTeamInterviews && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamInterviews}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
@@ -268,48 +517,97 @@ export const IdeaSubForm = () => {
                     interview?{" "}
                   </label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamQuestions(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamQuestions: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamQuestions ? "is-invalid" : "")
+                    }
                     placeholder='Enter questions'
                     name={ideaTeamQuestions}
-                    onChange={(e) => setIdeaTeamQuestions(e.target.value)}
                   />
+                  {formErrors.ideaTeamQuestions && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamQuestions}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     What insights you gathered from your research
                   </label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamInsights(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamInsights: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamInsights ? "is-invalid" : "")
+                    }
                     placeholder='Enter insights'
                     name={ideaTeamInsights}
-                    onChange={(e) => setIdeaTeamInsights(e.target.value)}
                   />
+                  {formErrors.ideaTeamInsights && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamInsights}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Final Problem Statement</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamFinalPS(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamFinalPS: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamFinalPS ? "is-invalid" : "")
+                    }
                     placeholder='Enter Final Problem Statement'
                     name={ideaTeamFinalPS}
-                    onChange={(e) => setIdeaTeamFinalPS(e.target.value)}
                   />
+                  {formErrors.ideaTeamFinalPS && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamFinalPS}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     Select Problem Statement Domain
                   </label>
-                  <select className='form-select'
-                   name={ideaTeamDomain}
-                   onChange={(e) => setIdeaTeamDomain(e.target.value)}
+                  <select className={
+                      "form-select " +
+                      (formErrors.ideaTeamDomain ? "is-invalid" : "")
+                    }
+                    name={ideaTeamDomain}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamDomain(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamDomain: validateRequired(value),
+                      }));
+                    }}
                   >
                     <option selected disabled>
                       Select Problem Statement Domain
@@ -317,15 +615,31 @@ export const IdeaSubForm = () => {
                     <option value='1'>Health</option>
                     <option value='1'>Agriculture</option>
                   </select>
+                  {formErrors.ideaTeamDomain && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamDomain}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     How do you map your problem statement with Sustainable
                     Development Goals?
                   </label>
-                  <select className='form-select'
-                   name={ideaTeamSDG}
-                   onChange={(e) => setIdeaTeamSDG(e.target.value)}
+                  <select 
+                   className={
+                    "form-select " +
+                    (formErrors.ideaTeamSDG ? "is-invalid" : "")
+                  }
+                  name={ideaTeamSDG}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setIdeaTeamSDG(value);
+                    setFormErrors((prevErrors) => ({
+                      ...prevErrors,
+                      ideaTeamSDG: validateRequired(value),
+                    }));
+                  }}
                   >
                     <option selected disabled>
                       Select Sustainable Development Goals
@@ -333,14 +647,29 @@ export const IdeaSubForm = () => {
                     <option value='1'>Health</option>
                     <option value='1'>Agriculture</option>
                   </select>
+                  {formErrors.ideaTeamSDG && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamSDG}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     How many solutions you have formulated for your idea?
                   </label>
-                  <select className='form-select'
-                   name={ideaTeamSolnCount}
-                   onChange={(e) => setIdeaTeamSolnCount(e.target.value)}
+                  <select  className={
+                      "form-select " +
+                      (formErrors.ideaTeamSolnCount ? "is-invalid" : "")
+                    }
+                    name={ideaTeamSolnCount}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamSolnCount(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamSolnCount: validateRequired(value),
+                      }));
+                    }}
                   >
                     <option selected disabled>
                       Select Number of Ideas
@@ -352,74 +681,155 @@ export const IdeaSubForm = () => {
                     <option value='1'>5</option>
                     <option value='1'>6</option>
                   </select>
+                  {formErrors.ideaTeamSolnCount && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamSolnCount}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Top Solution 1</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamTopSoln1(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamTopSoln1: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamTopSoln1 ? "is-invalid" : "")
+                    }
                     placeholder='Enter Top Solution 1'
                     name={ideaTeamTopSoln1}
-                    onChange={(e) => setIdeaTeamTopSoln1(e.target.value)}
                   />
+                  {formErrors.ideaTeamTopSoln1 && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamTopSoln1}
+                    </div>
+                  )}
+                
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Top Solution 2</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamTopSoln2(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamTopSoln2: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamTopSoln2 ? "is-invalid" : "")
+                    }
                     placeholder='Enter Top Solution 2'
                     name={ideaTeamTopSoln2}
-                    onChange={(e) => setIdeaTeamTopSoln2(e.target.value)}
                   />
+                  {formErrors.ideaTeamTopSoln2 && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamTopSoln2}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Top Solution 3</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamTopSoln3(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamTopSoln3: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamTopSoln3 ? "is-invalid" : "")
+                    }
                     placeholder='Enter Top Solution 3'
                     name={ideaTeamTopSoln3}
-                    onChange={(e) => setIdeaTeamTopSoln3(e.target.value)}
                   />
+                  {formErrors.ideaTeamTopSoln3 && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamTopSoln3}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     What insights you have gathered for quick validation?
                   </label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamQuickVal(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamQuickVal: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamQuickVal ? "is-invalid" : "")
+                    }
                     placeholder='Enter insights gathered for quick validation'
                     name={ideaTeamQuickVal}
-                    onChange={(e) => setIdeaTeamQuickVal(e.target.value)}
                   />
+                  {formErrors.ideaTeamQuickVal && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamQuickVal}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Final Solution</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamFinalSoln(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamFinalSoln: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamFinalSoln ? "is-invalid" : "")
+                    }
                     placeholder='Enter Final Solution'
                     name={ideaTeamFinalSoln}
-                    onChange={(e) => setIdeaTeamFinalSoln(e.target.value)}
                   />
+                  {formErrors.ideaTeamFinalSoln && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamFinalSoln}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Team Offering Type</label>
-                  <select className='form-select'
-                   name={ideaTeamOfferingType}
-                   onChange={(e) => setIdeaTeamOfferingType(e.target.value)}
+                  <select className={
+                      "form-select " +
+                      (formErrors.ideaTeamOfferingType ? "is-invalid" : "")
+                    }
+                    name={ideaTeamOfferingType}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamOfferingType(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamOfferingType: validateRequired(value),
+                      }));
+                    }}
                   >
                     <option selected disabled>
                       Select Team Offering Type
@@ -427,94 +837,192 @@ export const IdeaSubForm = () => {
                     <option value='1'>Health</option>
                     <option value='1'>Agriculture</option>
                   </select>
+                  {formErrors.ideaTeamOfferingType && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamOfferingType}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Technical Requirements</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamTechReq(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamTechReq: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamTechReq ? "is-invalid" : "")
+                    }
                     placeholder='Enter Technical Requirements'
                     name={ideaTeamTechReq}
-                    onChange={(e) => setIdeaTeamTechReq(e.target.value)}
                   />
+                  {formErrors.ideaTeamTechReq && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamTechReq}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Hardware Requirements</label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamHardwareReq(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamHardwareReq: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamHardwareReq ? "is-invalid" : "")
+                    }
                     placeholder='Enter Hardware Requirements'
                     name={ideaTeamHardwareReq}
-                    onChange={(e) => setIdeaTeamHardwareReq(e.target.value)}
                   />
+                  {formErrors.ideaTeamHardwareReq && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamHardwareReq}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     Non-Technical Requirements
                   </label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamNonTechReq(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamNonTechReq: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamNonTechReq ? "is-invalid" : "")
+                    }
                     placeholder='Enter Non-Technical Requirements'
                     name={ideaTeamNonTechReq}
-                    onChange={(e) => setIdeaTeamNonTechReq(e.target.value)}
                   />
+                  {formErrors.ideaTeamNonTechReq && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamNonTechReq}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     Estimated Time for implementing your idea
                   </label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamProtoTime(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamProtoTime: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamProtoTime ? "is-invalid" : "")
+                    }
                     placeholder='Enter Estimated Time'
                     name={ideaTeamProtoTime}
-                    onChange={(e) => setIdeaTeamProtoTime(e.target.value)}
                   />
+                  {formErrors.ideaTeamProtoTime && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamProtoTime}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>
                     Estimated Cost for implementing your idea
                   </label>
                   <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamProtoCost(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamProtoCost: validateRequired(value),
+                      }));
+                    }}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.ideaTeamProtoCost ? "is-invalid" : "")
+                    }
                     placeholder='Enter Estimated Cost'
                     name={ideaTeamProtoCost}
-                    onChange={(e) => setIdeaTeamProtoCost(e.target.value)}
                   />
+                  {formErrors.ideaTeamProtoCost && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamProtoCost}
+                    </div>
+                  )}
                 </div>
 
                 <div class='radio-container'>
                   <p className='labelStyle'>Do you have Incubator Support?</p>
-                  <label class='radio-label'>
-                    <input type='radio'  
-                    value='yes' 
-                    name={ideaTeamIncuSupport}
-                    onChange={(e) => setIdeaTeamIncuSupport(e.target.value)}
-                    />
-                    <span class='radio-custom'></span>
-                    Yes
-                  </label>
-                  <label class='radio-label'>
-                    <input type='radio' 
-                    value='no' 
-                    name={ideaTeamIncuSupport}
-                    onChange={(e) => setIdeaTeamIncuSupport(e.target.value)}
-                    />
-                    <span class='radio-custom'></span>
-                    No
-                  </label>
+                   <label className='radio-label'>
+                  <input
+                    className={formErrors.ideaTeamIncuSupport ? "is-invalid" : ""}
+                    type='radio'
+                    id='parentSupportYes'
+                    value='yes'
+                    name='ideaTeamIncuSupport'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamIncuSupport(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamIncuSupport: validateRequired(value),
+                      }));
+                    }}
+                  />
+                  <span className='radio-custom'></span>
+                  Yes
+                </label>
+                <label className='radio-label'>
+                  <input
+                    className={formErrors.ideaTeamIncuSupport ? "is-invalid" : ""}
+                    type='radio'
+                    id='parentSupportNo'
+                    value='no'
+                    name='ideaTeamIncuSupport'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamIncuSupport(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamIncuSupport: validateRequired(value),
+                      }));
+                    }}
+                  />
+                  <span className='radio-custom'></span>
+                  No
+                </label>
+                {formErrors.ideaTeamIncuSupport && (
+                  <div className='invalid-feedback'>
+                    {formErrors.ideaTeamIncuSupport}
+                  </div>
+                )}
                 </div>
 
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
