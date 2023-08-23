@@ -129,15 +129,13 @@ class Incubators(models.Model):
     recordUpdatedOn = models.DateField(default=timezone.now)
     recordUpdatedBy = models.CharField(max_length=100, default='admin')
 
-
     def __str__(self):
         return f"{self.incuName} ({self.incuID})"
-
 
 #Catalyst form
 class Catalyst(models.Model):
     catalystID = models.AutoField(primary_key=True)
-     # catalystInstiID = models.ForeignKey('Institution', on_delete=models.CASCADE)  
+    # catalystInstiID = models.ForeignKey('Institution', on_delete=models.CASCADE)  
     catalystFname = models.CharField(max_length=100)
     catalystLname  = models.CharField(max_length=100)
     catalystEmail = models.EmailField()
@@ -166,6 +164,24 @@ class Catalyst(models.Model):
     recordUpdatedOn = models.DateField(default=timezone.now)
     recordUpdatedBy = models.CharField(max_length=100, default='admin')
 
-
     def __str__(self):
         return f"{self.catalystFname} {self.catalystLname} ({self.catalystID})"
+    
+# Team Registration
+class Team(models.Model):
+    teamID = models.AutoField(primary_key=True)
+    # instituteID = models.ForeignKey('Institution', on_delete=models.CASCADE)
+    teamName = models.CharField(max_length=100)
+    teamCEO = models.CharField(max_length=100)
+    teamCOO = models.CharField(max_length=100)
+    teamCMO = models.CharField(max_length=100)
+    teamCTO = models.CharField(max_length=100)
+    teamCFO = models.CharField(max_length=100)
+    teamInstiID = models.CharField(max_length=100,default='1')
+    recordCreatedOn = models.DateField(default=timezone.now)
+    recordCreatedBy = models.CharField(max_length=100, default='admin')
+    recordUpdatedOn = models.DateField(default=timezone.now)
+    recordUpdatedBy = models.CharField(max_length=100, default='admin')
+
+    def __str__(self):
+        return f"{self.teamID} {self.teamName} ({self.teamInstiID})"
