@@ -159,6 +159,8 @@ class Catalyst(models.Model):
     catalystState = models.CharField(max_length=100)
     catalystCountry  = models.CharField(max_length=100)
     catalystBelongsTo = models.CharField(max_length=100)
+    #catalystInstiName = models.CharField(max_length=100)
+    catalystType=models.CharField(max_length=100, default='default_value_here')
     recordCreatedOn = models.DateField(default=timezone.now)
     recordCreatedBy = models.CharField(max_length=100, default='admin')
     recordUpdatedOn = models.DateField(default=timezone.now)

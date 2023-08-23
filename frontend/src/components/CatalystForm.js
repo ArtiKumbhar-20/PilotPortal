@@ -1,5 +1,12 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import {
+  validateRequired,
+  validateEmail,
+  validateAadhar,
+  validateMobile,
+  validatePincode,
+} from "./formValidator";
 
 
 export const CatalystForm = () => {
@@ -26,9 +33,40 @@ export const CatalystForm = () => {
   const [catalystState, setCatalystState] = useState("");
   const [catalystCountry, setCatalystCountry] = useState("");
   const [catalystBelongsTo, setCatalystBelongsTo] = useState("");
+  const [catalystInstiName, setCatalystInstiName] = useState("");
+  const [catalystType, setCatalystType] = useState("");
 
 
   // State to hold form field errors
+    // Step 2: For Validation
+ 
+  const [formErrors, setFormErrors] = useState({
+    catalystFname: "",
+    catalystLname: "",
+    catalystEmail: "",
+    catalystMobile: "",
+    catalystWhatsapp: "",
+    catalystYear: "",
+    catalystStreamBranch: "",
+    catalystGender: "",
+    //catalystType
+    catalystDOB: "",
+    catalystTriedStartupBefore: "",
+    catalystFamilyBackground: "",
+    catalystEBC: "",
+    catalystAadhar: "",
+    catalystAddress: "",
+    catalystPin: "",
+    catalystCity: "",
+    catalystTaluka: "",
+    catalystDist: "",
+    catalystState: "",
+    catalystCountry: "",
+    catalystBelongsTo: "",
+    catalystInstiName:"",
+    catalystType:"",
+   
+  });
   
 
   // Reset from after successfull submission
@@ -37,11 +75,44 @@ export const CatalystForm = () => {
   const sendCatalystDetails = (event) => {
     event.preventDefault();
 
+     // Step 3: For Validation
+     const newFormErrors = {
+      catalystFname: validateRequired(catalystFname),
+      catalystLname: validateRequired(catalystLname),
+      catalystEmail: validateRequired(catalystEmail),
+      catalystMobile: validateRequired(catalystMobile),
+      catalystWhatsapp: validateRequired(catalystWhatsapp),
+      catalystYear: validateRequired(catalystYear),
+      catalystStreamBranch: validateRequired(catalystStreamBranch),
+      catalystGender: validateRequired(catalystGender),
+      catalystDOB: validateRequired( catalystDOB),
+      catalystTriedStartupBefore: validateRequired(catalystTriedStartupBefore),
+      catalystFamilyBackground: validateRequired(catalystFamilyBackground),
+      catalystEBC: validateRequired(catalystEBC),
+      catalystAadhar: validateRequired(catalystAadhar),
+      catalystAddress: validateRequired(catalystAddress),
+      catalystPin: validateRequired(catalystPin),
+      catalystCity: validateRequired(catalystCity),
+      catalystTaluka: validateRequired(catalystTaluka),
+      catalystDist: validateRequired(catalystDist),
+      catalystState: validateRequired(catalystState),
+      catalystCountry: validateRequired(catalystCountry),
+      catalystBelongsTo: validateRequired(catalystBelongsTo),
+      catalystInstiName: validateRequired(catalystInstiName),
+      catalystType: validateRequired(catalystType),
+     
+    };
+     // Step 4: For Validation : Will Not Change
+     setFormErrors(newFormErrors);
     
 
     
 
     
+
+    
+    // Step 5: For Validation : If statement
+    if (!Object.values(newFormErrors).some((error) => error !== "")) {
       axios({
         method: "post",
         url: "http://localhost:8000/catalyst_register/",
@@ -68,14 +139,16 @@ export const CatalystForm = () => {
           catalystState,
           catalystCountry,
           catalystBelongsTo,
+          catalystInstiName,
+          catalystType,
         },
       }).then((response) => {
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
-       // catalystForm.current.reset();
+        //catalystForm.current.reset();
         //catalystForm.current.reset();
       });
-    
+    }
   };
   return (
     <div className='section-padding'>
@@ -99,38 +172,81 @@ export const CatalystForm = () => {
                   <label className='labelStyle'>First Name</label>
                   <input
                     type='name'
-                    className='form-control'
-                    id='catalystFname'
-                    aria-describedby='emailHelp'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystFname(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystFname: validateRequired(value),
+                      }));
+                    }}
+
+                    // Step 7: For Validation : Change className and add Field name
+                    className={
+                      "form-control " +
+                      (formErrors.catalystFname ? "is-invalid" : "")
+                    }
                     placeholder='Enter First Name'
                     name={catalystFname}
-                    onChange={(e) => 
-                      setCatalystFname(e.target.value)}
                   />
+                     {/* Step 8: For Validation : Display Errors */}
+                     {formErrors.catalystFname && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystFname}
+                    </div>
+                  )}
                 </div>
+                 
 
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Last Name</label>
                   <input
                     type='name'
-                    className='form-control'
-                    id='catalystLname'
-                    aria-describedby='emailHelp'
-                    placeholder='Enter Last Name'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystLname(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystLname: validateRequired(value),
+                      }));
+                    }}
+
+                    // Step 7: For Validation : Change className and add Field name
+                    className={
+                      "form-control " +
+                      (formErrors.catalystLname ? "is-invalid" : "")
+                    }
+                    placeholder='Enter First Name'
                     name={catalystLname}
-                    onChange={(e) => setCatalystLname(e.target.value)}
                   />
+                     {/* Step 8: For Validation : Display Errors */}
+                     {formErrors.catalystLname && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystLname}
+                    </div>
+                  )}
                 </div>
+                    
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Date of birth</label>
                   <input
                     type='date'
-                    className='form-control'
-                    id='catalystDOB'
-                    required
+                    className={
+                      "form-control " + (formErrors.catalystDOB ? "is-invalid" : "")
+                    }
                     name={catalystDOB}
-                    onChange={(e) => setCatalystDOB(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystDOB(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystDOB: validateRequired(value),
+                      }));
+                    }}
                   />
+                  {formErrors.catalystDOB && (
+                    <div className='invalid-feedback'>{formErrors.stdDOB}</div>
+                  )}
                 </div>
 
                 {/* row 2 */}
@@ -141,14 +257,24 @@ export const CatalystForm = () => {
                   <div className='form-check form-check-inline'>
                     <label className='form-check-label' htmlFor='inlineRadio1'>
                       <input
-                        className='form-check-inputt'
+                        className={
+                          "form-check-inputt " +
+                          (formErrors.catalystGender ? "is-invalid" : "")
+                        }
                         type='radio'
-                       // name='inlineRadioOptions'
+                        // name='inlineRadioOptions'
                         id='catalystGender'
-                        value='option1'
+                        value='male'
                         style={{ height: 20 }}
                         name={catalystGender}
-                    onChange={(e) => setCatalystGender(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setCatalystGender(value);
+                          setFormErrors((prevErrors) => ({
+                            ...prevErrors,
+                            catalystGender: validateRequired(value),
+                          }));
+                        }}
                       />
                       Male
                     </label>
@@ -156,58 +282,118 @@ export const CatalystForm = () => {
                   <div className='form-check form-check-inline'>
                     <label className='form-check-label' htmlFor='inlineRadio2'>
                       <input
-                        className='form-check-inputt'
+                        className={
+                          "form-check-inputt " +
+                          (formErrors.catalystGender ? "is-invalid" : "")
+                        }
                         type='radio'
-                       // name='inlineRadioOptions'
+                        // name='inlineRadioOptions'
                         id='catalystGender'
-                        value='option2'
+                        value='female'
                         style={{ height: 20 }}
                         name={catalystGender}
-                    onChange={(e) => setCatalystGender(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setCatalystGender(value);
+                          setFormErrors((prevErrors) => ({
+                            ...prevErrors,
+                            catalystGender: validateRequired(value),
+                          }));
+                        }}
                       />
                       Female
+                      
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
                     <label className='form-check-label' htmlFor='inlineRadio2'>
                       <input
-                        className='form-check-inputt'
+                        className={
+                          "form-check-inputt " +
+                          (formErrors.catalystGender ? "is-invalid" : "")
+                        }
                         type='radio'
-                      //  name='inlineRadioOptions'
+                        // name='inlineRadioOptions'
                         id='catalystGender'
-                        value='option2'
+                        value='other'
                         style={{ height: 20 }}
                         name={catalystGender}
-                    onChange={(e) => setCatalystGender(e.target.value)}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          setCatalystGender(value);
+                          setFormErrors((prevErrors) => ({
+                            ...prevErrors,
+                            catalystGender: validateRequired(value),
+                          }));
+                        }}
                       />
                       Other
                     </label>
                   </div>
+                  {formErrors.catalystGender && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystGender}
+                    </div>
+                  )}
                 </div>
 
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Mobile Number</label>
                   <input
                     type='number'
-                    className='form-control'
-                    id='catalystMobile'
-                    required
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystMobile(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystMobile: validateMobile(value),
+                      }));
+                    }}
+                    maxLength={10}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystMobile ? "is-invalid" : "")
+                    }
                     placeholder='Enter Mobile Number'
                     name={catalystMobile}
-                    onChange={(e) => setCatalystMobile(e.target.value)}
                   />
+                  {formErrors.catalystMobile && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystMobile}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Whatsapp Number</label>
                   <input
                     type='number'
-                    className='form-control'
-                    id='catalystWhatsapp'
-                    required
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystWhatsapp(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystWhatsapp: validateMobile(value),
+                      }));
+                    }}
+                    maxLength={10}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystWhatsapp ? "is-invalid" : "")
+                    }
                     placeholder='Enter Whatsapp Number'
                     name={catalystWhatsapp}
-                    onChange={(e) => setCatalystWhatsapp(e.target.value)}
                   />
+                  {formErrors.catalystWhatsapp && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystWhatsapp}
+                    </div>
+                  )}
                 </div>
 
                 {/* row 3 */}
@@ -215,32 +401,75 @@ export const CatalystForm = () => {
                   <label className='labelStyle'>Email</label>
                   <input
                     type='email'
-                    className='form-control'
-                    id='catalystEmail'
-                    required
-                    placeholder='Enter Email Address'
+                    className={
+                      "form-control " +
+                      (formErrors.catalystEmail ? "is-invalid" : "")
+                    }
+                    placeholder='Enter Email'
                     name={catalystEmail}
-                    onChange={(e) => setCatalystEmail(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystEmail(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystEmail: validateEmail(value),
+                      }));
+                    }}
                   />
+                  {formErrors.catalystEmail && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystEmail}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Aadhar Number</label>
                   <input
                     type='number'
-                    className='form-control'
+                    className={
+                      "form-control " +
+                      (formErrors.catalystAadhar ? "is-invalid" : "")
+                    }
+                    maxLength={12}
                     id='catalystAadhar'
-                    required
-                    placeholder='Enter Aadhar Number'
+                    placeholder='Enter Adhar Number'
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
                     name={catalystAadhar}
-                    onChange={(e) => setCatalystAadhar(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystAadhar(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystAadhar: validateAadhar(value),
+                      }));
+                    }}
                   />
+                  {formErrors.catalystAadhar && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystAadhar}
+                    </div>
+                  )}
                 </div>
 
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Catalyst Type</label>
-                  <select className='form-select'
-                   name={catalystGender}
-                   onChange={(e) => setCatalystGender(e.target.value)}>
+                  <select 
+                   className={
+                    "form-select " +
+                    (formErrors.catalystType ? "is-invalid" : "")
+                  }
+                  name={catalystType}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setCatalystType(value);
+                    setFormErrors((prevErrors) => ({
+                      ...prevErrors,
+                      catalystType: validateRequired(value),
+                    }));
+                  }}
+                >
                     <option select disabled>
                       Select your Catalyst Type
                     </option>
@@ -249,14 +478,30 @@ export const CatalystForm = () => {
                     <option value='2'>Corporate</option>
                     <option value='2'>Volunteer</option>
                   </select>
+                  {formErrors.catalystType && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystType}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle' style={{ fontSize: "19px" }}>
                     Family Socio-Economic Background
                   </label>
-                  <select className='form-select'
-                   name={catalystFamilyBackground}
-                   onChange={(e) => setCatalystFamilyBackground(e.target.value)}>
+                  <select  className={
+                    "form-select " +
+                    (formErrors.catalystFamilyBackground ? "is-invalid" : "")
+                  }
+                  name={catalystFamilyBackground}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setCatalystFamilyBackground(value);
+                    setFormErrors((prevErrors) => ({
+                      ...prevErrors,
+                      catalystFamilyBackground: validateRequired(value),
+                    }));
+                  }}
+                  >
                     <option select disabled>
                       Select your Socio-Economic Background
                     </option>
@@ -265,6 +510,11 @@ export const CatalystForm = () => {
                     <option value='2'>Middle Lower Class</option>
                     <option value='2'>Lower Class</option>
                   </select>
+                  {formErrors.catalystFamilyBackground && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystFamilyBackground}
+                    </div>
+                  )}
                 </div>
               </div>
               <br />
@@ -279,12 +529,27 @@ export const CatalystForm = () => {
                   <label className='labelStyle'>Address</label>
                   <input
                     type='name'
-                    className='form-control'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystAddress(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystAddress: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystAddress ? "is-invalid" : "")
+                    }
                     id='catalystAddress'
                     placeholder='Flat, House no., Building, Company, Apartment'
                     name={catalystAddress}
-                    onChange={(e) => setCatalystAddress(e.target.value)}
                   />
+                  {formErrors.catalystAddress && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystAddress}
+                    </div>
+                  )}
                 </div>
 
                 {/* row 2 */}
@@ -292,78 +557,194 @@ export const CatalystForm = () => {
                   <label className='labelStyle'>City</label>
                   <input
                     type='name'
-                    className='form-control'
-                    placeholder='City'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystCity(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystCity: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystCity ? "is-invalid" : "")
+                    }
                     id='catalystCity'
+                    placeholder='Enter City'
                     name={catalystCity}
-                    onChange={(e) => setCatalystCity(e.target.value)}
                   />
+                  {formErrors.catalystCity && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystCity}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Taluka</label>
                   <input
                     type='name'
-                    className='form-control'
-                    placeholder='Taluka'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystTaluka(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystTaluka: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystTaluka ? "is-invalid" : "")
+                    }
                     id='catalystTaluka'
+                    placeholder='Enter Taluka'
                     name={catalystTaluka}
-                    onChange={(e) => setCatalystTaluka(e.target.value)}
                   />
+                  {formErrors.catalystTaluka && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystTaluka}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>District</label>
                   <input
                     type='name'
-                    className='form-control'
-                    placeholder='District'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystDist(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystDist: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystDist ? "is-invalid" : "")
+                    }
                     id='catalystDist'
+                    placeholder='Enter District'
                     name={catalystDist}
-                    onChange={(e) => setCatalystDist(e.target.value)}
                   />
+                  {formErrors.catalystDist && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystDist}
+                    </div>
+                  )}
                 </div>
 
                 {/* row 3 */}
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>State</label>
-                  <input
-                    type='name'
-                    className='form-control'
-                    placeholder='State'
+                  <select
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystState(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystState: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-select " +
+                      (formErrors.catalystState ? "is-invalid" : "")
+                    }
                     id='catalystState'
+                    placeholder='Enter State'
                     name={catalystState}
-                    onChange={(e) => setCatalystState(e.target.value)}
-                  />
+                  >
+                    <option selected disabled>
+                      Select State
+                    </option>
+                    <option value='Maharashtra'>Maharashtra</option>
+                  </select>
+                  {formErrors.catalystState && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystState}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Country</label>
-                  <input
-                    type='name'
-                    className='form-control'
-                    placeholder='Country'
+                  <select
+                    type='text'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystCountry(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystCountry: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-select " +
+                      (formErrors.catalystCountry ? "is-invalid" : "")
+                    }
                     id='catalystCountry'
+                    placeholder='Enter Country'
                     name={catalystCountry}
-                    onChange={(e) => setCatalystCountry(e.target.value)}
-                  />
+                  >
+                    <option selected disabled>
+                      Select Country
+                    </option>
+                    <option value='India'>India</option>
+                  </select>
+                  {formErrors.catalystCountry && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystCountry}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Pincode</label>
                   <input
                     type='name'
-                    className='form-control'
-                    placeholder='Pincode'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystPin(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystPin: validatePincode(value),
+                      }));
+                    }}
+                    maxLength={6}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystPin ? "is-invalid" : "")
+                    }
                     id='catalystPin'
+                    placeholder='Enter Pincode'
                     name={catalystPin}
-                    onChange={(e) => setCatalystPin(e.target.value)}
                   />
+                  {formErrors.catalystPin && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystPin}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle' style={{ fontSize: "18px" }}>
                     What best defines your native place?
                   </label>
-                  <select className='form-select'
+                  <select 
+                   
+                   className={
+                     "form-select " +
+                     (formErrors.catalystBelongsTo ? "is-invalid" : "")
+                   }
                    name={catalystBelongsTo}
-                   onChange={(e) => setCatalystBelongsTo(e.target.value)}
-                  >
+                   onChange={(e) => {
+                     const value = e.target.value;
+                     setCatalystBelongsTo(value);
+                     setFormErrors((prevErrors) => ({
+                       ...prevErrors,
+                       catalystBelongsTo: validateRequired(value),
+                     }));
+                   }}
+                 >
                     <option select disabled>
                       You Belong To
                     </option>
@@ -375,6 +756,11 @@ export const CatalystForm = () => {
                     <option value='6'>Remote Area</option>
                     <option value='7'>Tribal Area</option>
                   </select>
+                  {formErrors.catalystBelongsTo && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystBelongsTo}
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -384,39 +770,85 @@ export const CatalystForm = () => {
               <div className='row'>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Institute Name</label>
-                  <select className='form-select'>
+                  <select className={
+                      "form-select " +
+                      (formErrors.catalystInstiName ? "is-invalid" : "")
+                    }
+                    name={catalystInstiName}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystInstiName(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystInstiName: validateRequired(value),
+                      }));
+                    }}>
                     <option select disabled>
                       Select Institute
                     </option>
                     <option value='1'>ABC</option>
                     <option value='2'>XYZ</option>
                   </select>
+                  {formErrors.catalystInstiName&& (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystInstiName}
+                    </div>
+                  )}
                 </div>
 
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Stream</label>
                   <input
                     type='name'
-                    className='form-control'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystStreamBranch(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystStreamBranch: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystStreamBranch ? "is-invalid" : "")
+                    }
                     id='catalystStreamBranch'
-                    required
                     placeholder='Enter Stream'
                     name={catalystStreamBranch}
-                    onChange={(e) => setCatalystStreamBranch(e.target.value)}
                   />
+                  {formErrors.catalystStreamBranch && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystStreamBranch}
+                    </div>
+                  )}
                 </div>
 
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Pass Out Year</label>
                   <input
                     type='number'
-                    className='form-control'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystYear(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystYear: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.catalystYear ? "is-invalid" : "")
+                    }
                     id='catalystYear'
-                    required
                     placeholder='Enter Passout Year'
                     name={catalystYear}
-                    onChange={(e) => setCatalystYear(e.target.value)}
                   />
+                  {formErrors.catalystYear && (
+                    <div className='invalid-feedback'>
+                      {formErrors.catalystYear}
+                    </div>
+                  )}
+                 
                 </div>
               </div>
 
@@ -425,23 +857,74 @@ export const CatalystForm = () => {
               <div className='radio-container'>
                 <p className='labelStyle'>Have you tried startup before?</p>
                 <label className='radio-label'>
-                  <input type='radio' name='startup' value='yes'
-                  onChange={(e) => setCatalystTriedStartupBefore(e.target.value)} />
+                <input
+                    className={
+                      formErrors.catalystTriedStartupBefore ? "is-invalid" : ""
+                    }
+                    type='radio'
+                    id='startupYes'
+                    value='yes'
+                    
+                    name='catalystTriedStartupBefore'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystTriedStartupBefore(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystTriedStartupBefore: validateRequired(value),
+                      }));
+                    }}
+                  />
                   <span className='radio-custom'></span>
                   Yes
                 </label>
                 <label className='radio-label'>
-                  <input type='radio' name='startup' value='no' 
-                  onChange={(e) => setCatalystTriedStartupBefore(e.target.value)}/>
+                  <input
+                    className={
+                      formErrors.catalystTriedStartupBefore ? "is-invalid" : ""
+                    }
+                    type='radio'
+                    id='startupNo'
+                    value='no'
+                    name='catalystTriedStartupBefore'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystTriedStartupBefore(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystTriedStartupBefore: validateRequired(value),
+                      }));
+                    }}
+                  />
                   <span className='radio-custom'></span>
                   No
                 </label>
                 <label className='radio-label'>
-                  <input type='radio' name='startup' value='planning'
-                  onChange={(e) => setCatalystTriedStartupBefore(e.target.value)} />
+                  <input
+                    className={
+                      formErrors.catalystTriedStartupBefore ? "is-invalid" : ""
+                    }
+                    type='radio'
+                    id='startupPlanning'
+                    value='planning'
+                    name='catalystTriedStartupBefore'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystTriedStartupBefore(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystTriedStartupBefore: validateRequired(value),
+                      }));
+                    }}
+                  />
                   <span className='radio-custom'></span>
                   Planning
                 </label>
+                {formErrors.catalystTriedStartupBefore && (
+                  <div className='invalid-feedback'>
+                    {formErrors.catalystTriedStartupBefore}
+                  </div>
+                )}
               </div>
 
               <div className='radio-container'>
@@ -450,19 +933,48 @@ export const CatalystForm = () => {
                   Backward Class)?
                 </p>
                 <label className='radio-label' >
-                  <input type='radio' name='ebs' value='yes' 
-                 
-                  onChange={(e) => setCatalystEBC(e.target.value)}
+                <input
+                    className={formErrors.catalystEBC ? "is-invalid" : ""}
+                    type='radio'
+                    id='ebcYes'
+                    value='yes'
+                    name='catalystEBC'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystEBC(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystEBC: validateRequired(value),
+                      }));
+                    }}
                   />
                   <span className='radio-custom'></span>
                   Yes
                 </label>
                 <label className='radio-label'>
-                  <input type='radio' name='ebs' value='no' 
-                  onChange={(e) => setCatalystEBC(e.target.value)}/>
+                  <input
+                    className={formErrors.catalystEBC ? "is-invalid" : ""}
+                    type='radio'
+                    id='parentSupportNo'
+                    value='no'
+                    name='catalystEBC'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setCatalystEBC(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        catalystEBC: validateRequired(value),
+                      }));
+                    }}
+                  />
                   <span className='radio-custom'></span>
                   No
                 </label>
+                {formErrors.catalystEBC && (
+                  <div className='invalid-feedback'>
+                    {formErrors.catalystEBC}
+                  </div>
+                )}
               </div>
               <br />
 
