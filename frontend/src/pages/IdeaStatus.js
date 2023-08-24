@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import Breadcrumb from "../components/Breadcrumb";
 import Footer from "../components/Footer";
-import IdeaStat from "../components/IdeaStat";
+import {IdeaStat} from "../components/IdeaStat";
 import ContactModal from "../components/ContactModal";
 
 function InstituteForm() {

@@ -36,3 +36,8 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = '__all__'
+
+class IdeaStatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IdeaStat
+        fields = '__all__'
