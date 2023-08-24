@@ -55,12 +55,10 @@ class CatalystAdmin(admin.ModelAdmin):
         'catalystFamilyBackground', 'catalystEBC', 'catalystAadhar', 'catalystAddress',
         'catalystPin', 'catalystCity', 'catalystTaluka', 'catalystDist', 'catalystState',
         'catalystCountry', 'catalystBelongsTo',  'recordCreatedBy',
-<<<<<<< HEAD
+
         'recordUpdatedOn', 'recordUpdatedBy','catalystType'
     )
-=======
-        'recordUpdatedOn', 'recordUpdatedBy'
-    )
+
 
 # Team Registration
 @admin.register(Team)
@@ -71,4 +69,3 @@ class TeamAdmin(admin.ModelAdmin):
         'recordUpdatedOn', 'recordUpdatedBy'
     )
     
->>>>>>> 1c6313cd0a55c99a4c8942dc46db414a0c8e13e4
