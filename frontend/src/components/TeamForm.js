@@ -1,16 +1,27 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import { validateRequired } from "./formValidator";
 import config from "./config";
 const apiUrl = `${config.backendUrl}/team_register/`; // Construct Backend API URL
 
 export const TeamForm = () => {
-  const [teamName, setTeamName] = useState("");
-  const [teamCEO, setTeamCEO] = useState("");
-  const [teamCOO, setTeamCOO] = useState("");
-  const [teamCMO, setTeamCMO] = useState("");
-  const [teamCTO, setTeamCTO] = useState("");
-  const [teamCFO, setTeamCFO] = useState("");
-  const [teamInstiID, setTeamInstiID] = useState("");
+  const [teamName, setteamName] = useState("");
+  const [teamCEO, setteamCEO] = useState("");
+  const [teamCOO, setteamCOO] = useState("");
+  const [teamCMO, setteamCMO] = useState("");
+  const [teamCTO, setteamCTO] = useState("");
+  const [teamCFO, setteamCFO] = useState("");
+  const [teamInstiID, setteamInstiID] = useState("");
+
+  const [formErrors, setFormErrors] = useState({
+    teamName: "",
+    teamCEO: "",
+    teamCOO: "",
+    teamCMO: "",
+    teamCTO: "",
+    teamCFO: "",
+    teamInstiID: "",
+  });
 
   // Reset from after successfull submission
   const teamForm = useRef(null);
@@ -18,23 +29,38 @@ export const TeamForm = () => {
   const sendTeamDetails = (event) => {
     event.preventDefault();
 
-    axios({
-      method: "POST",
-      url: apiUrl,
-      data: {
-        teamName,
-        teamCEO,
-        teamCFO,
-        teamCMO,
-        teamCOO,
-        teamCTO,
-        teamInstiID,
-      },
-    }).then((response) => {
-      alert(`Thank you for submitting your details.`);
-      console.log(response.data);
-      // teamForm.current.reset();
-    });
+    // Step 3
+    const newFormErrors = {
+      teamName: validateRequired(teamName),
+      teamCEO: validateRequired(teamCEO),
+      teamCOO: validateRequired(teamCOO),
+      teamCMO: validateRequired(teamCMO),
+      teamCTO: validateRequired(teamCTO),
+      teamCFO: validateRequired(teamCFO),
+      teamInstiID: validateRequired(teamInstiID),
+    };
+
+    // Step 4
+    setFormErrors(newFormErrors);
+    if (!Object.values(newFormErrors).some((error) => error !== "")) {
+      axios({
+        method: "POST",
+        url: apiUrl,
+        data: {
+          teamName,
+          teamCEO,
+          teamCFO,
+          teamCMO,
+          teamCOO,
+          teamCTO,
+          teamInstiID,
+        },
+      }).then((response) => {
+        alert(`Thank you for submitting your details.`);
+        console.log(response.data);
+        teamForm.current.reset();
+      });
+    }
   };
 
   return (
@@ -58,81 +84,170 @@ export const TeamForm = () => {
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Team Name</label>
                   <input
-                    type='name'
-                    className='form-control'
+                    type='text'
                     id='teamName'
-                    aria-describedby='emailHelp'
+                    // Step 6
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamName(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamName: validateRequired(value),
+                      }));
+                    }}
+                    // Step 7
+                    className={
+                      "form-control " +
+                      (formErrors.teamName ? "is-invalid" : "")
+                    }
                     placeholder='Enter Team Name'
                     name={teamName}
-                    onChange={(e) => setTeamName(e.target.value)}
                   />
+
+                  {/* Step 8 */}
+                  {formErrors.teamName && (
+                    <div className='invalid-feedback'>
+                      {formErrors.teamName}
+                    </div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>CEO</label>
                   <input
-                    type='name'
-                    className='form-control'
+                    type='text'
                     id='teamCEO'
-                    aria-describedby='emailHelp'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamCEO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamCEO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " + (formErrors.teamCEO ? "is-invalid" : "")
+                    }
                     placeholder='Team Member looking after Executive aspects of your ideas'
                     name={teamCEO}
-                    onChange={(e) => setTeamCEO(e.target.value)}
                   />
+
+                  {formErrors.teamCEO && (
+                    <div className='invalid-feedback'>{formErrors.teamCEO}</div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>COO</label>
                   <input
-                    type='name'
-                    className='form-control'
+                    type='text'
                     id='teamCOO'
-                    aria-describedby='emailHelp'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamCOO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamCOO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " + (formErrors.teamCOO ? "is-invalid" : "")
+                    }
                     placeholder='Team Member looking after Operational aspects of your ideas'
                     name={teamCOO}
-                    onChange={(e) => setTeamCOO(e.target.value)}
                   />
+
+                  {formErrors.teamCOO && (
+                    <div className='invalid-feedback'>{formErrors.teamCOO}</div>
+                  )}
                 </div>
+
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>CFO</label>
                   <input
-                    type='name'
-                    className='form-control'
+                    type='text'
                     id='teamCFO'
-                    aria-describedby='emailHelp'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamCFO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamCFO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " + (formErrors.teamCFO ? "is-invalid" : "")
+                    }
                     placeholder='Team Member looking after Financial aspects of your ideas'
                     name={teamCFO}
-                    onChange={(e) => setTeamCFO(e.target.value)}
                   />
+
+                  {formErrors.teamCFO && (
+                    <div className='invalid-feedback'>{formErrors.teamCFO}</div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>CTO</label>
                   <input
-                    type='name'
-                    className='form-control'
+                    type='text'
                     id='teamCTO'
-                    aria-describedby='emailHelp'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamCTO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamCTO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " + (formErrors.teamCTO ? "is-invalid" : "")
+                    }
                     placeholder='Team Member looking after Technological aspects of your ideas'
                     name={teamCTO}
-                    onChange={(e) => setTeamCTO(e.target.value)}
                   />
+
+                  {formErrors.teamCTO && (
+                    <div className='invalid-feedback'>{formErrors.teamCTO}</div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>CMO</label>
                   <input
-                    type='name'
-                    className='form-control'
+                    type='text'
                     id='teamCMO'
-                    aria-describedby='emailHelp'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamCMO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamCMO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " + (formErrors.teamCMO ? "is-invalid" : "")
+                    }
                     placeholder='Team Member looking after Marketing aspects of your ideas'
                     name={teamCMO}
-                    onChange={(e) => setTeamCMO(e.target.value)}
                   />
+
+                  {formErrors.teamCMO && (
+                    <div className='invalid-feedback'>{formErrors.teamCMO}</div>
+                  )}
                 </div>
                 <div className='col-12 col-xl-12 col-lg-6 mb-3'>
                   <label className='labelStyle'>Institute</label>
                   <select
-                    className='form-select'
+                    className={
+                      "form-select" +
+                      (formErrors.teamInstiID ? "is-invalid" : "")
+                    }
                     name={teamInstiID}
-                    onChange={(e) => setTeamInstiID(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamInstiID(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamInstiID: validateRequired(value),
+                      }));
+                    }}
                   >
                     <option selected disabled>
                       Select Institute
@@ -150,6 +265,11 @@ export const TeamForm = () => {
                       D Y Patil College of Engineering, Kolhapur
                     </option>
                   </select>
+                  {formErrors.teamInstiID && (
+                    <div className='invalid-feedback'>
+                      {formErrors.teamInstiID}
+                    </div>
+                  )}
                 </div>
               </div>
 

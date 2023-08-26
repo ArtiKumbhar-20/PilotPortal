@@ -69,3 +69,12 @@ class TeamAdmin(admin.ModelAdmin):
         'recordUpdatedOn', 'recordUpdatedBy'
     )
     
+
+@admin.register(IdeaStat)
+class IdeaStatAdmin(admin.ModelAdmin):
+    list_display = (
+        'ideaStatID','ideaStatStatus','ideaStatMarketResearch', 'ideaStatAdvBoot',
+        'ideaStatIncuSupport','ideaStatIPRTrademark','ideaStatIPRPatent','ideaStatIPRCopyright','ideaStatBusinessPlan',
+        'ideaStatIPRTradeSecrets','ideaStatProto','ideaStatTeamPlacement','ideaStatIncorpStatus',
+        'ideaStatEmploybilitySkilling','recordCreatedOn','recordCreatedBy','recordUpdatedOn','recordUpdatedBy'
+    )
