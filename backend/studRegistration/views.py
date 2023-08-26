@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import *
+from .models import Panelist, Team
 
 # Student Registration
 class StudentRegistration(APIView):
@@ -57,6 +58,7 @@ class TeamRegistration(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+# Idea Registration
 class IdeaStatView(APIView):
     def post(self, request):
         serializer = IdeaStatSerializer(data=request.data)
@@ -64,4 +66,16 @@ class IdeaStatView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class IdeaSubGetDataAPIView(APIView):
+    def get(self, request):
+        teams = Team.objects.all()  # Fetch team data from Team model
+        panelists = Panelist.objects.all()  # Fetch panelist data from Panelist model
+
+        # Process the data and create a JSON response
+        response_data = {
+            'Teams': [{'id': team.teamID, 'name': team.teamName} for team in teams],
+            'Panelists': [{'id': panelist.panelID, 'name': f"{panelist.panelistFname} {panelist.panelistLname}"} for panelist in panelists]
+        }
+        return Response(response_data)
 

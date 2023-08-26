@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/IdeaSubGetData/`; // Construct Backend API URL
 
 function IdeaEval() {
   const [teams, setTeams] = useState([]);
@@ -8,7 +10,7 @@ function IdeaEval() {
   useEffect(() => {
     // Fetch data from Django API
     axios
-      .get("/api/idea-data/")
+      .get(apiUrl)
       .then((response) => {
         setTeams(response.data.teams);
         setPanelists(response.data.panelists);
