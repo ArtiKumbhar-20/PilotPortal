@@ -6,6 +6,8 @@ import {
   validateAadhar,
   validateMobile,
 } from "./formValidator";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/panelist_register/`; // Construct Backend API URL
 
 export const PanelistForm = () => {
   const [panelistFname, setPanelistFname] = useState("");
@@ -67,7 +69,7 @@ export const PanelistForm = () => {
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       axios({
         method: "post",
-        url: "http://localhost:8000/panelist_register/",
+        url: apiUrl,
         data: {
           panelistFname,
           panelistLname,

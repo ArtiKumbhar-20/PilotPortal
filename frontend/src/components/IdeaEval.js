@@ -1,4 +1,23 @@
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 function IdeaEval() {
+  const [teams, setTeams] = useState([]);
+  const [panelists, setPanelists] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from Django API
+    axios
+      .get("/api/idea-data/")
+      .then((response) => {
+        setTeams(response.data.teams);
+        setPanelists(response.data.panelists);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   return (
     <div className='section-padding'>
       <div className='container'>
@@ -11,7 +30,7 @@ function IdeaEval() {
               data-wow-delay='.1s'
               action='#'
             >
-                {/* Title */}
+              {/* Title */}
               <h2 className='title'>Idea Evaluation</h2>
 
               <div className='row'>
@@ -35,7 +54,7 @@ function IdeaEval() {
                     placeholder='Team ID'
                   />
                 </div>
-                  {/* RadioButton */}
+                {/* RadioButton */}
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Is this Idea Affordable?</label>
                   <select className='form-select'>
@@ -252,7 +271,7 @@ function IdeaEval() {
                         width: 20,
                       }}
                     />
-                      {/* Terms and Conditions */}
+                    {/* Terms and Conditions */}
                     <label
                       className='form-check-label labelStyle'
                       htmlFor='flexCheckDefault'
@@ -262,7 +281,7 @@ function IdeaEval() {
                   </div>
                 </div>
               </div>
-                {/* Submit */}
+              {/* Submit */}
               <div className='col-12 text-center mt-4'>
                 <button className='btn btn-style-one' type='submit'>
                   <span>Submit Now</span>

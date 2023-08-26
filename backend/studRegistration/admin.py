@@ -55,8 +55,10 @@ class CatalystAdmin(admin.ModelAdmin):
         'catalystFamilyBackground', 'catalystEBC', 'catalystAadhar', 'catalystAddress',
         'catalystPin', 'catalystCity', 'catalystTaluka', 'catalystDist', 'catalystState',
         'catalystCountry', 'catalystBelongsTo',  'recordCreatedBy',
-        'recordUpdatedOn', 'recordUpdatedBy'
+
+        'recordUpdatedOn', 'recordUpdatedBy','catalystType'
     )
+
 
 # Team Registration
 @admin.register(Team)

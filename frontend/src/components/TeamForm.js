@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/team_register/`; // Construct Backend API URL
 
 export const TeamForm = () => {
   const [teamName, setTeamName] = useState("");
@@ -18,7 +20,7 @@ export const TeamForm = () => {
 
     axios({
       method: "POST",
-      url: "http://127.0.0.1:8000/team_register/",
+      url: apiUrl,
       data: {
         teamName,
         teamCEO,

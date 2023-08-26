@@ -12,8 +12,8 @@ export default function EventsList() {
             data-wow-delay='.1s'
           >
             <div className='section-title-center section-head text-left'>
-                {/* Title */}
-              
+              {/* Title */}
+
               <h2 className='title'>Upcoming Events</h2>
               <p className='text text-left'>
                 Sed do eiusmod tempor incididunt ut labore et dolore magna

@@ -2,6 +2,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { validateLoginForm } from "./formValidator";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/token/`; // Construct Backend API URL
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ export const LoginForm = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/token/",
+        apiUrl,
         user,
         {
           headers: {

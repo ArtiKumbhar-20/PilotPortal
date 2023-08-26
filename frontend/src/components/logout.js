@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/logout/`; // Construct Backend API URL
 
 export const Logout = () => {
   const navigate = useNavigate();
@@ -9,7 +11,7 @@ export const Logout = () => {
     (async () => {
       try {
         const { data } = await axios.post(
-          "http://localhost:8000/logout/",
+          apiUrl,
           {
             refresh_token: localStorage.getItem("refresh_token"),
           },

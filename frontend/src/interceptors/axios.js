@@ -1,7 +1,7 @@
 // Checking
 import axios from "axios";
-
-// axios.defaults.baseURL = 'http://localhost:8000/api/';
+import config from "../components/config";
+const apiUrl = `${config.backendUrl}/token/refresh/`; // Construct Backend API URL
 
 let refresh = false;
 
@@ -13,7 +13,7 @@ axios.interceptors.response.use(
 
       // console.log(localStorage.getItem("refresh_token"));
       const response = await axios.post(
-        "http://localhost:8000/token/refresh/",
+        apiUrl,
         {
           refresh: localStorage.getItem("refresh_token"),
         },

@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-// Step 1: For Validation
 import {
   validateRequired,
   validateEmail,
@@ -8,6 +7,9 @@ import {
   validateMobile,
   validatePincode,
 } from "./formValidator";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/register/`; // Construct Backend API URL
+// Step 1: For Validation
 
 export const Sign = () => {
   const [stdFname, setStdFname] = useState("");
@@ -106,7 +108,7 @@ export const Sign = () => {
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       axios({
         method: "post",
-        url: "http://localhost:8000/register/",
+        url: apiUrl,
         data: {
           stdFname,
           stdLname,

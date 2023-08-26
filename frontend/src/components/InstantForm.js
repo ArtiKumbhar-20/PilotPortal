@@ -1,32 +1,33 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/institute_register/`; // Construct Backend API URL
 
 export const InstantForm = () => {
-const [instName, setinstName] = useState("");
-const [instType, setinstType] = useState("");
-const [instStream, setinstStream] = useState("");
-const [instNoOfStudents, setinstNoOfStudents] = useState("");
-const [instAddress, setinstAddress] = useState("");
-const [instPin, setinstPin] = useState("");
-const [instCity, setinstCity] = useState("");
-const [instTaluka, setinstTaluka] = useState("");
-const [instDist, setinstDist] = useState("");
-const [instState, setinstState] = useState("");
-const [instCountry, setinstCountry] = useState("");
-const [instSPOCFname, setinstSPOCFname] = useState("");
-const [instSPOCLname, setinstSPOCLname] = useState("");
-const [instSPOCEmail, setinstSPOCEmail] = useState("");
-const [instSPOCMobile, setinstSPOCMobile] = useState("");
-const [instSPOCWhatsapp, setinstSPOCWhatsapp] = useState("");
-const [instSPOCWeb, setinstSPOCWeb] = useState("");
-const [instIncubator, setinstIncubator] = useState("");
-const [instEDC, setinstEDC] = useState("");
-const [instIIC, setinstIIC] = useState("");
-const [instARIIA, setinstARIIA] = useState("");
-const [instNIRF, setinstNIRF] = useState("");
-const [instNAAC, setinstNAAC] = useState("");
-const [instNBA, setinstNBA] = useState("");
-
+  const [instName, setinstName] = useState("");
+  const [instType, setinstType] = useState("");
+  const [instStream, setinstStream] = useState("");
+  const [instNoOfStudents, setinstNoOfStudents] = useState("");
+  const [instAddress, setinstAddress] = useState("");
+  const [instPin, setinstPin] = useState("");
+  const [instCity, setinstCity] = useState("");
+  const [instTaluka, setinstTaluka] = useState("");
+  const [instDist, setinstDist] = useState("");
+  const [instState, setinstState] = useState("");
+  const [instCountry, setinstCountry] = useState("");
+  const [instSPOCFname, setinstSPOCFname] = useState("");
+  const [instSPOCLname, setinstSPOCLname] = useState("");
+  const [instSPOCEmail, setinstSPOCEmail] = useState("");
+  const [instSPOCMobile, setinstSPOCMobile] = useState("");
+  const [instSPOCWhatsapp, setinstSPOCWhatsapp] = useState("");
+  const [instSPOCWeb, setinstSPOCWeb] = useState("");
+  const [instIncubator, setinstIncubator] = useState("");
+  const [instEDC, setinstEDC] = useState("");
+  const [instIIC, setinstIIC] = useState("");
+  const [instARIIA, setinstARIIA] = useState("");
+  const [instNIRF, setinstNIRF] = useState("");
+  const [instNAAC, setinstNAAC] = useState("");
+  const [instNBA, setinstNBA] = useState("");
 
   // Reset from after successfull submission
   const instituteForm = useRef(null);
@@ -36,7 +37,7 @@ const [instNBA, setinstNBA] = useState("");
 
     axios({
       method: "post",
-      url: "http://localhost:8000/institute_register/",
+      url: apiUrl,
       data: {
         instName,
         instType,
@@ -61,7 +62,7 @@ const [instNBA, setinstNBA] = useState("");
         instARIIA,
         instNIRF,
         instNAAC,
-        instNBA
+        instNBA,
       },
     }).then((response) => {
       alert(`Thank you for submitting your details.`);
@@ -83,7 +84,7 @@ const [instNBA, setinstNBA] = useState("");
               ref={instituteForm}
               onSubmit={sendInstituteDetails}
             >
-                {/* Title */}
+              {/* Title */}
               <h2 className='title'>Institute Details</h2>
               <div className='row'>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -176,10 +177,11 @@ const [instNBA, setinstNBA] = useState("");
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>District</label>
-                  <select 
-                  name={instDist}
-                  onChange={(e) => setinstDist(e.target.value)}
-                  className='form-select'>
+                  <select
+                    name={instDist}
+                    onChange={(e) => setinstDist(e.target.value)}
+                    className='form-select'
+                  >
                     <option selected disabled>
                       Select District
                     </option>
@@ -189,10 +191,11 @@ const [instNBA, setinstNBA] = useState("");
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>State</label>
-                  <select 
-                  name={instState}
-                  onChange={(e) => setinstState(e.target.value)}
-                  className='form-select'>
+                  <select
+                    name={instState}
+                    onChange={(e) => setinstState(e.target.value)}
+                    className='form-select'
+                  >
                     <option selected disabled>
                       Select State
                     </option>
@@ -201,10 +204,11 @@ const [instNBA, setinstNBA] = useState("");
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Country</label>
-                  <select 
-                  name={instCountry}
-                  onChange={(e) => setinstCountry(e.target.value)}
-                  className='form-select'>
+                  <select
+                    name={instCountry}
+                    onChange={(e) => setinstCountry(e.target.value)}
+                    className='form-select'
+                  >
                     <option selected disabled>
                       Select Country
                     </option>
@@ -310,22 +314,24 @@ const [instNBA, setinstNBA] = useState("");
                   Does your institute have Incubator Support?
                 </p>
                 <label className='radio-label'>
-                  <input 
-                  type='radio' 
-                  id='IncubYes'
-                  value='yes'
-                  name='instIncubator'
-                  onChange={(e) => setinstIncubator(e.target.value)} />
+                  <input
+                    type='radio'
+                    id='IncubYes'
+                    value='yes'
+                    name='instIncubator'
+                    onChange={(e) => setinstIncubator(e.target.value)}
+                  />
                   <span className='radio-custom'></span>
                   Yes
                 </label>
                 <label class='radio-label'>
-                  <input 
-                  type='radio' 
-                  id='IncubNo'
-                  value='no' 
-                  name='instIncubator'                  
-                  onChange={(e) => setinstIncubator(e.target.value)} />
+                  <input
+                    type='radio'
+                    id='IncubNo'
+                    value='no'
+                    name='instIncubator'
+                    onChange={(e) => setinstIncubator(e.target.value)}
+                  />
                   <span class='radio-custom'></span>
                   No
                 </label>
@@ -336,22 +342,24 @@ const [instNBA, setinstNBA] = useState("");
                   Does your institute have IIC-MoE Innovation Cell?
                 </p>
                 <label className='radio-label'>
-                  <input type='radio' 
-                  value='yes'
-                  id='IICyes'
-                  name='instIIC'
-                  onChange={(e) => setinstIIC(e.target.value)}
+                  <input
+                    type='radio'
+                    value='yes'
+                    id='IICyes'
+                    name='instIIC'
+                    onChange={(e) => setinstIIC(e.target.value)}
                   />
                   <span class='radio-custom'></span>
                   Yes
                 </label>
                 <label className='radio-label'>
-                  <input type='radio'
-                  value='no' 
-                  id='IICno'
-                  name='instIIC'
-                  onChange={(e) => setinstIIC(e.target.value)}
-                   />
+                  <input
+                    type='radio'
+                    value='no'
+                    id='IICno'
+                    name='instIIC'
+                    onChange={(e) => setinstIIC(e.target.value)}
+                  />
                   <span class='radio-custom'></span>
                   No
                 </label>
@@ -362,22 +370,25 @@ const [instNBA, setinstNBA] = useState("");
                   Does your institute have Entrepreneurship Development Cell?
                 </p>
                 <label className='radio-label'>
-                  <input 
-                  type='radio' 
-                  value='yes' 
-                  id='EDCyes'
-                  name='instEDC'
-                  onChange={(e) => setinstEDC(e.target.value)} />
-                  <span class='radio-custom' ></span>
+                  <input
+                    type='radio'
+                    value='yes'
+                    id='EDCyes'
+                    name='instEDC'
+                    onChange={(e) => setinstEDC(e.target.value)}
+                  />
+                  <span class='radio-custom'></span>
                   Yes
                 </label>
                 <label className='radio-label'>
-                  <input type='radio' 
-                  value='no' 
-                  id='EDCno'
-                  name='instEDC'
-                  onChange={(e) => setinstEDC(e.target.value)}/>
-                  <span class='radio-custom' ></span>
+                  <input
+                    type='radio'
+                    value='no'
+                    id='EDCno'
+                    name='instEDC'
+                    onChange={(e) => setinstEDC(e.target.value)}
+                  />
+                  <span class='radio-custom'></span>
                   No
                 </label>
               </div>
@@ -392,10 +403,11 @@ const [instNBA, setinstNBA] = useState("");
                     Does your institute have ARIIA (Atal Ranking of Institutions
                     on Innovation Achievements) Ranking
                   </label>
-                  <select 
-                  name={instARIIA}
-                  onChange={(e) => setinstARIIA(e.target.value)}
-                  className='form-select'>
+                  <select
+                    name={instARIIA}
+                    onChange={(e) => setinstARIIA(e.target.value)}
+                    className='form-select'
+                  >
                     <option selected disabled>
                       Select ARIIA Ranking
                     </option>
@@ -411,10 +423,11 @@ const [instNBA, setinstNBA] = useState("");
                     Does your institute have NAAC (National Assessment And
                     Accrediation Council) Ranking
                   </label>
-                  <select 
-                  name={instNAAC}
-                  onChange={(e) => setinstNAAC(e.target.value)}
-                  className='form-select'>
+                  <select
+                    name={instNAAC}
+                    onChange={(e) => setinstNAAC(e.target.value)}
+                    className='form-select'
+                  >
                     <option selected disabled>
                       Select NAAC Ranking
                     </option>
@@ -430,11 +443,11 @@ const [instNBA, setinstNBA] = useState("");
                     Does your institute have NIRF (National Institutional
                     Ranking Framework) Ranking
                   </label>
-                  <select 
-              
-                  name={instNIRF}
-                  onChange={(e) => setinstNIRF(e.target.value)}
-                  className='form-select'>
+                  <select
+                    name={instNIRF}
+                    onChange={(e) => setinstNIRF(e.target.value)}
+                    className='form-select'
+                  >
                     <option selected disabled style={{ opacity: "5" }}>
                       Select NIRF Ranking
                     </option>
@@ -450,11 +463,11 @@ const [instNBA, setinstNBA] = useState("");
                     Does your institute have NBA (National Board of
                     Accrediation) Ranking
                   </label>
-                  <select 
-                  
-                  name={instNBA}
-                  onChange={(e) => setinstNBA(e.target.value)}
-                  className='form-select'>
+                  <select
+                    name={instNBA}
+                    onChange={(e) => setinstNBA(e.target.value)}
+                    className='form-select'
+                  >
                     <option selected disabled>
                       Select NBA Ranking
                     </option>
@@ -489,7 +502,7 @@ const [instNBA, setinstNBA] = useState("");
                       width: 20,
                     }}
                   />
-                    {/* Terms and Conditions */}
+                  {/* Terms and Conditions */}
                   <label
                     className='form-check-label labelStyle'
                     htmlFor='flexCheckDefault'
@@ -499,7 +512,7 @@ const [instNBA, setinstNBA] = useState("");
                 </div>
               </div>
 
-                {/* Submit */}
+              {/* Submit */}
 
               <div className='col-12 text-center mt-4'>
                 <button className='btn btn-style-one' type='submit'>
@@ -512,5 +525,4 @@ const [instNBA, setinstNBA] = useState("");
       </div>
     </div>
   );
- };
- 
+};

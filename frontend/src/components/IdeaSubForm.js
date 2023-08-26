@@ -1,175 +1,174 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
-
 //Step 1:
-import {
-  validateRequired,
-} from "./formValidator";
+import { validateRequired } from "./formValidator";
+
+import config from "./config";
+const apiUrl = `${config.backendUrl}/ideasub/`; // Construct Backend API URL
 
 export const IdeaSubForm = () => {
   // const [ideaID, setIdeaID] = useState('');
-  const [ideaTeamID, setIdeaTeamID] = useState('');
-  const [ideaTeamName, setIdeaTeamName] = useState('');
-  const [ideaTeamInstiID, setIdeaTeamInstiID] = useState('');
-  const [ideaTeamCFO, setIdeaTeamCFO] = useState('');
-  const [ideaTeamCEO, setIdeaTeamCEO] = useState('');
-  const [ideaTeamCTO, setIdeaTeamCTO] = useState('');
-  const [ideaTeamCOO, setIdeaTeamCOO] = useState('');
-  const [ideaTeamCMO, setIdeaTeamCMO] = useState('');
-  const [ideaTeamPSdetail, setIdeaTeamPSdetail] = useState('');
-  const [ideaTeamPersona1, setIdeaTeamPersona1] = useState('');
-  const [ideaTeamPersona2, setIdeaTeamPersona2] = useState('');
-  const [ideaTeamInterviews, setIdeaTeamInterviews] = useState('');
-  const [ideaTeamQuestions, setIdeaTeamQuestions] = useState('');
-  const [ideaTeamInsights, setIdeaTeamInsights] = useState('');
-  const [ideaTeamFinalPS, setIdeaTeamFinalPS] = useState('');
-  const [ideaTeamDomain, setIdeaTeamDomain] = useState('');
-  const [ideaTeamSDG, setIdeaTeamSDG] = useState('');
-  const [ideaTeamSolnCount, setIdeaTeamSolnCount] = useState('');
-  const [ideaTeamTopSoln1, setIdeaTeamTopSoln1] = useState('');
-  const [ideaTeamTopSoln2, setIdeaTeamTopSoln2] = useState('');
-  const [ideaTeamTopSoln3, setIdeaTeamTopSoln3] = useState('');
-  const [ideaTeamQuickVal, setIdeaTeamQuickVal] = useState('');
-  const [ideaTeamFinalSoln, setIdeaTeamFinalSoln] = useState('');
-  const [ideaTeamOfferingType, setIdeaTeamOfferingType] = useState('');
-  const [ideaTeamTechReq, setIdeaTeamTechReq] = useState('');
-  const [ideaTeamHardwareReq, setIdeaTeamHardwareReq] = useState('');
-  const [ideaTeamNonTechReq, setIdeaTeamNonTechReq] = useState('');
-  const [ideaTeamProtoTime, setIdeaTeamProtoTime] = useState('');
-  const [ideaTeamProtoCost, setIdeaTeamProtoCost] = useState('');
-  const [ideaTeamIncuSupport, setIdeaTeamIncuSupport] = useState('');
-  
- // Step 2: For Validation
+  const [ideaTeamID, setIdeaTeamID] = useState("");
+  const [ideaTeamName, setIdeaTeamName] = useState("");
+  const [ideaTeamInstiID, setIdeaTeamInstiID] = useState("");
+  const [ideaTeamCFO, setIdeaTeamCFO] = useState("");
+  const [ideaTeamCEO, setIdeaTeamCEO] = useState("");
+  const [ideaTeamCTO, setIdeaTeamCTO] = useState("");
+  const [ideaTeamCOO, setIdeaTeamCOO] = useState("");
+  const [ideaTeamCMO, setIdeaTeamCMO] = useState("");
+  const [ideaTeamPSdetail, setIdeaTeamPSdetail] = useState("");
+  const [ideaTeamPersona1, setIdeaTeamPersona1] = useState("");
+  const [ideaTeamPersona2, setIdeaTeamPersona2] = useState("");
+  const [ideaTeamInterviews, setIdeaTeamInterviews] = useState("");
+  const [ideaTeamQuestions, setIdeaTeamQuestions] = useState("");
+  const [ideaTeamInsights, setIdeaTeamInsights] = useState("");
+  const [ideaTeamFinalPS, setIdeaTeamFinalPS] = useState("");
+  const [ideaTeamDomain, setIdeaTeamDomain] = useState("");
+  const [ideaTeamSDG, setIdeaTeamSDG] = useState("");
+  const [ideaTeamSolnCount, setIdeaTeamSolnCount] = useState("");
+  const [ideaTeamTopSoln1, setIdeaTeamTopSoln1] = useState("");
+  const [ideaTeamTopSoln2, setIdeaTeamTopSoln2] = useState("");
+  const [ideaTeamTopSoln3, setIdeaTeamTopSoln3] = useState("");
+  const [ideaTeamQuickVal, setIdeaTeamQuickVal] = useState("");
+  const [ideaTeamFinalSoln, setIdeaTeamFinalSoln] = useState("");
+  const [ideaTeamOfferingType, setIdeaTeamOfferingType] = useState("");
+  const [ideaTeamTechReq, setIdeaTeamTechReq] = useState("");
+  const [ideaTeamHardwareReq, setIdeaTeamHardwareReq] = useState("");
+  const [ideaTeamNonTechReq, setIdeaTeamNonTechReq] = useState("");
+  const [ideaTeamProtoTime, setIdeaTeamProtoTime] = useState("");
+  const [ideaTeamProtoCost, setIdeaTeamProtoCost] = useState("");
+  const [ideaTeamIncuSupport, setIdeaTeamIncuSupport] = useState("");
+
+  // Step 2: For Validation
   // State to hold form field errors
   const [formErrors, setFormErrors] = useState({
-ideaTeamID: "",
-ideaTeamName: "",
-ideaTeamInstiID: "",
-ideaTeamCFO: "",
-ideaTeamCEO: "",
-ideaTeamCTO: "",
-ideaTeamCOO: "",
-ideaTeamCMO: "",
-ideaTeamPSdetail: "",
-ideaTeamPersona1: "",
-ideaTeamPersona2: "",
-ideaTeamInterviews: "",
-ideaTeamQuestions: "",
-ideaTeamInsights: "",
-ideaTeamFinalPS: "",
-ideaTeamDomain: "",
-ideaTeamSDG: "",
-ideaTeamSolnCount: "",
-ideaTeamTopSoln1: "",
-ideaTeamTopSoln2: "",
-ideaTeamTopSoln3: "",
-ideaTeamQuickVal: "",
-ideaTeamFinalSoln: "",
-ideaTeamOfferingType: "",
-TeamTechReq: "",
-ideaTeamHardwareReq: "",
-ideaTeamNonTechReq: "",
-ideaTeamProtoTime: "",
-ideaTeamProtoCost: "",
-ideaTeamIncuSupport: "",
+    ideaTeamID: "",
+    ideaTeamName: "",
+    ideaTeamInstiID: "",
+    ideaTeamCFO: "",
+    ideaTeamCEO: "",
+    ideaTeamCTO: "",
+    ideaTeamCOO: "",
+    ideaTeamCMO: "",
+    ideaTeamPSdetail: "",
+    ideaTeamPersona1: "",
+    ideaTeamPersona2: "",
+    ideaTeamInterviews: "",
+    ideaTeamQuestions: "",
+    ideaTeamInsights: "",
+    ideaTeamFinalPS: "",
+    ideaTeamDomain: "",
+    ideaTeamSDG: "",
+    ideaTeamSolnCount: "",
+    ideaTeamTopSoln1: "",
+    ideaTeamTopSoln2: "",
+    ideaTeamTopSoln3: "",
+    ideaTeamQuickVal: "",
+    ideaTeamFinalSoln: "",
+    ideaTeamOfferingType: "",
+    TeamTechReq: "",
+    ideaTeamHardwareReq: "",
+    ideaTeamNonTechReq: "",
+    ideaTeamProtoTime: "",
+    ideaTeamProtoCost: "",
+    ideaTeamIncuSupport: "",
   });
-  
+
   // Reset from after successfull submission
   const ideaForm = useRef(null);
 
   const sendIdeaDetails = (event) => {
     event.preventDefault();
 
-  // Step 3: For Validation
-const newFormErrors = {
-  ideaTeamID: validateRequired(ideaTeamID),
-  ideaTeamName: validateRequired(ideaTeamName),
-  ideaTeamInstiID: validateRequired(ideaTeamInstiID),
-  ideaTeamCFO: validateRequired(ideaTeamCFO),
-  ideaTeamCEO: validateRequired(ideaTeamCEO),
-  ideaTeamCTO: validateRequired(ideaTeamCTO),
-  ideaTeamCOO: validateRequired(ideaTeamCOO),
-  ideaTeamCMO: validateRequired(ideaTeamCMO),
-  ideaTeamPSdetail: validateRequired(ideaTeamPSdetail),
-  ideaTeamPersona1: validateRequired(ideaTeamPersona1),
-  ideaTeamPersona2: validateRequired(ideaTeamPersona2),
-  ideaTeamInterviews: validateRequired(ideaTeamInterviews),
-  ideaTeamQuestions: validateRequired(ideaTeamQuestions),
-  ideaTeamInsights: validateRequired(ideaTeamInsights),
-  ideaTeamFinalPS: validateRequired(ideaTeamFinalPS),
-  ideaTeamDomain: validateRequired(ideaTeamDomain),
-  ideaTeamSDG: validateRequired(ideaTeamSDG),
-  ideaTeamSolnCount: validateRequired(ideaTeamSolnCount),
-  ideaTeamTopSoln1: validateRequired(ideaTeamTopSoln1),
-  ideaTeamTopSoln2: validateRequired(ideaTeamTopSoln2),
-  ideaTeamTopSoln3: validateRequired(ideaTeamTopSoln3),
-  ideaTeamQuickVal: validateRequired(ideaTeamQuickVal),
-  ideaTeamFinalSoln: validateRequired(ideaTeamFinalSoln),
-  ideaTeamOfferingType: validateRequired(ideaTeamOfferingType),
-  ideaTeamTechReq: validateRequired(ideaTeamTechReq),
-  ideaTeamHardwareReq: validateRequired(ideaTeamHardwareReq),
-  ideaTeamNonTechReq: validateRequired(ideaTeamNonTechReq),
-  ideaTeamProtoTime: validateRequired(ideaTeamProtoTime),
-  ideaTeamProtoCost: validateRequired(ideaTeamProtoCost),
-  ideaTeamIncuSupport: validateRequired(ideaTeamIncuSupport),
-};
+    // Step 3: For Validation
+    const newFormErrors = {
+      ideaTeamID: validateRequired(ideaTeamID),
+      ideaTeamName: validateRequired(ideaTeamName),
+      ideaTeamInstiID: validateRequired(ideaTeamInstiID),
+      ideaTeamCFO: validateRequired(ideaTeamCFO),
+      ideaTeamCEO: validateRequired(ideaTeamCEO),
+      ideaTeamCTO: validateRequired(ideaTeamCTO),
+      ideaTeamCOO: validateRequired(ideaTeamCOO),
+      ideaTeamCMO: validateRequired(ideaTeamCMO),
+      ideaTeamPSdetail: validateRequired(ideaTeamPSdetail),
+      ideaTeamPersona1: validateRequired(ideaTeamPersona1),
+      ideaTeamPersona2: validateRequired(ideaTeamPersona2),
+      ideaTeamInterviews: validateRequired(ideaTeamInterviews),
+      ideaTeamQuestions: validateRequired(ideaTeamQuestions),
+      ideaTeamInsights: validateRequired(ideaTeamInsights),
+      ideaTeamFinalPS: validateRequired(ideaTeamFinalPS),
+      ideaTeamDomain: validateRequired(ideaTeamDomain),
+      ideaTeamSDG: validateRequired(ideaTeamSDG),
+      ideaTeamSolnCount: validateRequired(ideaTeamSolnCount),
+      ideaTeamTopSoln1: validateRequired(ideaTeamTopSoln1),
+      ideaTeamTopSoln2: validateRequired(ideaTeamTopSoln2),
+      ideaTeamTopSoln3: validateRequired(ideaTeamTopSoln3),
+      ideaTeamQuickVal: validateRequired(ideaTeamQuickVal),
+      ideaTeamFinalSoln: validateRequired(ideaTeamFinalSoln),
+      ideaTeamOfferingType: validateRequired(ideaTeamOfferingType),
+      ideaTeamTechReq: validateRequired(ideaTeamTechReq),
+      ideaTeamHardwareReq: validateRequired(ideaTeamHardwareReq),
+      ideaTeamNonTechReq: validateRequired(ideaTeamNonTechReq),
+      ideaTeamProtoTime: validateRequired(ideaTeamProtoTime),
+      ideaTeamProtoCost: validateRequired(ideaTeamProtoCost),
+      ideaTeamIncuSupport: validateRequired(ideaTeamIncuSupport),
+    };
 
-// Step 4: For Validation : Will Not Change
-setFormErrors(newFormErrors);
+    // Step 4: For Validation : Will Not Change
+    setFormErrors(newFormErrors);
 
-// Step 5: For Validation : If statement
-if (!Object.values(newFormErrors).some((error) => error !== "")) {
-  console.log(formErrors); // Add this line before the axios call
-    axios({
-      method: "post",
-      url: "http://localhost:8000/ideasub/",
-     data: {
-        // ideaID,
-  ideaTeamID,
-  ideaTeamName,
-  ideaTeamInstiID,
-  ideaTeamCFO,
-  ideaTeamCEO,
-  ideaTeamCTO,
-  ideaTeamCOO,
-  ideaTeamCMO,
-  ideaTeamPSdetail,
-  ideaTeamPersona1,
-  ideaTeamPersona2,
-  ideaTeamInterviews,
-  ideaTeamQuestions,
-  ideaTeamInsights,
-  ideaTeamFinalPS,
-  ideaTeamDomain,
-  ideaTeamSDG,
-  ideaTeamSolnCount,
-  ideaTeamTopSoln1,
-  ideaTeamTopSoln2,
-  ideaTeamTopSoln3,
-  ideaTeamQuickVal,
-  ideaTeamFinalSoln,
-  ideaTeamOfferingType,
-  ideaTeamTechReq,
-  ideaTeamHardwareReq,
-  ideaTeamNonTechReq,
-  ideaTeamProtoTime,
-  ideaTeamProtoCost,
-  ideaTeamIncuSupport
-  },
-
-    }).then((response) => {
-      alert(`Thank you for submitting your details.`);
-      console.log(response.data);
-      ideaForm.current.reset();
-    });
-  } // Closing of If statment
+    // Step 5: For Validation : If statement
+    if (!Object.values(newFormErrors).some((error) => error !== "")) {
+      console.log(formErrors); // Add this line before the axios call
+      axios({
+        method: "post",
+        url: apiUrl,
+        data: {
+          // ideaID,
+          ideaTeamID,
+          ideaTeamName,
+          ideaTeamInstiID,
+          ideaTeamCFO,
+          ideaTeamCEO,
+          ideaTeamCTO,
+          ideaTeamCOO,
+          ideaTeamCMO,
+          ideaTeamPSdetail,
+          ideaTeamPersona1,
+          ideaTeamPersona2,
+          ideaTeamInterviews,
+          ideaTeamQuestions,
+          ideaTeamInsights,
+          ideaTeamFinalPS,
+          ideaTeamDomain,
+          ideaTeamSDG,
+          ideaTeamSolnCount,
+          ideaTeamTopSoln1,
+          ideaTeamTopSoln2,
+          ideaTeamTopSoln3,
+          ideaTeamQuickVal,
+          ideaTeamFinalSoln,
+          ideaTeamOfferingType,
+          ideaTeamTechReq,
+          ideaTeamHardwareReq,
+          ideaTeamNonTechReq,
+          ideaTeamProtoTime,
+          ideaTeamProtoCost,
+          ideaTeamIncuSupport,
+        },
+      }).then((response) => {
+        alert(`Thank you for submitting your details.`);
+        console.log(response.data);
+        ideaForm.current.reset();
+      });
+    } // Closing of If statment
   };
 
   return (
     // <h1>Idea Submission Form</h1>
-    
+
     <div className='section-padding'>
-      <div className='container'  >
+      <div className='container'>
         <div className='mb-n30'>
           <div className='col-lg-12 mb-30'>
             <form
@@ -180,7 +179,6 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
               ref={ideaForm}
               onSubmit={sendIdeaDetails}
             >
-              
               <h2 className='title'>Team Details</h2>
               <div className='row'>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -238,7 +236,8 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Institute Name</label>
-                  <select className={
+                  <select
+                    className={
                       "form-select " +
                       (formErrors.ideaTeamInstiID ? "is-invalid" : "")
                     }
@@ -475,20 +474,20 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
                   <label className='labelStyle'>
                     How many interviews you had about this idea?
                   </label>
-                  <select 
-                   className={
-                    "form-select " +
-                    (formErrors.ideaTeamInterviews ? "is-invalid" : "")
-                  }
-                  name={ideaTeamInterviews}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setIdeaTeamInterviews(value);
-                    setFormErrors((prevErrors) => ({
-                      ...prevErrors,
-                      ideaTeamInterviews: validateRequired(value),
-                    }));
-                  }}
+                  <select
+                    className={
+                      "form-select " +
+                      (formErrors.ideaTeamInterviews ? "is-invalid" : "")
+                    }
+                    name={ideaTeamInterviews}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamInterviews(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamInterviews: validateRequired(value),
+                      }));
+                    }}
                   >
                     <option selected disabled>
                       Select Number of Interviews
@@ -595,7 +594,8 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
                   <label className='labelStyle'>
                     Select Problem Statement Domain
                   </label>
-                  <select className={
+                  <select
+                    className={
                       "form-select " +
                       (formErrors.ideaTeamDomain ? "is-invalid" : "")
                     }
@@ -626,20 +626,20 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
                     How do you map your problem statement with Sustainable
                     Development Goals?
                   </label>
-                  <select 
-                   className={
-                    "form-select " +
-                    (formErrors.ideaTeamSDG ? "is-invalid" : "")
-                  }
-                  name={ideaTeamSDG}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setIdeaTeamSDG(value);
-                    setFormErrors((prevErrors) => ({
-                      ...prevErrors,
-                      ideaTeamSDG: validateRequired(value),
-                    }));
-                  }}
+                  <select
+                    className={
+                      "form-select " +
+                      (formErrors.ideaTeamSDG ? "is-invalid" : "")
+                    }
+                    name={ideaTeamSDG}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIdeaTeamSDG(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        ideaTeamSDG: validateRequired(value),
+                      }));
+                    }}
                   >
                     <option selected disabled>
                       Select Sustainable Development Goals
@@ -657,7 +657,8 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
                   <label className='labelStyle'>
                     How many solutions you have formulated for your idea?
                   </label>
-                  <select  className={
+                  <select
+                    className={
                       "form-select " +
                       (formErrors.ideaTeamSolnCount ? "is-invalid" : "")
                     }
@@ -711,7 +712,6 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
                       {formErrors.ideaTeamTopSoln1}
                     </div>
                   )}
-                
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Top Solution 2</label>
@@ -817,7 +817,8 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
                 </div>
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Team Offering Type</label>
-                  <select className={
+                  <select
+                    className={
                       "form-select " +
                       (formErrors.ideaTeamOfferingType ? "is-invalid" : "")
                     }
@@ -980,49 +981,53 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
 
                 <div class='radio-container'>
                   <p className='labelStyle'>Do you have Incubator Support?</p>
-                   <label className='radio-label'>
-                  <input
-                    className={formErrors.ideaTeamIncuSupport ? "is-invalid" : ""}
-                    type='radio'
-                    id='parentSupportYes'
-                    value='yes'
-                    name='ideaTeamIncuSupport'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setIdeaTeamIncuSupport(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        ideaTeamIncuSupport: validateRequired(value),
-                      }));
-                    }}
-                  />
-                  <span className='radio-custom'></span>
-                  Yes
-                </label>
-                <label className='radio-label'>
-                  <input
-                    className={formErrors.ideaTeamIncuSupport ? "is-invalid" : ""}
-                    type='radio'
-                    id='parentSupportNo'
-                    value='no'
-                    name='ideaTeamIncuSupport'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setIdeaTeamIncuSupport(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        ideaTeamIncuSupport: validateRequired(value),
-                      }));
-                    }}
-                  />
-                  <span className='radio-custom'></span>
-                  No
-                </label>
-                {formErrors.ideaTeamIncuSupport && (
-                  <div className='invalid-feedback'>
-                    {formErrors.ideaTeamIncuSupport}
-                  </div>
-                )}
+                  <label className='radio-label'>
+                    <input
+                      className={
+                        formErrors.ideaTeamIncuSupport ? "is-invalid" : ""
+                      }
+                      type='radio'
+                      id='parentSupportYes'
+                      value='yes'
+                      name='ideaTeamIncuSupport'
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setIdeaTeamIncuSupport(value);
+                        setFormErrors((prevErrors) => ({
+                          ...prevErrors,
+                          ideaTeamIncuSupport: validateRequired(value),
+                        }));
+                      }}
+                    />
+                    <span className='radio-custom'></span>
+                    Yes
+                  </label>
+                  <label className='radio-label'>
+                    <input
+                      className={
+                        formErrors.ideaTeamIncuSupport ? "is-invalid" : ""
+                      }
+                      type='radio'
+                      id='parentSupportNo'
+                      value='no'
+                      name='ideaTeamIncuSupport'
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setIdeaTeamIncuSupport(value);
+                        setFormErrors((prevErrors) => ({
+                          ...prevErrors,
+                          ideaTeamIncuSupport: validateRequired(value),
+                        }));
+                      }}
+                    />
+                    <span className='radio-custom'></span>
+                    No
+                  </label>
+                  {formErrors.ideaTeamIncuSupport && (
+                    <div className='invalid-feedback'>
+                      {formErrors.ideaTeamIncuSupport}
+                    </div>
+                  )}
                 </div>
 
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>
@@ -1062,4 +1067,4 @@ if (!Object.values(newFormErrors).some((error) => error !== "")) {
       </div>
     </div>
   );
-}
+};

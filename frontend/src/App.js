@@ -28,7 +28,7 @@ function App() {
         <Route path='/Login' element={<Login />}></Route>
         <Route path='/IdeaSub' element={<IdeaSub />}></Route>
         <Route path='/Team' element={<Team />}></Route>
-        <Route path='/SignUp' element={<SignUp />}></Route>
+        <Route path='/Student-Registration' element={<SignUp />}></Route>
         <Route path='/PanelistForm' element={<PanelForm />}></Route>
         <Route path='/IncubatorsForm' element={<IncubatorsForm />}></Route>
         <Route path='/IdeaEvaluation' element={<IdeaEvaluation />}></Route>

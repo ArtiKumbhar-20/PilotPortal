@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import axios from "axios";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/incubators/`; // Construct Backend API URL
 
 export const IncubatorsForm = () => {
   const [incuName, setincuName] = useState("");
@@ -20,43 +22,41 @@ export const IncubatorsForm = () => {
   const [incuSPOCWeb, setincuSPOCWeb] = useState("");
   const [incuSupportedBy, setincuSupportedBy] = useState("");
 
-
   // Reset from after successfull submission
   const incubatorForm = useRef(null);
 
   const sendIncubatorsDetails = (event) => {
     event.preventDefault();
 
-      axios({
-        method: "post",
-        url: "http://localhost:8000/incubators/",
-        data: {
-          // incuID, 
-          incuName, 
-          incuType, 
-          incuFundAvailable, 
-          incuAddress, 
-          incuPin, 
-          incuCity, 
-          incuTaluka,
-          incuDist, 
-          incuState, 
-          incuCountry, 
-          incuSPOCFname, 
-          incuSPOCLname, 
-          incuSPOCMobile, 
-          incuSPOCWhatsapp,
-          incuSPOCEmail, 
-          incuSPOCWeb, 
-          incuSupportedBy,
-        },
-      }).then((response) => {
-        alert(`Thank you for submitting your details.`);
-        console.log(response.data);
-        incubatorForm.current.reset();
-      });
+    axios({
+      method: "post",
+      url: apiUrl,
+      data: {
+        // incuID,
+        incuName,
+        incuType,
+        incuFundAvailable,
+        incuAddress,
+        incuPin,
+        incuCity,
+        incuTaluka,
+        incuDist,
+        incuState,
+        incuCountry,
+        incuSPOCFname,
+        incuSPOCLname,
+        incuSPOCMobile,
+        incuSPOCWhatsapp,
+        incuSPOCEmail,
+        incuSPOCWeb,
+        incuSupportedBy,
+      },
+    }).then((response) => {
+      alert(`Thank you for submitting your details.`);
+      console.log(response.data);
+      incubatorForm.current.reset();
+    });
   };
-
 
   return (
     <div className='section-padding'>
@@ -80,7 +80,6 @@ export const IncubatorsForm = () => {
                   <input
                     type='name'
                     className='form-control'
-                   
                     name={incuName}
                     onChange={(e) => setincuName(e.target.value)}
                     aria-describedby='emailHelp'
@@ -89,9 +88,10 @@ export const IncubatorsForm = () => {
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Incubator Type</label>
-                  <select className='form-select'
-                  name={incuType}
-                  onChange={(e) => setincuType(e.target.value)}
+                  <select
+                    className='form-select'
+                    name={incuType}
+                    onChange={(e) => setincuType(e.target.value)}
                   >
                     <option selected disabled>
                       Select
@@ -104,9 +104,11 @@ export const IncubatorsForm = () => {
                 {/* row 2 */}
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Incubator Supported By</label>
-                  <select className='form-select'
-                  name={incuSupportedBy}
-                  onChange={(e) => setincuSupportedBy(e.target.value)}>
+                  <select
+                    className='form-select'
+                    name={incuSupportedBy}
+                    onChange={(e) => setincuSupportedBy(e.target.value)}
+                  >
                     <option selected disabled>
                       Select
                     </option>
@@ -120,18 +122,23 @@ export const IncubatorsForm = () => {
                     Does your incubators have fund to support students startup?
                   </p>
                   <label class='radio-label'>
-                    <input type='radio' value='yes'
-                    id='FundYes'
-                    name={incuFundAvailable}
-                     onChange={(e) => setincuFundAvailable(e.target.value)}/>
+                    <input
+                      type='radio'
+                      value='yes'
+                      id='FundYes'
+                      name={incuFundAvailable}
+                      onChange={(e) => setincuFundAvailable(e.target.value)}
+                    />
                     <span class='radio-custom'></span>
                     Yes
                   </label>
                   <label class='radio-label'>
-                    <input type='radio' value='no'
-                    id='FundNo'
-                    name={incuFundAvailable}
-                    onChange={(e) => setincuFundAvailable(e.target.value)}
+                    <input
+                      type='radio'
+                      value='no'
+                      id='FundNo'
+                      name={incuFundAvailable}
+                      onChange={(e) => setincuFundAvailable(e.target.value)}
                     />
                     <span class='radio-custom'></span>
                     No
@@ -146,7 +153,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuAddress'
                     name={incuAddress}
-                     onChange={(e) => setincuAddress(e.target.value)}
+                    onChange={(e) => setincuAddress(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Incubation Address'
                   />
@@ -160,7 +167,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuCity'
                     name={incuCity}
-                     onChange={(e) => setincuCity(e.target.value)}
+                    onChange={(e) => setincuCity(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter City'
                   />
@@ -172,7 +179,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuTaluka'
                     name={incuTaluka}
-                     onChange={(e) => setincuTaluka(e.target.value)}
+                    onChange={(e) => setincuTaluka(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Taluka'
                   />
@@ -184,7 +191,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuDist'
                     name={incuDist}
-                     onChange={(e) => setincuDist(e.target.value)}
+                    onChange={(e) => setincuDist(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter District'
                   />
@@ -193,10 +200,11 @@ export const IncubatorsForm = () => {
                 {/* row 5 */}
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>State</label>
-                  <select 
-                  name={incuState}
-                  onChange={(e) => setincuState(e.target.value)}
-                  className='form-select'>
+                  <select
+                    name={incuState}
+                    onChange={(e) => setincuState(e.target.value)}
+                    className='form-select'
+                  >
                     <option selected disabled>
                       Select
                     </option>
@@ -212,7 +220,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuCountry'
                     name={incuCountry}
-                     onChange={(e) => setincuCountry(e.target.value)}
+                    onChange={(e) => setincuCountry(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Country'
                   />
@@ -224,7 +232,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuPin'
                     name={incuPin}
-                     onChange={(e) => setincuPin(e.target.value)}
+                    onChange={(e) => setincuPin(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Pincode'
                   />
@@ -242,7 +250,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuSPOCFname'
                     name={incuSPOCFname}
-                     onChange={(e) => setincuSPOCFname(e.target.value)}
+                    onChange={(e) => setincuSPOCFname(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter First Name'
                   />
@@ -254,7 +262,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuSPOCLname'
                     name={incuSPOCLname}
-                     onChange={(e) => setincuSPOCLname(e.target.value)}
+                    onChange={(e) => setincuSPOCLname(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Last Name'
                   />
@@ -266,7 +274,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuSPOCEmail'
                     name={incuSPOCEmail}
-                     onChange={(e) => setincuSPOCEmail(e.target.value)}
+                    onChange={(e) => setincuSPOCEmail(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Email'
                   />
@@ -280,7 +288,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuSPOCMobile'
                     name={incuSPOCMobile}
-                     onChange={(e) => setincuSPOCMobile(e.target.value)}
+                    onChange={(e) => setincuSPOCMobile(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Mobile Number'
                   />
@@ -292,7 +300,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuSPOCWhatsapp'
                     name={incuSPOCWhatsapp}
-                     onChange={(e) => setincuSPOCWhatsapp(e.target.value)}
+                    onChange={(e) => setincuSPOCWhatsapp(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter WhatsApp Number'
                   />
@@ -304,7 +312,7 @@ export const IncubatorsForm = () => {
                     className='form-control'
                     id='incuSPOCWeb'
                     name={incuSPOCWeb}
-                     onChange={(e) => setincuSPOCWeb(e.target.value)}
+                    onChange={(e) => setincuSPOCWeb(e.target.value)}
                     aria-describedby='emailHelp'
                     placeholder='Enter Website'
                   />
