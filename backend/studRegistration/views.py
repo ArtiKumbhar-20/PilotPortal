@@ -1,15 +1,29 @@
+from django.contrib.auth.models import User, Group
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .serializers import *
-from .models import Panelist, Team
+from .models import *
 
-# Student Registration
+# Student Registration with login access
 class StudentRegistration(APIView):
     def post(self, request):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            student = serializer.save()
+
+            # Create a new user for the student with a default password
+            user = User(username=student.stdEmail, email=student.stdEmail, first_name=student.stdFname, last_name=student.stdLname)
+            user.set_password("admin@123")  # Set the default password
+            user.save()
+
+            # Add the new user to the 'Student' group
+            student_group = Group.objects.get(name='Student')
+            user.groups.add(student_group)
+
+            student.user = user  # Link the user to the student
+            student.save()
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -18,7 +32,17 @@ class PanelistRegistration(APIView):
     def post(self, request):
         serializer = PanelistSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            panelist = serializer.save()
+
+            # Create a new user for the panelist with a default password
+            user = User(username=panelist.panelistEmail, email=panelist.panelistEmail, first_name=panelist.panelistFname, last_name=panelist.panelistLname)
+            user.set_password("admin@123")  # Set the default password
+            user.save()
+
+            # Add the new user to the 'Panelist' group
+            panelist_group = Group.objects.get(name='Panelist')
+            user.groups.add(panelist_group)
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -69,13 +93,12 @@ class IdeaStatView(APIView):
     
 class IdeaSubGetDataAPIView(APIView):
     def get(self, request):
-        teams = Team.objects.all()  # Fetch team data from Team model
-        panelists = Panelist.objects.all()  # Fetch panelist data from Panelist model
+        team = Team.objects.first()  # Fetch the first team record
+        panelist = Panelist.objects.last()  # Fetch the first panelist record
 
         # Process the data and create a JSON response
         response_data = {
-            'Teams': [{'id': team.teamID, 'name': team.teamName} for team in teams],
-            'Panelists': [{'id': panelist.panelID, 'name': f"{panelist.panelistFname} {panelist.panelistLname}"} for panelist in panelists]
+            'team': {'id': team.teamID, 'name': team.teamName},
+            'panelist': {'id': panelist.panelID, 'name': f"{panelist.panelistFname} {panelist.panelistLname}"}
         }
         return Response(response_data)
-

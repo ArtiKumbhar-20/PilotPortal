@@ -12,6 +12,7 @@ class HomeView(APIView):
     def get(self, request):
         user = request.user
         user_details = {
+            "user_id": user.id,
             "username": user.username,
             "email": user.email,
             "first_name": user.first_name,

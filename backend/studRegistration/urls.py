@@ -9,5 +9,5 @@ urlpatterns = [
     path('catalyst_register/', CatalystRegistration.as_view(), name='catalyst-registration'),
     path('team_register/', TeamRegistration.as_view(), name='team-registration'),
     path('IdeaStatView/', TeamRegistration.as_view(), name='idea-status'),
-    # path('IdeaSubGetData/', IdeaSubGetDataAPIView.as_view(), name='ideaSubGetData'),
+    path('IdeaSubGetData/', IdeaSubGetDataAPIView.as_view(), name='ideaSubGetData'),
 ]
