@@ -3,6 +3,7 @@ import ContactModal from "../components/ContactModal";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 import config from "./config";
 const apiUrl = `${config.backendUrl}/dashboard/`; // Construct Backend API URL
 
@@ -56,6 +57,20 @@ export const Dashboard = () => {
                   </div>
                   <div className='col-4'>
                     <h4>User Type: {userDetails.user_type}</h4>
+                  </div>
+                </div>
+                <div className='row mt-4'>
+                  <div className='col-6'>
+                    <NavLink to='/IdeaEvaluation' className='btn btn-style-one'>
+                      {" "}
+                      <span>Evaluated Ideas</span>{" "}
+                    </NavLink>
+                  </div>
+                  <div className='col-6'>
+                    <NavLink to='/IdeaEvaluation' className='btn btn-style-one'>
+                      {" "}
+                      <span>Start Evaluation</span>{" "}
+                    </NavLink>
                   </div>
                 </div>
               </>

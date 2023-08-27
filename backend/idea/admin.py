@@ -1,6 +1,6 @@
 # Register your models here.
 from django.contrib import admin
-from .models import IdeaSub
+from .models import *
 
 @admin.register(IdeaSub)
 class IdeaSubAdmin(admin.ModelAdmin):
@@ -14,4 +14,13 @@ class IdeaSubAdmin(admin.ModelAdmin):
         'ideaTeamQuickVal','ideaTeamFinalSoln','ideaTeamOfferingType','ideaTeamTechReq',
         'ideaTeamHardwareReq','ideaTeamNonTechReq','ideaTeamProtoTime','ideaTeamProtoCost',
         'ideaTeamIncuSupport','recordCreatedOn','recordCreatedBy','recordUpdatedOn','recordUpdatedBy'
+    )
+
+@admin.register(IdeaStat)
+class IdeaStatAdmin(admin.ModelAdmin):
+    list_display = (
+        'ideaStatID','ideaStatStatus','ideaStatMarketResearch', 'ideaStatAdvBoot',
+        'ideaStatIncuSupport','ideaStatIPRTrademark','ideaStatIPRPatent','ideaStatIPRCopyright','ideaStatBusinessPlan',
+        'ideaStatIPRTradeSecrets','ideaStatProto','ideaStatTeamPlacement','ideaStatIncorpStatus',
+        'ideaStatEmploybilitySkilling','recordCreatedOn','recordCreatedBy','recordUpdatedOn','recordUpdatedBy'
     )

@@ -183,28 +183,6 @@ class Team(models.Model):
 
     def __str__(self):
         return f"{self.teamID} {self.teamName} ({self.teamInstiID})"
-    
-class IdeaStat(models.Model):
-    ideaStatID = models.AutoField(primary_key=True)
-    ideaStatStatus = models.CharField(max_length=100)
-    ideaStatMarketResearch = models.CharField(max_length=100)
-    ideaStatAdvBoot = models.CharField(max_length=100)
-    ideaStatIncuSupport = models.CharField(max_length=100)
-    ideaStatIPRTrademark = models.CharField(max_length=100)
-    ideaStatIPRPatent = models.CharField(max_length=100)
-    ideaStatIPRCopyright = models.CharField(max_length=100)
-    ideaStatBusinessPlan = models.CharField(max_length=100)
-    ideaStatIPRTradeSecrets = models.CharField(max_length=100)
-    ideaStatProto = models.CharField(max_length=100)
-    ideaStatTeamPlacement = models.CharField(max_length=100)
-    ideaStatIncorpStatus = models.CharField(max_length=100)
-    ideaStatEmploybilitySkilling = models.CharField(max_length=100)
-    recordCreatedOn = models.DateField(default=timezone.now)
-    recordCreatedBy = models.CharField(max_length=100, default='admin')
-    recordUpdatedOn = models.DateField(default=timezone.now)
-    recordUpdatedBy = models.CharField(max_length=100, default='admin')
 
-    def __str__(self):
-        return f"{self.ideaStatStatus} {self.ideaStatID} ({self.ideaTeamInstiID})"
 
 
