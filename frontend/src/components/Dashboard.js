@@ -3,6 +3,8 @@ import ContactModal from "../components/ContactModal";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import config from "./config";
+const apiUrl = `${config.backendUrl}/dashboard/`; // Construct Backend API URL
 
 export const Dashboard = () => {
   const [userDetails, setUserDetails] = useState({});
@@ -13,7 +15,7 @@ export const Dashboard = () => {
     } else {
       (async () => {
         try {
-          const { data } = await axios.get("http://localhost:8000/dashboard/", {
+          const { data } = await axios.get(apiUrl, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -39,7 +41,10 @@ export const Dashboard = () => {
           <div className='mt-5 text-center'>
             {userDetails ? (
               <>
-                <h3>Hi, {userDetails.first_name}</h3>
+                <h3>
+                  Hi, {userDetails.first_name} {userDetails.last_name} (
+                  {userDetails.user_id})
+                </h3>
                 <h3>{userDetails.message}</h3>
                 <br />
                 <div className='row'>

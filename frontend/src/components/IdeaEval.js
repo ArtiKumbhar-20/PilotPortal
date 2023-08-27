@@ -4,16 +4,16 @@ import config from "./config";
 const apiUrl = `${config.backendUrl}/IdeaSubGetData/`; // Construct Backend API URL
 
 function IdeaEval() {
-  const [teams, setTeams] = useState([]);
-  const [panelists, setPanelists] = useState([]);
+  const [team, setTeam] = useState({});
+  const [panelist, setPanelist] = useState({});
 
   useEffect(() => {
     // Fetch data from Django API
     axios
       .get(apiUrl)
       .then((response) => {
-        setTeams(response.data.teams);
-        setPanelists(response.data.panelists);
+        setTeam(response.data.team);
+        setPanelist(response.data.panelist);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -34,7 +34,18 @@ function IdeaEval() {
             >
               {/* Title */}
               <h2 className='title'>Idea Evaluation</h2>
-
+              <div className='row'>
+                <div className='col-6'>
+                  {/* Display the team ID and name */}
+                  <p>Team ID: {team.id}</p>
+                  <p>Team Name: {team.name}</p>
+                </div>
+                <div className='col-6'>
+                  {/* Display the panelist ID and name */}
+                  <p>Panelist ID: {panelist.id}</p>
+                  <p>Panelist Name: {panelist.name}</p>
+                </div>
+              </div>
               <div className='row'>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'> Panelist ID</label>
@@ -44,6 +55,7 @@ function IdeaEval() {
                     id='name'
                     aria-describedby='emailHelp'
                     placeholder='Panelist ID'
+                    value={panelist.id}
                   />
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -54,6 +66,7 @@ function IdeaEval() {
                     id='name'
                     aria-describedby='emailHelp'
                     placeholder='Team ID'
+                    value={team.id}
                   />
                 </div>
                 {/* RadioButton */}

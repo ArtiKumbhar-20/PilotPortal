@@ -89,7 +89,7 @@ export const PanelistForm = () => {
       }).then((response) => {
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
-        panelistForm.current.reset();
+        // panelistForm.current.reset();
       });
     }
   };
