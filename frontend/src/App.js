@@ -12,6 +12,7 @@ import Catalyst from "./pages/Catalyst";
 import SignUp from "./pages/SignUp";
 import Event from "./pages/Event";
 import IdeaUpdate from "./components/IdeaUpdate";
+import Idea from "./pages/Idea";
 
 // Login Auth
 import { Logout } from "./components/logout";
@@ -34,6 +35,7 @@ function App() {
         <Route path='/IdeaEvaluation' element={<IdeaEvaluation />}></Route>
         <Route path='/CatalystForm' element={<Catalyst />}></Route>
         <Route path='/Event' element={<Event />}></Route>
+        <Route path='/Idea' element={<Idea />}></Route>
 
         {/* Login Auth */}
         <Route path='/logout' element={<Logout />} />
