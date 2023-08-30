@@ -11324,3 +11324,44 @@ only screen and (max-width: 767px) {
 .radio-container p {
   margin: 0;
 }
+
+
+/* Dashboard student CSS */
+
+.Sidebar{
+  display: flex;
+  flex: 0 0 55%;
+   height: 50vh;
+   overflow-y: scroll;
+  border: 2px solid #333; /* Border for the container */
+}
+.SidebarList{
+ 
+ 
+  flex: 0 0 20%; /* Sidebar width set to 35% */
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-right: 2px solid #333; /* Right border for the sidebar */
+  font-family:"Jost", sans-serif;
+  cursor:pointer;
+}
+.SidebarList .row{
+  flex: 0 0 55%; /* Sidebar width set to 35% */
+  padding: 15px;
+  color:black;
+  
+  align-items: center;
+  font-family:"Jost", sans-serif;
+  cursor:pointer;
+}
+.content, p {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items:flex-end;
+  color: grey;
+  font-size: 15px;
+  padding-left: 20px;
+
+}
+
