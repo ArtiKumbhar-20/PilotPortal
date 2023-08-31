@@ -6,9 +6,8 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     student_id = models.CharField(max_length=10, blank=True, null=True)
-    # Other additional fields you might want to include
 
-    def __str__(self):
+    def _str_(self):
         return self.user.username
     
 @receiver(post_save, sender=User)
