@@ -90,6 +90,6 @@ class IdeaSubGetDataAPIView(APIView):
         # Process the data and create a JSON response
         response_data = {
             'team': {'id': team.teamID, 'name': team.teamName},
-            'panelist': {'id': panelist.panelID, 'name': f"{panelist.panelistFname} {panelist.panelistLname}"}
+            'panelist': {'id': panelist.panelID, 'name': f"{panelist.panelistFname} {panelist.panelistLname}"},
         }
         return Response(response_data)

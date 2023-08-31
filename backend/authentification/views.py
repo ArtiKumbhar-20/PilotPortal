@@ -5,12 +5,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from django.contrib.auth.models import User
 
+from .models import Profile
+from .serializers import ProfileSerializer
+
 
 class HomeView(APIView):
     permission_classes = (IsAuthenticated, )
 
     def get(self, request):
         user = request.user
+        profile = Profile.objects.get(user=user)
+
         user_details = {
             "user_id": user.id,
             "username": user.username,
@@ -26,7 +31,14 @@ class HomeView(APIView):
         else:
             content = {'message': 'Welcome to the Superadmin Dashboard!', 'user_type': 'Superadmin'}
 
+        # Include the student_id from the profile
+        user_details['student_id'] = profile.student_id
+
         content.update(user_details)
+        # Serialize the data
+        serializer = ProfileSerializer(profile)
+        content.update(serializer.data)
+
         return Response(content)
 
 class LogoutView(APIView):

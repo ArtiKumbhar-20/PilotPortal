@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import config from "./config";
-import { NavLink } from "react-router-dom";
 const apiUrl = `${config.backendUrl}/dashboard/`; // Construct Backend API URL
 
 export const Dashboard = () => {
@@ -58,6 +57,9 @@ export const Dashboard = () => {
                   </div>
                   <div className='col-4'>
                     <h4>User Type: {userDetails.user_type}</h4>
+                  </div>
+                  <div className='col-4'>
+                    <h4>Student ID: {userDetails.student_id}</h4>
                   </div>
                 </div>
                 <div className='row mt-4'>
