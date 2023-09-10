@@ -98,7 +98,6 @@ export const Dashboard = () => {
                   window.location.pathname = val.link;
                 }}
               >
-                {" "}
                 <div>{val.title}</div>
               </li>
             );

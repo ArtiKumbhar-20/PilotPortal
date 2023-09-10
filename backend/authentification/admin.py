@@ -4,5 +4,7 @@ from .models import Profile
 @admin.register(Profile)
 class InstAdmin(admin.ModelAdmin):
     list_display = (
-        'student_id','user',
+        'user','student_id',
+        # 'profileID','user','student_id','paneID',
     )
+
