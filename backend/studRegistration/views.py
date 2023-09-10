@@ -104,6 +104,7 @@ class StudentDetailView(APIView):
 
         response_data = {
             'stud': {
+                'stdID': stud.stdID,
                 'stdFname': stud.stdFname,
                 'stdLname': stud.stdLname,
                 'Email': stud.stdEmail,
@@ -122,7 +123,6 @@ class StudentDetailView(APIView):
                 'stdBranch': stud.stdBranch,
                 'stdPassoutYear': stud.stdPassoutYear,
                 'stdTriedStartupBefore': stud.stdTriedStartupBefore
-                # Add more fields as needed
             }
         }
         return Response(response_data)
