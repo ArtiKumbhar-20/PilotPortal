@@ -10,7 +10,7 @@ class IdeaSub(models.Model):
     ideaTeamName = models.CharField(max_length=100)
     ideaTeamInstiID = models.CharField(max_length=100,default='1')
     ideaTeamCFO = models.CharField(max_length=100)
-    ideaTeamCEO = models.CharField(max_length=100)
+    ideaTeamCEO = models.CharField(max_length=100) 
     ideaTeamCTO = models.CharField(max_length=100)
     ideaTeamCOO = models.CharField(max_length=100)
     ideaTeamCMO = models.CharField(max_length=100)
