@@ -22,7 +22,7 @@ export const Dashboard = () => {
             },
           });
 
-          // console.log("API Response:", data);
+          console.log("API Response:", data);
           setUserDetails(data);
         } catch (e) {
           console.log("not auth");

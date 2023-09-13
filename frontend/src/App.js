@@ -41,7 +41,7 @@ function App() {
         <Route path='/IdeaEvaluation' element={<IdeaEvaluation />}></Route>
         <Route path='/CatalystForm' element={<Catalyst />}></Route>
         <Route path='/Event' element={<Event />}></Route>
-        <Route path='/Idea' element={<Idea />}></Route>
+        <Route path='/Idea-Details' element={<Idea />}></Route>
 
         {/* Login Auth */}
         <Route path='/logout' element={<Logout />} />
