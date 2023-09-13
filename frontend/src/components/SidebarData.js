@@ -3,26 +3,26 @@ import React from 'react'
 export const SidebarData =[
 {
     title:"Profile",
-    link:"/Profile"
+    path:"/Profile"
 },
 {
     title:"Team Members",
-    link:"/Team Members"
+    path:"/Team_Mem"
 },
 {
     title:"Submitted Ideas",
-    link:"/Submitted Ideas"
+    path:"/Sub_Ideas"
 },
 {
     title:"Idea Status",
-    link:"/Idea Status"
+    path:"/Idea_Status"
 },
 {
     title:"Logout",
-    link:"/Logout"
+    path:"/Logout"
 },
 
-]
+];
 
   
   

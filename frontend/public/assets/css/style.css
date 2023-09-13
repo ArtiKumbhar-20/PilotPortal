@@ -11365,3 +11365,64 @@ only screen and (max-width: 767px) {
 
 }
 
+/* Dashboard CSS */
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.main,
+.sidebar {
+  padding: 15px;
+  background-color: #fff;
+  margin: 1vh;
+}
+
+.v1{
+  border-left: 1px solid #625992;
+}
+
+.main {
+  width: 75%;
+  background-color: #ccc;
+  overflow-y: scroll;
+  border-radius: 20px;
+  height: 50vh;
+  padding: 5vh 8vh;
+}
+
+.main h3{
+  padding-bottom: 4vh;
+}
+
+.sidebar {
+  width: 20%;
+  background-color: #5037D9;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5vh;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.sidebar_item {
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar a {
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+}
+
+.sidebar a:hover {
+  color: #1c1c1c;
+  font-weight: bolder;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 10px;
+}
