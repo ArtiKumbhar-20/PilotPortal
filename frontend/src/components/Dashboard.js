@@ -14,7 +14,7 @@ export const Dashboard = () => {
     const section = document.getElementById(sectionId);
 
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth' }); // Scroll to the section smoothly
+      section.scrollIntoView({ behavior: 'smooth' }); 
     }
   };
   const [userDetails, setUserDetails] = useState({});
