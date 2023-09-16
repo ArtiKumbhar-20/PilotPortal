@@ -1,4 +1,5 @@
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 import ContactModal from "../components/ContactModal";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
@@ -8,6 +9,14 @@ import config from "./config";
 const apiUrl = `${config.backendUrl}/dashboard/`; // Construct Backend API URL
 
 export const Dashboard = () => {
+  const scrollToSection = (e, sectionId) => {
+    e.preventDefault(); // Prevent default anchor link behavior
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' }); // Scroll to the section smoothly
+    }
+  };
   const [userDetails, setUserDetails] = useState({});
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
@@ -60,6 +69,28 @@ export const Dashboard = () => {
       });
   }, [loggedInUserId]);
 
+   // team
+   const [team, setTeam] = useState({});
+   const logedInUserId = userDetails.team_id;
+   useEffect(() => {
+     // data fetching
+     axios
+       .get(`http://127.0.0.1:8000/TeamGetData/${logedInUserId}/`)
+       .then((response) => {
+         setTeam(response.data.team);
+       })
+       .catch((error) => {
+         console.error("Error fetching submitted data:", error);
+       });
+   }, [logedInUserId]);
+
+  const [activeContent, setActiveContent] = useState('content');
+
+  const toggleContent = (contentId) => {
+    setActiveContent(contentId);
+  };
+
+
   return (
     <>
       <Header />
@@ -101,19 +132,24 @@ export const Dashboard = () => {
       <div class="wrapper">
         {/* sidebar */}
         <div class="sidebar">
-          <a href="#" class="sidebar_item">Profile</a>
-          <a href="#" class="sidebar_item">Team Members</a>
-          <a href="#" class="sidebar_item">Submitted Ideas</a>
-          <a href="#" class="sidebar_item">Idea Status</a>
-          <a href="#" class="sidebar_item">Logout</a>
-        </div>
+  <a href="#content" class="sidebar_item" onClick={() => toggleContent('content')}>
+    Profile
+  </a>
+  <a href="#TeamDetail" class="sidebar_item" onClick={() => toggleContent('TeamDetail')}>
+    Team Members
+  </a>
+  <a href="#ideaDetail" class="sidebar_item" onClick={() => toggleContent('ideaDetail')}>Submitted Ideas</a>
+  <a href="#" class="sidebar_item">Idea Status</a>
+  <a href="#" class="sidebar_item">Logout</a>
+</div>
+
 
         {/* vertical line */}
         <div class="v1"></div>
 
         {/* main content */}
         <div class="main">
-          <div id='content'>
+          <div id='content' className={`content-section ${activeContent === 'content' ? 'active' : ''}`}>
 
             <h3>Student Details</h3>
 
@@ -230,8 +266,64 @@ export const Dashboard = () => {
             </div>
           </div>
 
+
+
+
+          {/* team details */}
+
+      
+        <div id='TeamDetail' className={`content-section ${activeContent === 'TeamDetail' ? 'active' : ''}`}>
+          <h3>Team Details</h3>
+          <div className='row'>
+            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+              <label className='labelStyle'>
+                Team Name :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamName}</span>
+              </label>
+            </div>
+            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+              <label className='labelStyle'>
+                Team CEO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCEO}</span>
+              </label>
+            </div>
+            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+              <label className='labelStyle'>
+                Team COO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCOO}</span>
+              </label>
+            </div>
+            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+              <label className='labelStyle'>
+                Team CMO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCMO}</span>
+              </label>
+            </div>
+            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+              <label className='labelStyle'>
+                Team CTO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCTO}</span>
+              </label>
+            </div>
+            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+              <label className='labelStyle'>
+                Team CFO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCFO}</span>
+              </label>
+            </div>
+            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+              <label className='labelStyle'>
+                Team InstiID : <span style={{ color: "#f43f5e" }}>{team.teamInstiId}</span>
+              </label>
+            </div>
+           
+          </div>
+        </div>
+      
+     
+
           {/* idea submission */}
-          <div id='content'>
+          <div id='ideaDetail'className={`content-section ${activeContent === 'ideaDetail' ? 'active' : ''}`}>
             <h3>Idea Details</h3>
             <div className='row'>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -293,8 +385,13 @@ export const Dashboard = () => {
             </div>
           </div>
         </div>
+        
       </div>
+      
+      
       <Footer />
+      
     </>
+    
   );
 };

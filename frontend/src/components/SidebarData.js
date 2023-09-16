@@ -1,32 +1,27 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-export const SidebarData =[
-{
-    title:"Profile",
-    path:"/Profile"
-},
-{
-    title:"Team Members",
-    path:"/Team_Mem"
-},
-{
-    title:"Submitted Ideas",
-    path:"/Sub_Ideas"
-},
-{
-    title:"Idea Status",
-    path:"/Idea_Status"
-},
-{
-    title:"Logout",
-    path:"/Logout"
-},
-
+const SidebarData = [
+  {
+    title: 'Profile',
+    path: '/profile', // Define the path to your Profile component
+  },
+  {
+    title: 'Team Members',
+    path: '/team-members', // Define the path to your Team Members component
+  },
+  {
+    title: 'Submitted Ideas',
+    path: '/submitted-ideas', // Define the path to your Submitted Ideas component
+  },
+  {
+    title: 'Idea Status',
+    path: '/idea-status', // Define the path to your Idea Status component
+  },
+  {
+    title: 'Logout',
+    path: '/logout', // Define the path to your Logout component
+  },
 ];
 
-  
-  
-
-  
- 
-
+export default SidebarData;
