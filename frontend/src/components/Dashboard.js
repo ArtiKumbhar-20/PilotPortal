@@ -1,15 +1,22 @@
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 import ContactModal from "../components/ContactModal";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import config from "./config";
 
-import { SidebarData } from "./SidebarData";
-
 const apiUrl = `${config.backendUrl}/dashboard/`; // Construct Backend API URL
 
 export const Dashboard = () => {
+  const scrollToSection = (e, sectionId) => {
+    e.preventDefault(); // Prevent default anchor link behavior
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' }); 
+    }
+  };
   const [userDetails, setUserDetails] = useState({});
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
@@ -48,6 +55,42 @@ export const Dashboard = () => {
       });
   }, [loggedInUserId]);
 
+  // idea
+  const [idea, setIdea] = useState({});
+  useEffect(() => {
+    // data fetching
+    axios
+      .get(`http://127.0.0.1:8000/IdeaGetData/${loggedInUserId}/`)
+      .then((response) => {
+        setIdea(response.data.idea);
+      })
+      .catch((error) => {
+        console.error("Error fetching submitted data:", error);
+      });
+  }, [loggedInUserId]);
+
+   // team
+   const [team, setTeam] = useState({});
+   const logedInUserId = userDetails.team_id;
+   useEffect(() => {
+     // data fetching
+     axios
+       .get(`http://127.0.0.1:8000/TeamGetData/${logedInUserId}/`)
+       .then((response) => {
+         setTeam(response.data.team);
+       })
+       .catch((error) => {
+         console.error("Error fetching submitted data:", error);
+       });
+   }, [logedInUserId]);
+
+  const [activeContent, setActiveContent] = useState('content');
+
+  const toggleContent = (contentId) => {
+    setActiveContent(contentId);
+  };
+
+
   return (
     <>
       <Header />
@@ -85,141 +128,270 @@ export const Dashboard = () => {
         </div>
       </div>
 
-      {/* stud details */}
+      {/* Student dashboard */}
+      <div class="wrapper">
+        {/* sidebar */}
+        <div class="sidebar">
+  <a href="#content" class="sidebar_item" onClick={() => toggleContent('content')}>
+    Profile
+  </a>
+  <a href="#TeamDetail" class="sidebar_item" onClick={() => toggleContent('TeamDetail')}>
+    Team Members
+  </a>
+  <a href="#ideaDetail" class="sidebar_item" onClick={() => toggleContent('ideaDetail')}>Submitted Ideas</a>
+  <a href="#" class="sidebar_item">Idea Status</a>
+  <a href="#" class="sidebar_item">Logout</a>
+</div>
 
-      <div className='Sidebar'>
-        <ul className='SidebarList'>
-          {SidebarData.map((val, key) => {
-            return (
-              <li
-                key={key}
-                className='row'
-                onClick={() => {
-                  window.location.pathname = val.link;
-                }}
-              >
-                <div>{val.title}</div>
-              </li>
-            );
-          })}
-        </ul>
 
-        <div id='content'>
-          <h3>Student Details</h3>
+        {/* vertical line */}
+        <div class="v1"></div>
+
+        {/* main content */}
+        <div class="main">
+          <div id='content' className={`content-section ${activeContent === 'content' ? 'active' : ''}`}>
+
+            <h3>Student Details</h3>
+
+            <div className='row'>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Student FName :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdFname}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Student LName :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdLname}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Date of Birth :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdDOB}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Gender :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdGender}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Mobile Number :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdMobile}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Whatsapp Number :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdWhatsapp}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Email : <span style={{ color: "#f43f5e" }}>{stud.Email}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Student Address :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdAddress}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  City :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdAddrCity}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  District :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdAddrDist}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  State :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdAddrState}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Country :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdAddrCountry}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Pincode :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdAddrPin}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Institute Name :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdInstiID}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Stream :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdStream}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Branch :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdBranch}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  PassOut Year :{" "}
+                  <span style={{ color: "#f43f5e" }}>{stud.stdPassoutYear}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Tried StartUp Before :
+                  <span style={{ color: "#f43f5e" }}>
+                    {stud.stdTriedStartupBefore}
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          {/* team details */}
+
+      
+        <div id='TeamDetail' className={`content-section ${activeContent === 'TeamDetail' ? 'active' : ''}`}>
+          <h3>Team Details</h3>
           <div className='row'>
             <div className='col-12 col-xl-12 col-lg-12 mb-3'>
               <label className='labelStyle'>
-                Student FName :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdFname}</span>
+                Team Name :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamName}</span>
               </label>
             </div>
             <div className='col-12 col-xl-12 col-lg-12 mb-3'>
               <label className='labelStyle'>
-                Student LName :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdLname}</span>
+                Team CEO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCEO}</span>
               </label>
             </div>
             <div className='col-12 col-xl-12 col-lg-12 mb-3'>
               <label className='labelStyle'>
-                Date of Birth :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdDOB}</span>
+                Team COO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCOO}</span>
               </label>
             </div>
             <div className='col-12 col-xl-12 col-lg-12 mb-3'>
               <label className='labelStyle'>
-                Gender :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdGender}</span>
+                Team CMO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCMO}</span>
               </label>
             </div>
             <div className='col-12 col-xl-12 col-lg-12 mb-3'>
               <label className='labelStyle'>
-                Mobile Number :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdMobile}</span>
+                Team CTO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCTO}</span>
               </label>
             </div>
             <div className='col-12 col-xl-12 col-lg-12 mb-3'>
               <label className='labelStyle'>
-                Whatsapp Number :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdWhatsapp}</span>
+                Team CFO :{" "}
+                <span style={{ color: "#f43f5e" }}>{team.teamCFO}</span>
               </label>
             </div>
             <div className='col-12 col-xl-12 col-lg-12 mb-3'>
               <label className='labelStyle'>
-                Email : <span style={{ color: "#f43f5e" }}>{stud.Email}</span>
+                Team InstiID : <span style={{ color: "#f43f5e" }}>{team.teamInstiId}</span>
               </label>
             </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Student Address :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdAddress}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                City :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdAddrCity}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                District :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdAddrDist}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                State :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdAddrState}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Country :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdAddrCountry}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Pincode :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdAddrPin}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Institute Name :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdInstiID}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Stream :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdStream}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Branch :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdBranch}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                PassOut Year :{" "}
-                <span style={{ color: "#f43f5e" }}>{stud.stdPassoutYear}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Tried StartUp Before :
-                <span style={{ color: "#f43f5e" }}>
-                  {stud.stdTriedStartupBefore}
-                </span>
-              </label>
+           
+          </div>
+        </div>
+      
+     
+
+          {/* idea submission */}
+          <div id='ideaDetail'className={`content-section ${activeContent === 'ideaDetail' ? 'active' : ''}`}>
+            <h3>Idea Details</h3>
+            <div className='row'>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                Final Problem Statement:{" "}
+                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamFinalPS}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                Problem Statement Domain:{" "}
+                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamDomain}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                Final Solution:{" "}
+                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamFinalSoln}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                Team Offering Type:{" "}
+                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamOfferingType}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                Technical Requirements:{" "}
+                  <span style={{ color: "#f43f5e" }}>{idea.TeamTechReq}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                Hardware Requirements:{" "}
+                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamHardwareReq}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                Non-Technical Requirements: {" "}
+                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamNonTechReq}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Estimated Time for implementing your idea:{" "}
+                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamProtoTime}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <label className='labelStyle'>
+                  Estimated Cost for implementing your idea:
+                  <span style={{ color: "#f43f5e" }}>
+                    {idea.ideaTeamProtoCost}
+                  </span>
+                </label>
+              </div>
             </div>
           </div>
         </div>
+        
       </div>
+      
+      
       <Footer />
+      
     </>
+    
   );
 };

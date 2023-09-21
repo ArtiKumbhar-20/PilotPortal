@@ -18,6 +18,12 @@ import Idea from "./pages/Idea";
 import { Logout } from "./components/logout";
 import { Dashboard } from "./components/Dashboard";
 
+// dashboard
+import Profile from "./pages/Profile";
+import Team_mem from "./pages/Team_Mem";
+import Sub_Ideas from "./pages/Sub_Ideas";
+import Idea_Status from "./pages/Idea_Status";
+
 function App() {
   return (
     <BrowserRouter>
@@ -41,6 +47,12 @@ function App() {
         <Route path='/logout' element={<Logout />} />
         <Route path='/Dashboard' element={<Dashboard />}></Route>
         <Route path='/IdeaUpdate' element={<IdeaUpdate />}></Route>
+
+        {/* dashboard */}
+        <Route path='/Profile' element={<Profile/>}></Route>
+        <Route path='/Team_Mem' element={<Team_mem/>}></Route>
+        <Route path='/Sub_Ideas' element={<Sub_Ideas/>}></Route>
+        <Route path='/Idea_Status' element={<Idea_Status/>}></Route>
       </Routes>
     </BrowserRouter>
   );

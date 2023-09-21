@@ -130,3 +130,25 @@ class StudentDetailView(APIView):
             }
         }
         return Response(response_data)
+    
+class TeamDetailView(APIView):
+    def get(self, request, loggedInUserId):
+        try:
+            # Fetching the student using the teamID
+            team = Team.objects.get(teamID=loggedInUserId)
+        except Team.DoesNotExist:
+            return Response({'error': 'Team not found'}, status=404)
+
+        response_data = {
+            'team': {
+                'teamName': team.teamName,
+                'teamCEO': team.teamCEO,
+                'teamCOO': team.teamCOO,
+                'teamCMO': team.teamCMO,
+                'teamCTO': team.teamCTO,
+                'teamCFO': team.teamCFO,
+               
+                # Add more fields as needed
+            }
+        }
+        return Response(response_data) 
