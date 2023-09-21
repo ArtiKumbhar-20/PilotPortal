@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, Group
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from authentification.models import Profile
 from .serializers import *
 from .models import *
 
@@ -20,6 +21,9 @@ class StudentRegistration(APIView):
             # Add the new user to the 'Student' group
             student_group = Group.objects.get(name='Student')
             user.groups.add(student_group)
+
+            profile = Profile(user=user, student_id=student.stdID)
+            profile.save()
 
             student.user = user  # Link the user to the student
             student.save()
