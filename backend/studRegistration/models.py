@@ -66,7 +66,6 @@ class Panelist(models.Model):
     def __str__(self):
         return f"{self.panelistFname} {self.panelistLname} ({self.panelID})"
 
-
 # Institute Registration
 class Institute(models.Model):
     instID = models.AutoField(primary_key=True)

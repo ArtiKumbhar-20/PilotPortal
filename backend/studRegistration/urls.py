@@ -9,6 +9,7 @@ urlpatterns = [
     path('catalyst_register/', CatalystRegistration.as_view(), name='catalyst-registration'),
     path('team_register/', TeamRegistration.as_view(), name='team-registration'),
     path('IdeaSubGetData/', IdeaSubGetDataAPIView.as_view(), name='ideaSubGetData'),
-    path('StudGetData/<int:loggedInUserId>/', StudentDetailView.as_view(),name='student-detail'),
+    path('StudGetData/<int:loggedInStudId>/', StudentDetailView.as_view(),name='student-detail'),
     path('TeamInfo/', TeamDetailView.as_view(),name='team-detail'),
+    path('PanelGetData/<int:loggedInPanelId>/', PanelistDetailView.as_view(),name='panelist-detail'),
 ]

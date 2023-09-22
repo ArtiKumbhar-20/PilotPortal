@@ -4,14 +4,14 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 class Profile(models.Model):
-    # profileID = models.AutoField(primary_key=True)
+    profileID = models.AutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    student_id = models.CharField(max_length=10, default='NULL')
-    # paneID = models.CharField(max_length=10, default='NULL')
+    # student_id = models.CharField(max_length=10, default='NULL')
+    student_id = models.PositiveIntegerField(default=0)
+    paneID = models.PositiveIntegerField(default=0)  
 
     def _str_(self):
-        return f"{self.user.username} {self.student_id}"
-        # return f"{self.profileID} {self.user.username} {self.student_id} {self.paneID}"
+        return f"{self.user.username} {self.student_id} {self.profileID} {self.paneID}"
     
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

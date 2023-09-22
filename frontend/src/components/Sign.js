@@ -139,7 +139,7 @@ export const Sign = () => {
       }).then((response) => {
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
-        studentForm.current.reset();
+        // studentForm.current.reset();
       });
     } // Closing of If statment
   };

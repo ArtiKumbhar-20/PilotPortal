@@ -14,7 +14,7 @@ export const Dashboard = () => {
     const section = document.getElementById(sectionId);
 
     if (section) {
-      section.scrollIntoView({ behavior: 'smooth' }); 
+      section.scrollIntoView({ behavior: "smooth" });
     }
   };
   const [userDetails, setUserDetails] = useState({});
@@ -40,56 +40,71 @@ export const Dashboard = () => {
       })();
     }
   }, []);
+
   // stud's
   const [stud, setStud] = useState({});
-  const loggedInUserId = userDetails.student_id;
+  const loggedInStudId = userDetails.student_id;
+  const loggedInPanelId = userDetails.paneID;
   useEffect(() => {
-    // data fetching
-    axios
-      .get(`http://127.0.0.1:8000/StudGetData/${loggedInUserId}/`)
-      .then((response) => {
-        setStud(response.data.stud);
-      })
-      .catch((error) => {
-        console.error("Error fetching submitted data:", error);
-      });
-  }, [loggedInUserId]);
+    if (userDetails.user_type == "Student") {
+      // student data fetching
+      axios
+        .get(`http://127.0.0.1:8000/StudGetData/${loggedInStudId}/`)
+        .then((response) => {
+          console.log("StudGetData Response:", response.data.stud);
+          setStud(response.data.stud);
+        })
+        .catch((error) => {
+          console.error("Error fetching submitted data:", error);
+        });
+    } else {
+      // Panelist data fetching
+      axios
+        .get(`http://127.0.0.1:8000/PanelGetData/${loggedInPanelId}/`)
+        .then((response) => {
+          console.log("PanelGetData Response:", response.data.stud);
+          setStud(response.data.stud);
+        })
+        .catch((error) => {
+          console.error("Error fetching submitted data:", error);
+        });
+    }
+  }, [loggedInPanelId]);
 
   // idea
   const [idea, setIdea] = useState({});
   useEffect(() => {
     // data fetching
     axios
-      .get(`http://127.0.0.1:8000/IdeaGetData/${loggedInUserId}/`)
+      .get(`http://127.0.0.1:8000/IdeaGetData/${loggedInStudId}/`)
       .then((response) => {
         setIdea(response.data.idea);
       })
       .catch((error) => {
         console.error("Error fetching submitted data:", error);
       });
-  }, [loggedInUserId]);
+  }, [loggedInStudId]);
 
-   // team
-   const [team, setTeam] = useState({});
-   const logedInUserId = userDetails.team_id;
-   useEffect(() => {
-     // data fetching
-     axios
-       .get(`http://127.0.0.1:8000/TeamGetData/${logedInUserId}/`)
-       .then((response) => {
-         setTeam(response.data.team);
-       })
-       .catch((error) => {
-         console.error("Error fetching submitted data:", error);
-       });
-   }, [logedInUserId]);
+  // team
+  const [team, setTeam] = useState({});
+  const logedInUserId = userDetails.team_id;
+  useEffect(() => {
+    // data fetching
+    axios
+      .get(`http://127.0.0.1:8000/TeamGetData/${logedInUserId}/`)
+      .then((response) => {
+        setTeam(response.data.team);
+      })
+      .catch((error) => {
+        console.error("Error fetching submitted data:", error);
+      });
+  }, [logedInUserId]);
 
-  const [activeContent, setActiveContent] = useState('content');
+  const [activeContent, setActiveContent] = useState("content");
 
   const toggleContent = (contentId) => {
     setActiveContent(contentId);
   };
-
 
   return (
     <>
@@ -116,9 +131,15 @@ export const Dashboard = () => {
                   <div className='col-4'>
                     <h4>User Type: {userDetails.user_type}</h4>
                   </div>
-                  <div className='col-4'>
-                    <h4>Student ID: {userDetails.student_id}</h4>
-                  </div>
+                  {userDetails.user_type == "Student" ? (
+                    <div className='col-4'>
+                      <h4>Student ID: {userDetails.student_id}</h4>
+                    </div>
+                  ) : (
+                    <div className='col-4'>
+                      <h4>Panelist ID: {userDetails.paneID}</h4>
+                    </div>
+                  )}
                 </div>
               </>
             ) : (
@@ -129,28 +150,48 @@ export const Dashboard = () => {
       </div>
 
       {/* Student dashboard */}
-      <div class="wrapper">
-        {/* sidebar */}
-        <div class="sidebar">
-  <a href="#content" class="sidebar_item" onClick={() => toggleContent('content')}>
-    Profile
-  </a>
-  <a href="#TeamDetail" class="sidebar_item" onClick={() => toggleContent('TeamDetail')}>
-    Team Members
-  </a>
-  <a href="#ideaDetail" class="sidebar_item" onClick={() => toggleContent('ideaDetail')}>Submitted Ideas</a>
-  <a href="#" class="sidebar_item">Idea Status</a>
-  <a href="#" class="sidebar_item">Logout</a>
-</div>
-
+      <div class='wrapper'>
+        <div class='sidebar'>
+          <a
+            href='#content'
+            class='sidebar_item'
+            onClick={() => toggleContent("content")}
+          >
+            Profile
+          </a>
+          <a
+            href='#TeamDetail'
+            class='sidebar_item'
+            onClick={() => toggleContent("TeamDetail")}
+          >
+            Team Members
+          </a>
+          <a
+            href='#ideaDetail'
+            class='sidebar_item'
+            onClick={() => toggleContent("ideaDetail")}
+          >
+            Submitted Ideas
+          </a>
+          <a href='#' class='sidebar_item'>
+            Idea Status
+          </a>
+          <a href='#' class='sidebar_item'>
+            Logout
+          </a>
+        </div>
 
         {/* vertical line */}
-        <div class="v1"></div>
+        <div class='v1'></div>
 
         {/* main content */}
-        <div class="main">
-          <div id='content' className={`content-section ${activeContent === 'content' ? 'active' : ''}`}>
-
+        <div class='main'>
+          <div
+            id='content'
+            className={`content-section ${
+              activeContent === "content" ? "active" : ""
+            }`}
+          >
             <h3>Student Details</h3>
 
             <div className='row'>
@@ -222,7 +263,9 @@ export const Dashboard = () => {
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
                   Country :{" "}
-                  <span style={{ color: "#f43f5e" }}>{stud.stdAddrCountry}</span>
+                  <span style={{ color: "#f43f5e" }}>
+                    {stud.stdAddrCountry}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -252,7 +295,9 @@ export const Dashboard = () => {
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
                   PassOut Year :{" "}
-                  <span style={{ color: "#f43f5e" }}>{stud.stdPassoutYear}</span>
+                  <span style={{ color: "#f43f5e" }}>
+                    {stud.stdPassoutYear}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -266,112 +311,130 @@ export const Dashboard = () => {
             </div>
           </div>
 
-
-
-
           {/* team details */}
 
-      
-        <div id='TeamDetail' className={`content-section ${activeContent === 'TeamDetail' ? 'active' : ''}`}>
-          <h3>Team Details</h3>
-          <div className='row'>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Team Name :{" "}
-                <span style={{ color: "#f43f5e" }}>{team.teamName}</span>
-              </label>
+          <div
+            id='TeamDetail'
+            className={`content-section ${
+              activeContent === "TeamDetail" ? "active" : ""
+            }`}
+          >
+            <h3>Team Details</h3>
+            <div className='row'>
+              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <label className='labelStyle'>
+                  Team Name :{" "}
+                  <span style={{ color: "#f43f5e" }}>{team.teamName}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <label className='labelStyle'>
+                  Team CEO :{" "}
+                  <span style={{ color: "#f43f5e" }}>{team.teamCEO}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <label className='labelStyle'>
+                  Team COO :{" "}
+                  <span style={{ color: "#f43f5e" }}>{team.teamCOO}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <label className='labelStyle'>
+                  Team CMO :{" "}
+                  <span style={{ color: "#f43f5e" }}>{team.teamCMO}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <label className='labelStyle'>
+                  Team CTO :{" "}
+                  <span style={{ color: "#f43f5e" }}>{team.teamCTO}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <label className='labelStyle'>
+                  Team CFO :{" "}
+                  <span style={{ color: "#f43f5e" }}>{team.teamCFO}</span>
+                </label>
+              </div>
+              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <label className='labelStyle'>
+                  Team InstiID :{" "}
+                  <span style={{ color: "#f43f5e" }}>{team.teamInstiId}</span>
+                </label>
+              </div>
             </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Team CEO :{" "}
-                <span style={{ color: "#f43f5e" }}>{team.teamCEO}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Team COO :{" "}
-                <span style={{ color: "#f43f5e" }}>{team.teamCOO}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Team CMO :{" "}
-                <span style={{ color: "#f43f5e" }}>{team.teamCMO}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Team CTO :{" "}
-                <span style={{ color: "#f43f5e" }}>{team.teamCTO}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Team CFO :{" "}
-                <span style={{ color: "#f43f5e" }}>{team.teamCFO}</span>
-              </label>
-            </div>
-            <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-              <label className='labelStyle'>
-                Team InstiID : <span style={{ color: "#f43f5e" }}>{team.teamInstiId}</span>
-              </label>
-            </div>
-           
           </div>
-        </div>
-      
-     
 
           {/* idea submission */}
-          <div id='ideaDetail'className={`content-section ${activeContent === 'ideaDetail' ? 'active' : ''}`}>
+          <div
+            id='ideaDetail'
+            className={`content-section ${
+              activeContent === "ideaDetail" ? "active" : ""
+            }`}
+          >
             <h3>Idea Details</h3>
             <div className='row'>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
-                Final Problem Statement:{" "}
-                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamFinalPS}</span>
+                  Final Problem Statement:{" "}
+                  <span style={{ color: "#f43f5e" }}>
+                    {idea.ideaTeamFinalPS}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
-                Problem Statement Domain:{" "}
-                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamDomain}</span>
+                  Problem Statement Domain:{" "}
+                  <span style={{ color: "#f43f5e" }}>
+                    {idea.ideaTeamDomain}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
-                Final Solution:{" "}
-                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamFinalSoln}</span>
+                  Final Solution:{" "}
+                  <span style={{ color: "#f43f5e" }}>
+                    {idea.ideaTeamFinalSoln}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
-                Team Offering Type:{" "}
-                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamOfferingType}</span>
+                  Team Offering Type:{" "}
+                  <span style={{ color: "#f43f5e" }}>
+                    {idea.ideaTeamOfferingType}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
-                Technical Requirements:{" "}
+                  Technical Requirements:{" "}
                   <span style={{ color: "#f43f5e" }}>{idea.TeamTechReq}</span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
-                Hardware Requirements:{" "}
-                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamHardwareReq}</span>
+                  Hardware Requirements:{" "}
+                  <span style={{ color: "#f43f5e" }}>
+                    {idea.ideaTeamHardwareReq}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
-                Non-Technical Requirements: {" "}
-                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamNonTechReq}</span>
+                  Non-Technical Requirements:{" "}
+                  <span style={{ color: "#f43f5e" }}>
+                    {idea.ideaTeamNonTechReq}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                 <label className='labelStyle'>
                   Estimated Time for implementing your idea:{" "}
-                  <span style={{ color: "#f43f5e" }}>{idea.ideaTeamProtoTime}</span>
+                  <span style={{ color: "#f43f5e" }}>
+                    {idea.ideaTeamProtoTime}
+                  </span>
                 </label>
               </div>
               <div className='col-12 col-xl-6 col-lg-6 mb-3'>
@@ -385,13 +448,9 @@ export const Dashboard = () => {
             </div>
           </div>
         </div>
-        
       </div>
-      
-      
+
       <Footer />
-      
     </>
-    
   );
 };

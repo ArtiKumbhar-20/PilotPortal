@@ -5,6 +5,11 @@ from rest_framework import status
 from authentification.models import Profile
 from .serializers import *
 from .models import *
+# Import the logging module for debugging
+# import logging
+
+# Create a logger instance
+# logger = logging.getLogger(__name__)
 
 # Student Registration with login access
 class StudentRegistration(APIView):
@@ -22,8 +27,17 @@ class StudentRegistration(APIView):
             student_group = Group.objects.get(name='Student')
             user.groups.add(student_group)
 
-            profile = Profile(user=user, student_id=student.stdID)
-            profile.save()
+            # Add debug statements to print information
+            # logger.debug(f"Student ID: {student.stdID}")
+            # logger.debug(f"User ID: {user.id}")
+            
+            try:
+                profile = Profile.objects.get(user=user)
+                profile.student_id = student.stdID
+                profile.save()
+            except Profile.DoesNotExist:
+                profile = Profile(user=user, student_id=student.stdID)
+                profile.save()
 
             student.user = user  # Link the user to the student
             student.save()
@@ -46,6 +60,17 @@ class PanelistRegistration(APIView):
             # Add the new user to the 'Panelist' group
             panelist_group = Group.objects.get(name='Panelist')
             user.groups.add(panelist_group)
+
+            try:
+                profile = Profile.objects.get(user=user)
+                profile.paneID = panelist.panelID
+                profile.save()
+            except Profile.DoesNotExist:
+                profile = Profile(user=user, paneID=panelist.panelID)
+                profile.save()
+
+            panelist.user = user  # Link the user to the panelist
+            panelist.save()
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -99,10 +124,10 @@ class IdeaSubGetDataAPIView(APIView):
         return Response(response_data)
     
 class StudentDetailView(APIView):
-    def get(self, request, loggedInUserId):
+    def get(self, request, loggedInStudId):
         try:
             # Fetching the student using the stdID
-            stud = Student.objects.get(stdID=loggedInUserId)
+            stud = Student.objects.get(stdID=loggedInStudId)
         except Student.DoesNotExist:
             return Response({'error': 'Student not found'}, status=404)
 
@@ -132,10 +157,10 @@ class StudentDetailView(APIView):
         return Response(response_data)
     
 class TeamDetailView(APIView):
-    def get(self, request, loggedInUserId):
+    def get(self, request, loggedInStudId):
         try:
             # Fetching the student using the teamID
-            team = Team.objects.get(teamID=loggedInUserId)
+            team = Team.objects.get(teamID=loggedInStudId)
         except Team.DoesNotExist:
             return Response({'error': 'Team not found'}, status=404)
 
@@ -147,8 +172,37 @@ class TeamDetailView(APIView):
                 'teamCMO': team.teamCMO,
                 'teamCTO': team.teamCTO,
                 'teamCFO': team.teamCFO,
-               
                 # Add more fields as needed
             }
         }
         return Response(response_data) 
+
+class PanelistDetailView(APIView):
+    def get(self, request, loggedInPanelId):
+        try:
+            # Fetching the student using the stdID
+            stud = Panelist.objects.get(panelID=loggedInPanelId)
+        except Panelist.DoesNotExist:
+            return Response({'error': 'Panelist not found'}, status=404)
+
+        response_data = {
+            'stud': {
+                'panelID': stud.panelID,
+                'panelistFname': stud.panelistFname,
+                'panelistLname': stud.panelistLname,
+                'panelistDOB': stud.panelistDOB,
+                'panelistGender': stud.panelistGender,
+                'panelistEmail': stud.panelistEmail,
+                'panelistMobile': stud.panelistMobile,
+                'panelistWhatsapp': stud.panelistWhatsapp,
+                'panelistAadhar': stud.panelistAadhar,
+                'panelistInstiID': stud.panelistInstiID,
+                'panelistDomain': stud.panelistDomain,
+                'panelistDegree': stud.panelistDegree,
+                'panelistDesignation': stud.panelistDesignation,
+                'panelistTotalExp': stud.panelistTotalExp,
+                'panelistIdeaEvaluated': stud.panelistIdeaEvaluated,
+                'panelistStatus': stud.panelistStatus
+            }
+        }
+        return Response(response_data)

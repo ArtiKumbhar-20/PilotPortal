@@ -6,6 +6,7 @@ class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
         fields = '__all__'
+        
 
 # Panelist Registration
 class PanelistSerializer(serializers.ModelSerializer):

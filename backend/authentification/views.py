@@ -28,8 +28,8 @@ class HomeView(APIView):
             content = {'message': 'Welcome to the Student Dashboard!', 'user_type': 'Student'}
         elif user.groups.filter(name='Panelist').exists():
             content = {'message': 'Welcome to the Panelist Dashboard!', 'user_type': 'Panelist'}
-        else:
-            content = {'message': 'Welcome to the Superadmin Dashboard!', 'user_type': 'Superadmin'}
+        # else:
+        #     content = {'message': 'Welcome to the Superadmin Dashboard!', 'user_type': 'Superadmin'}
 
         # Include the student_id from the profile
         user_details['student_id'] = profile.student_id
