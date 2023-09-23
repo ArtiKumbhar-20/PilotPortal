@@ -95,10 +95,10 @@ export const Dashboard = () => {
     <>
       <Header />
       <ContactModal />
-      <div className='section-padding container'>
+      <div className='stud_section-padding container'>
 
         {/* Dashboard header section */}
-        <div className='dashboard_header'>
+        <div className='stud_dashboard_header'>
             {userDetails ? (
               <>
                 <div className='row'>
@@ -130,21 +130,21 @@ export const Dashboard = () => {
         </div>
 
         {/* sidebar */}
-        <div class="sidebar">
-          <a href="#content" class="sidebar_item" onClick={() => toggleContent('content')}>
+        <div class="stud_sidebar">
+          <a href="#content" class="stud_sidebar_item" onClick={() => toggleContent('content')}>
             Profile
           </a>
-          <a href="#TeamDetail" class="sidebar_item" onClick={() => toggleContent('TeamDetail')}>
+          <a href="#TeamDetail" class="stud_sidebar_item" onClick={() => toggleContent('TeamDetail')}>
             Team Members
           </a>
-          <a href="#ideaDetail" class="sidebar_item" onClick={() => toggleContent('ideaDetail')}>Submitted Ideas</a>
-          <a href="#" class="sidebar_item">Idea Status</a>
-          <a href="#" class="sidebar_item">Logout</a>
+          <a href="#ideaDetail" class="stud_sidebar_item" onClick={() => toggleContent('ideaDetail')}>Submitted Ideas</a>
+          <a href="#" class="stud_sidebar_item">Idea Status</a>
+          <a href="#" class="stud_sidebar_item">Logout</a>
         </div>
 
-        <div class="wrapper">
+        <div class="stud_wrapper">
           {/* main content */}
-          <div class="main container">
+          <div class="stud_main container">
             <div id='content' className={`content-section ${activeContent === 'content' ? 'active' : ''}`}>
 
               <br />
