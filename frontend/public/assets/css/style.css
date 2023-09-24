@@ -11326,89 +11326,92 @@ only screen and (max-width: 767px) {
 }
 
 /* Student Dashboard */
-.section-padding{
+.stud_section-padding{
   display: grid;
   grid-template-columns: 20% 80%;
-  grid-template-rows: 30% 70%;
+  grid-template-rows: 25% 75%;
   height: 150vh;
   gap: 2vh;
+  margin-top: 20vh;
 }
 
 /* dashboard header */
-.dashboard_header {
-  /* background-color:  #5037D9; */
+.stud_dashboard_header {
   background-color: #624cd9;
   border-radius: 20px;
   text-align: center;
   grid-area: 1 / 1 / 2 / 3;
 }
 
-.dashboard_header .row{
+.stud_dashboard_header .row{
   margin: 5vh;
 }
 
-.dashboard_header .message{
+.stud_dashboard_header .message{
   margin-bottom: 5vh;
 }
 
-.dashboard_header .message h3{
+.stud_dashboard_header .message h3{
   color: white;
 }
 
-.dashboard_header .data h4{
+.stud_dashboard_header .data h4{
   color: white;
   margin-bottom: 2vh;
 }
 
 /* sidebar */
-.sidebar {
+.stud_sidebar {
   width: 100%;
   display: flex;
   flex-direction: column;
   grid-area: 2 / 1 / 3 / 2;
   background-color: #abc4ff;
+  height: 70vh;
+  border-radius: 20px;
+  padding: 5vh;
 }
 
-.sidebar_item {
+.stud_sidebar_item {
   justify-content: center;
   padding-top: 5vh;
   border-bottom: 1px solid #5037D9;
 }
 
-.sidebar_item:hover{
+.stud_sidebar_item:hover{
   border-bottom: 3px solid #5037D9;
 }
 
-.sidebar a {
+.stud_sidebar a {
   text-decoration: none;
   font-size: 21px;
   color: black;
 }
 
-.sidebar a:hover {
+.stud_sidebar a:hover {
   color: #1c1c1c;
   font-weight: bolder;
 }
 
 /* main content */
-.wrapper {
+.stud_wrapper {
   display: flex;
 }
 
-.main {
+.stud_main {
   /* width: 0%; */
   background-color: #cad9fc;
   overflow: scroll;
   border-radius: 20px;
-  height: 67vh;
+  height: 70vh;
   padding: 3vh;
 }
 
-.main label{
+.stud_main label{
   /* margin: 1vh; */
 }
 
-.main h3{
+.stud_main h3{
   padding-bottom: 4vh;
   color: #624cd9;
   font-weight: bold;
