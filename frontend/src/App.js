@@ -13,16 +13,11 @@ import SignUp from "./pages/SignUp";
 import Event from "./pages/Event";
 import IdeaUpdate from "./components/IdeaUpdate";
 import Idea from "./pages/Idea";
+import Quiz from "./pages/Quiz";
 
 // Login Auth
 import { Logout } from "./components/logout";
 import { Dashboard } from "./components/Dashboard";
-
-// dashboard
-import Profile from "./pages/Profile";
-import Team_mem from "./pages/Team_Mem";
-import Sub_Ideas from "./pages/Sub_Ideas";
-import Idea_Status from "./pages/Idea_Status";
 
 function App() {
   return (
@@ -41,18 +36,13 @@ function App() {
         <Route path='/IdeaEvaluation' element={<IdeaEvaluation />}></Route>
         <Route path='/CatalystForm' element={<Catalyst />}></Route>
         <Route path='/Event' element={<Event />}></Route>
-        <Route path='/Idea-Details' element={<Idea />}></Route>
+        <Route path='/Idea' element={<Idea />}></Route>
+        <Route path='/Quiz' element={<Quiz />}></Route>
 
         {/* Login Auth */}
         <Route path='/logout' element={<Logout />} />
         <Route path='/Dashboard' element={<Dashboard />}></Route>
         <Route path='/IdeaUpdate' element={<IdeaUpdate />}></Route>
-
-        {/* dashboard */}
-        <Route path='/Profile' element={<Profile/>}></Route>
-        <Route path='/Team_Mem' element={<Team_mem/>}></Route>
-        <Route path='/Sub_Ideas' element={<Sub_Ideas/>}></Route>
-        <Route path='/Idea_Status' element={<Idea_Status/>}></Route>
       </Routes>
     </BrowserRouter>
   );
