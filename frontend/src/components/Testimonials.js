@@ -56,7 +56,7 @@ export default function Testimonials() {
                     />
                   </div>
                   <div className='testimonialtwo-info'>
-                    <span className='name'>Prathmesh N.</span>
+                    <span className='name'>XYZ</span>
                     <span className='designation'>TCS, Pune</span>
                   </div>
                 </div>
@@ -95,7 +95,7 @@ export default function Testimonials() {
                     />
                   </div>
                   <div className='testimonialtwo-info'>
-                    <span className='name'>Prathmesh N.</span>
+                    <span className='name'>XYZ</span>
                     <span className='designation'>TCS, Pune</span>
                   </div>
                 </div>
@@ -134,7 +134,7 @@ export default function Testimonials() {
                     />
                   </div>
                   <div className='testimonialtwo-info'>
-                    <span className='name'>Prathmesh N.</span>
+                    <span className='name'>XYZ</span>
                     <span className='designation'>TCS, Pune</span>
                   </div>
                 </div>
