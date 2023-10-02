@@ -8,6 +8,7 @@ import Companions from "../components/Companions";
 import EventsList from "../components/EventsList";
 import Testimonials from "../components/Testimonials";
 import ContactModal from "../components/ContactModal";
+import YoutubeLink from "../components/YoutubeLink";
 
 export default class Home extends React.Component {
   render() {
@@ -18,6 +19,7 @@ export default class Home extends React.Component {
         <ContactModal />
         <AboutHome />
         <Methodology />
+        <YoutubeLink/>
         <Companions />
         <EventsList />
         <Testimonials />
