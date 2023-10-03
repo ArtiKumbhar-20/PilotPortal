@@ -60,7 +60,7 @@ function QuizPage() {
   return (
    
     <div style={{ 
-      background: 'linear-gradient(to right, #312e81,#1e40af,#1d4ed8)',
+      background: 'linear-gradient(to right, #4526b1,#8b5cf6)',
       width: '70%', 
       margin:'auto',
       marginTop:'50px',
@@ -118,15 +118,16 @@ function QuizPage() {
                   width: '100%', 
                   fontSize: '16px', 
                   color: 'white', 
-                  background: 'linear-gradient(to right, #312e81,#1e40af,#1d4ed8)',
+                  background: 'linear-gradient(to right,#8b5cf6)',
                   borderRadius: '15px', 
                   display: 'flex', 
                   padding: '5px', 
                   justifyContent: 'flex-start', 
                   alignItems: 'center', 
-                  border: '5px solid #2563eb', 
+                  border: '4px solid #94a3b8', 
                   cursor: 'pointer',
-                  marginTop:'10px' }}
+                  marginTop:'10px',
+                 }}
               >
                 {answerOption.answerText}
               </button>
