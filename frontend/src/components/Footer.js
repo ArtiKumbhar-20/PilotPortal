@@ -1,3 +1,4 @@
+import React from "react";
 function Footer() {
   return (
     <footer className='footer-wrapper-three mt-0'>
@@ -28,7 +29,10 @@ function Footer() {
                 <li>
                   <i className='fas fa-envelope'></i>{" "}
                   <span>
-                    <a href='mailto:connect@evolvingx.org' style={{ color: '#AEA7C3' }}>
+                    <a
+                      href='mailto:connect@evolvingx.org'
+                      style={{ color: "#AEA7C3" }}
+                    >
                       connect@evolvingx.org
                     </a>
                   </span>{" "}
