@@ -60,7 +60,7 @@ function QuizPage() {
   return (
    
     <div style={{ 
-      background: 'linear-gradient(to right, #4526b1,#8b5cf6)',
+      background: '#1e1b4b',
       width: '70%', 
       margin:'auto',
       marginTop:'50px',
@@ -117,14 +117,16 @@ function QuizPage() {
                 style={{ 
                   width: '100%', 
                   fontSize: '16px', 
-                  color: 'white', 
-                  background: 'linear-gradient(to right,#8b5cf6)',
+                  color: 'white',
+                  background: '#1e1b4b',
                   borderRadius: '15px', 
-                  display: 'flex', 
-                  padding: '5px', 
+                  display: 'flex',
+                  padding: '5px',
                   justifyContent: 'flex-start', 
-                  alignItems: 'center', 
-                  border: '4px solid #94a3b8', 
+                  alignItems: 'center',
+                  border: '1px solid',
+                  borderImage: 'linear-gradient(to right, #854d0e, #c7996a) 1',
+
                   cursor: 'pointer',
                   marginTop:'10px',
                  }}

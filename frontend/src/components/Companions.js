@@ -35,7 +35,7 @@ function Companions() {
           </div>
 
           <div class='break'>
-            {/* Spacing Between Corporate and Institution Partners */}
+            {}
             <br />
             <br />
             <br />
