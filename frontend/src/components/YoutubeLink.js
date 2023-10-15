@@ -11,19 +11,6 @@ function YoutubeLink() {
   const playerRef1 = React.useRef(null);
   const playerRef2 = React.useRef(null);
   return (
-    // <div className='container'>
-    //   <div className='row'>
-    //     <div className='section-title-center section-head text-left'>
-    //       <h1 className='title pb-3'>Witness Our Journey So Far...</h1>
-    //       <div className='row'>
-    //         <div className='col-3'>
-    //           <ReactPlayer ref={playerRef} url={VIDEO_PATH} controls={true} />
-    //         </div>
-    //         <hr />
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div className='container'>
       <div className='row'>
         <div
@@ -33,7 +20,7 @@ function YoutubeLink() {
         >
           <div className='section-title-center section-head text-left mb-4'>
             <span className='subtitle'>Our Story</span>
-            <h2 className='title'>Witness Our Journey So Far..</h2>
+            <h2 className='title'>Understand Our Journey So Far..</h2>
           </div>
         </div>
       </div>

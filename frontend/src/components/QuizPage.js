@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import "./Quiz.css";
 
 function QuizPage() {
   const questions = [
     {
-      questionText: 'What is the capital of France?',
+      questionText: "What is the capital of France?",
       answerOptions: [
-        { answerText: '1) New York', isCorrect: false },
-        { answerText: '2) London', isCorrect: false },
-        { answerText: '3) Paris', isCorrect: true },
-        { answerText: '4) Dublin', isCorrect: false },
+        { answerText: "1) New York", isCorrect: false },
+        { answerText: "2) London", isCorrect: false },
+        { answerText: "3) Paris", isCorrect: true },
+        { answerText: "4) Dublin", isCorrect: false },
       ],
     },
     {
-      questionText: 'Who is CEO of Tesla?',
+      questionText: "Who is CEO of Tesla?",
       answerOptions: [
-        { answerText: '1) Jeff Bezos', isCorrect: false },
-        { answerText: '2) Elon Musk', isCorrect: true },
-        { answerText: '3) Bill Gates', isCorrect: false },
-        { answerText: '4) Tony Stark', isCorrect: false },
+        { answerText: "1) Jeff Bezos", isCorrect: false },
+        { answerText: "2) Elon Musk", isCorrect: true },
+        { answerText: "3) Bill Gates", isCorrect: false },
+        { answerText: "4) Tony Stark", isCorrect: false },
       ],
     },
     {
-      questionText: 'The iPhone was created by which company?',
+      questionText: "The iPhone was created by which company?",
       answerOptions: [
-        { answerText: '1) Apple', isCorrect: true },
-        { answerText: '2) Intel', isCorrect: false },
-        { answerText: '3) Amazon', isCorrect: false },
-        { answerText: '4) Microsoft', isCorrect: false },
+        { answerText: "1) Apple", isCorrect: true },
+        { answerText: "2) Intel", isCorrect: false },
+        { answerText: "3) Amazon", isCorrect: false },
+        { answerText: "4) Microsoft", isCorrect: false },
       ],
     },
     {
-      questionText: 'How many Harry Potter books are there?',
+      questionText: "How many Harry Potter books are there?",
       answerOptions: [
-        { answerText: '1) 1', isCorrect: false },
-        { answerText: '2) 4', isCorrect: false },
-        { answerText: '3) 6', isCorrect: false },
-        { answerText: '4) 7', isCorrect: true },
+        { answerText: "1) 1", isCorrect: false },
+        { answerText: "2) 4", isCorrect: false },
+        { answerText: "3) 6", isCorrect: false },
+        { answerText: "4) 7", isCorrect: true },
       ],
     },
   ];
@@ -58,80 +59,36 @@ function QuizPage() {
   };
 
   return (
-   
-    <div style={{ 
-      background: 'linear-gradient(to right, #4526b1,#8b5cf6)',
-      width: '70%', 
-      margin:'auto',
-      marginTop:'50px',
-      marginBottom:'50px',
-      padding: '20px', 
-      borderRadius: '15px', 
-      boxShadow: '10px 10px 42px 0px rgba(0, 0, 0, 0.75)',
-      
-      }} className='app'>
-
+    <div className='app'>
       {showScore ? (
-        <div style={{ 
-          display: 'flex', 
-          fontSize: '24px', 
-          alignItems: 'center' 
-          }} className='score-section'>
+        <div className='score-section'>
           You scored {score} out of {questions.length}
         </div>
       ) : (
         <>
-          <div style={{ 
-            width: '100%', 
-          position: 'relative', 
-          marginBottom: '20px',
-          margin:'auto' 
-        }} className='question-section'>
-
-            <div style={{ 
-              marginBottom: '20px', 
-              textAlign: 'center' 
-            }} className='question-count'>
-              <span style={{ fontSize: '15px',color:'white' }}>Question {currentQuestion + 1}/{questions.length}</span>
+          <div className='question-section'>
+            <div className='question-count'>
+              Question {currentQuestion + 1}/{questions.length}
             </div>
-
-            <div style={{ 
-              marginBottom: '12px', 
-              textAlign: 'center' 
-            }} className='question-text'>
-              <span style={{ fontSize: '20px',color:'white' }}>{questions[currentQuestion].questionText}</span></div>
+            <div className='question-text title'>
+              {questions[currentQuestion].questionText}
+            </div>
           </div>
 
-          <div style={{ 
-            width: '100%', 
-            display: 'flex', 
-            flexDirection: 'column', 
-            justifyContent: 'space-between',
-            margin:'auto' 
-          }} className='answer-section'>
-            {questions[currentQuestion].answerOptions.map((answerOption, index) => (
-              
-              <button
-                key={index}
-                onClick={() => handleAnswerOptionClick(answerOption.isCorrect)}
-                style={{ 
-                  width: '100%', 
-                  fontSize: '16px', 
-                  color: 'white', 
-                  background: 'linear-gradient(to right,#8b5cf6)',
-                  borderRadius: '15px', 
-                  display: 'flex', 
-                  padding: '5px', 
-                  justifyContent: 'flex-start', 
-                  alignItems: 'center', 
-                  border: '4px solid #94a3b8', 
-                  cursor: 'pointer',
-                  marginTop:'10px',
-                 }}
-              >
-                {answerOption.answerText}
-              </button>
-            ))}
+          <div className='answer-section'>
+            {questions[currentQuestion].answerOptions.map(
+              (answerOption, index) => (
+                <button
+                  key={index}
+                  onClick={() =>
+                    handleAnswerOptionClick(answerOption.isCorrect)
+                  }
+                  className='answer-button'
+                >
+                  {answerOption.answerText}
+                </button>
+              )
+            )}
           </div>
         </>
       )}

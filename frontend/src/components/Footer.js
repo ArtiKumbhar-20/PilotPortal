@@ -13,7 +13,7 @@ function Footer() {
               <div className='logo'>
                 <a href='index.html'>
                   <img
-                    src='assets/images/logo/logo.png'
+                    src='assets/images/logo/logo-white.png'
                     alt=''
                     style={{ maxWidth: "130px" }}
                   />
