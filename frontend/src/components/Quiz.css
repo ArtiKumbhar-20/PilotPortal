@@ -1,3 +1,8 @@
+.SpaceTop {
+    margin-top: 150px;
+    /* padding-top: 100px; */
+}
+
 .app {
     background: linear-gradient(to right, #4526b1, #8b5cf6);
     width: 75%;

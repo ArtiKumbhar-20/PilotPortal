@@ -59,39 +59,41 @@ function QuizPage() {
   };
 
   return (
-    <div className='app'>
-      {showScore ? (
-        <div className='score-section'>
-          You scored {score} out of {questions.length}
-        </div>
-      ) : (
-        <>
-          <div className='question-section'>
-            <div className='question-count'>
-              Question {currentQuestion + 1}/{questions.length}
-            </div>
-            <div className='question-text title'>
-              {questions[currentQuestion].questionText}
-            </div>
+    <div className='SpaceTop'>
+      <div className='app'>
+        {showScore ? (
+          <div className='score-section'>
+            You scored {score} out of {questions.length}
           </div>
+        ) : (
+          <>
+            <div className='question-section'>
+              <div className='question-count'>
+                Question {currentQuestion + 1}/{questions.length}
+              </div>
+              <div className='question-text title'>
+                {questions[currentQuestion].questionText}
+              </div>
+            </div>
 
-          <div className='answer-section'>
-            {questions[currentQuestion].answerOptions.map(
-              (answerOption, index) => (
-                <button
-                  key={index}
-                  onClick={() =>
-                    handleAnswerOptionClick(answerOption.isCorrect)
-                  }
-                  className='answer-button'
-                >
-                  {answerOption.answerText}
-                </button>
-              )
-            )}
-          </div>
-        </>
-      )}
+            <div className='answer-section'>
+              {questions[currentQuestion].answerOptions.map(
+                (answerOption, index) => (
+                  <button
+                    key={index}
+                    onClick={() =>
+                      handleAnswerOptionClick(answerOption.isCorrect)
+                    }
+                    className='answer-button'
+                  >
+                    {answerOption.answerText}
+                  </button>
+                )
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }
