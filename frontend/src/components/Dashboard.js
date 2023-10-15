@@ -189,12 +189,12 @@ export const Dashboard = () => {
               <div className='row'>
                 <div className='col-12 col-xl-6 col-lg-6 col-sm-12 mb-3'>
                   <label className='labelStyle'>
-                    <b>Student FName :</b> <span>{stud.stdFname}</span>
+                    <b>First Name :</b> <span>{stud.stdFname}</span>
                   </label>
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 col-sm-12 mb-3'>
                   <label className='labelStyle'>
-                    <b> Student LName :</b> <span>{stud.stdLname}</span>
+                    <b> Last Name :</b> <span>{stud.stdLname}</span>
                   </label>
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 col-sm-12 mb-3'>
