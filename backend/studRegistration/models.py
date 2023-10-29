@@ -2,10 +2,30 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+
+# Team Registration   
+class Team(models.Model):
+    teamID = models.AutoField(primary_key=True)
+    teamName = models.CharField(max_length=100)
+    teamCEO = models.CharField(max_length=100)
+    teamCOO = models.CharField(max_length=100)
+    teamCMO = models.CharField(max_length=100)
+    teamCTO = models.CharField(max_length=100)
+    teamCFO = models.CharField(max_length=100)
+    teamInstiID = models.CharField(max_length=100,default='1')
+    recordCreatedOn = models.DateField(default=timezone.now)
+    recordCreatedBy = models.CharField(max_length=100, default='admin')
+    recordUpdatedOn = models.DateField(default=timezone.now)
+    recordUpdatedBy = models.CharField(max_length=100, default='admin')
+
+    def __str__(self):
+        return f"{self.teamID}"
+
+
 # Student Registration
 class Student(models.Model):
     stdID = models.AutoField(primary_key=True)
-    # stdInstiID = models.ForeignKey('Institution', on_delete=models.CASCADE)
+    teamID = models.ForeignKey(Team, on_delete=models.CASCADE)
     stdFname = models.CharField(max_length=100)
     stdLname = models.CharField(max_length=100)
     stdInstiID = models.CharField(max_length=100,default='1')
@@ -164,24 +184,6 @@ class Catalyst(models.Model):
     def __str__(self):
         return f"{self.catalystFname} {self.catalystLname} ({self.catalystID})"
     
-# Team Registration
-class Team(models.Model):
-    teamID = models.AutoField(primary_key=True)
-    # instituteID = models.ForeignKey('Institution', on_delete=models.CASCADE)
-    teamName = models.CharField(max_length=100)
-    teamCEO = models.CharField(max_length=100)
-    teamCOO = models.CharField(max_length=100)
-    teamCMO = models.CharField(max_length=100)
-    teamCTO = models.CharField(max_length=100)
-    teamCFO = models.CharField(max_length=100)
-    teamInstiID = models.CharField(max_length=100,default='1')
-    recordCreatedOn = models.DateField(default=timezone.now)
-    recordCreatedBy = models.CharField(max_length=100, default='admin')
-    recordUpdatedOn = models.DateField(default=timezone.now)
-    recordUpdatedBy = models.CharField(max_length=100, default='admin')
-
-    def __str__(self):
-        return f"{self.teamID} {self.teamName} ({self.teamInstiID})"
 
 
 

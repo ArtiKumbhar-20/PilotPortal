@@ -157,23 +157,30 @@ class StudentDetailView(APIView):
         return Response(response_data)
     
 class TeamDetailView(APIView):
-    def get(self, request):
-
-        teams = Team.objects.first()
+    def get(self, request, loggedInStudId):  
+        try:
+            student = Student.objects.get(stdID=loggedInStudId)
+            team = student.teamID 
+            if team:
+                teamDetails = {
+                    'teamID': team.teamID,
+                    'teamName': team.teamName,
+                    'teamCEO': team.teamCEO,
+                    'teamCOO': team.teamCOO,
+                    'teamCMO': team.teamCMO,
+                    'teamCTO': team.teamCTO,
+                    'teamCFO': team.teamCFO,
+                }
+            else:
+                teamDetails = {}
+        except Student.DoesNotExist:
+            return Response({'error': 'Student not found'}, status=404)
+    
         response_data = {
-            'teams': {
-                'teamName': teams.teamName,
-                'teamCEO': teams.teamCEO,
-                'teamCOO': teams.teamCOO,
-                'teamCMO': teams.teamCMO,
-                'teamCTO': teams.teamCTO,
-                'teamCFO': teams.teamCFO,
-                'teamID' : teams.teamID,
-               
-                # Add more fields as needed
-            },
+            'teams': teamDetails,
         }
-        return Response(response_data) 
+        return Response(response_data)
+
 
 class PanelistDetailView(APIView):
     def get(self, request, loggedInPanelId):
