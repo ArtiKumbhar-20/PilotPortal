@@ -10,8 +10,3 @@ class IdeaStatSerializer(serializers.ModelSerializer):
     class Meta:
         model = IdeaStat
         fields = '__all__'
-
-class IdeaEvalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = IdeaEval
-        fields = '__all__'

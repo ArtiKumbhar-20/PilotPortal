@@ -66,33 +66,3 @@ class IdeaStat(models.Model):
 
     def __str__(self):
         return f"{self.ideaStatStatus} {self.ideaStatID}"
-    
-class IdeaEval(models.Model):
-    evalID = models.AutoField(primary_key=True)
-    evalPanelistID = models.CharField(max_length=100)
-    evalTeamID = models.CharField(max_length=100)
-    evalAffordable = models.CharField(max_length=100)
-    evalSustainable = models.CharField(max_length=100)
-    evalScalable = models.CharField(max_length=100)
-    evalUniversal = models.CharField(max_length=100)
-    evalRapid = models.CharField(max_length=100)
-    evalExcellent = models.CharField(max_length=100)
-    evalDistinctive = models.CharField(max_length=100)
-    evalWow = models.CharField(max_length=100)
-    evalScopeIPs = models.CharField(max_length=100)
-    evalMarketNeed = models.CharField(max_length=100)
-    evalSupplyChain = models.CharField(max_length=100)
-    evalScopeRevenue = models.CharField(max_length=100)
-    evalCompetition = models.CharField(max_length=100)
-    evalEaseOfOperation = models.CharField(max_length=100)
-    evalBonus = models.CharField(max_length=100)
-    evalRecommendedToIncu = models.CharField(max_length=100)
-    evalAreaOfImprov = models.CharField(max_length=100)
-    evalOverallFeedback = models.CharField(max_length=100)
-    recordCreatedOn = models.DateField(default=timezone.now)
-    recordCreatedBy = models.CharField(max_length=100, default='admin')
-    recordUpdatedOn = models.DateField(default=timezone.now)
-    recordUpdatedBy = models.CharField(max_length=100, default='admin')
-
-    def __str__(self):
-        return f"{self.evalID} {self.evalPanelistID}"

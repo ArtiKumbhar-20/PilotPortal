@@ -1,3 +1,4 @@
+import React from "react";
 function Companions() {
   return (
     <div className='service-section service-three pt-0 section-padding'>
@@ -32,13 +33,14 @@ function Companions() {
               alt='Bosch logo'
             />
           </div>
-                
-          <div class='break'> // Spacing Between Corporate and Institution Partners
-            <br/>
-            <br/>
-            <br/>
+
+          <div class='break'>
+            {}
+            <br />
+            <br />
+            <br />
           </div>
-                
+
           <div className='col-12 text-center'>
             <h2 className='pb-3'>Institution Partners</h2>
             <img

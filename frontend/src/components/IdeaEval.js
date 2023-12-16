@@ -647,7 +647,6 @@ export const IdeaEval = () => {
                   <label className='labelStyle'> Ease of Operation</label>
                   <select
                   className={
-                    "form-select " +
                     (formErrors.evalEaseOfOperation ? "is-invalid" : "")
                   }
                     name={evalEaseOfOperation}
@@ -660,9 +659,6 @@ export const IdeaEval = () => {
                       }));
                     }}
                   >
-                    <option selected disabled>
-                      Select
-                    </option>
                     <option value='1'>Yes</option>
                     <option value='2'> No </option>
                   </select>

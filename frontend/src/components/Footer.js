@@ -1,3 +1,4 @@
+import React from "react";
 function Footer() {
   return (
     <footer className='footer-wrapper-three mt-0'>
@@ -12,7 +13,7 @@ function Footer() {
               <div className='logo'>
                 <a href='index.html'>
                   <img
-                    src='assets/images/logo/logo.png'
+                    src='assets/images/logo/logo-white.png'
                     alt=''
                     style={{ maxWidth: "130px" }}
                   />
@@ -28,7 +29,10 @@ function Footer() {
                 <li>
                   <i className='fas fa-envelope'></i>{" "}
                   <span>
-                    <a href='mailto:connect@evolvingx.org' style={{ color: '#AEA7C3' }}>
+                    <a
+                      href='mailto:connect@evolvingx.org'
+                      style={{ color: "#AEA7C3" }}
+                    >
                       connect@evolvingx.org
                     </a>
                   </span>{" "}

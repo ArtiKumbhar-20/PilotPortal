@@ -24,12 +24,3 @@ class IdeaStatAdmin(admin.ModelAdmin):
         'ideaStatIPRTradeSecrets','ideaStatProto','ideaStatTeamPlacement','ideaStatIncorpStatus',
         'ideaStatEmploybilitySkilling','recordCreatedOn','recordCreatedBy','recordUpdatedOn','recordUpdatedBy'
     )
-
-@admin.register(IdeaEval)
-class IdeaEvalAdmin(admin.ModelAdmin):
-    list_display = (
-        'evalPanelistID', 'evalTeamID', 'evalAffordable','evalSustainable','evalScalable','evalUniversal',
-        'evalRapid','evalExcellent','evalDistinctive','evalWow','evalScopeIPs','evalMarketNeed','evalSupplyChain',
-        'evalScopeRevenue','evalCompetition','evalEaseOfOperation','evalBonus','evalRecommendedToIncu',
-        'evalAreaOfImprov','evalOverallFeedback'
-)

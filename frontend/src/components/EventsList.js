@@ -1,6 +1,6 @@
 // import React from "react";
 // import { Link } from "react-router-dom";
-
+import React from "react";
 export default function EventsList() {
   return (
     <div className='service-section service-three pt-0 section-padding'>

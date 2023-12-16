@@ -1,3 +1,4 @@
+import React from "react";
 function AboutHome() {
   return (
     <>
@@ -35,22 +36,22 @@ function AboutHome() {
               </p>
               <h2 className='mb-4'>DOMAINS</h2>
               <div className='row'>
-                <div className='col-md-4'>
+                <div className='col-md-12'>
                   <img
-                    src='assets/images/SDGs.png'
+                    src='assets/images/about1.png'
                     alt='Domain 1'
                     className='img-fluid'
-                    style={{ height: "100px" }}
+                    style={{ width: "75%" }}
                   />
                 </div>
-                <div className='col-md-6'>
+                {/* <div className='col-md-6'>
                   <img
                     src='assets/images/image.png'
                     alt='Domain 2'
                     className='img-fluid'
                     style={{ height: "100px" }}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
             <div className='CounterBg right-partition col-lg-5 col-md-12'>

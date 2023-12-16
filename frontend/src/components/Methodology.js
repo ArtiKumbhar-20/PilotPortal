@@ -1,3 +1,4 @@
+import React from "react";
 export default function Methodology() {
   return (
     <div className='service-section service-three pt-0 section-padding'>
