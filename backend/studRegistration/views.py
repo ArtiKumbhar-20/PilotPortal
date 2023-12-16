@@ -5,6 +5,7 @@ from rest_framework import status
 from authentification.models import Profile
 from .serializers import *
 from .models import *
+from django.http import JsonResponse
 # Import the logging module for debugging
 # import logging
 
@@ -13,37 +14,53 @@ from .models import *
 
 # Student Registration with login access
 class StudentRegistration(APIView):
-    def post(self, request):
-        serializer = StudentSerializer(data=request.data)
-        if serializer.is_valid():
-            student = serializer.save()
+    def get(self, request, pk):
+        try:
+            student = Student.objects.get(pk=pk)
+            student_serializer = StudentSerializer(student)
+            # Manually serialize the Institute object
+            institute_serializer = InstituteSerializer(student.stdInstiID)
+            response_data = {
+                "stud": student_serializer.data,
+                "institute": institute_serializer.data
+            }
+            return Response(response_data, status=status.HTTP_200_OK)
+        except Student.DoesNotExist:
+            return Response({"error": "Student not found"}, status=status.HTTP_404_NOT_FOUND)
 
-            # Create a new user for the student with a default password
-            user = User(username=student.stdEmail, email=student.stdEmail, first_name=student.stdFname, last_name=student.stdLname)
-            user.set_password("admin@123")  # Set the default password
-            user.save()
+# Backup 'StudentRegistration'below
+# class StudentRegistration(APIView):
+#     def post(self, request):
+#         serializer = StudentSerializer(data=request.data)
+#         if serializer.is_valid():
+#             student = serializer.save()
 
-            # Add the new user to the 'Student' group
-            student_group = Group.objects.get(name='Student')
-            user.groups.add(student_group)
+#             # Create a new user for the student with a default password
+#             user = User(username=student.stdEmail, email=student.stdEmail, first_name=student.stdFname, last_name=student.stdLname)
+#             user.set_password("admin@123")  # Set the default password
+#             user.save()
 
-            # Add debug statements to print information
-            # logger.debug(f"Student ID: {student.stdID}")
-            # logger.debug(f"User ID: {user.id}")
+#             # Add the new user to the 'Student' group
+#             student_group = Group.objects.get(name='Student')
+#             user.groups.add(student_group)
+
+#             # Add debug statements to print information
+#             # logger.debug(f"Student ID: {student.stdID}")
+#             # logger.debug(f"User ID: {user.id}")
             
-            try:
-                profile = Profile.objects.get(user=user)
-                profile.student_id = student.stdID
-                profile.save()
-            except Profile.DoesNotExist:
-                profile = Profile(user=user, student_id=student.stdID)
-                profile.save()
+#             try:
+#                 profile = Profile.objects.get(user=user)
+#                 profile.student_id = student.stdID
+#                 profile.save()
+#             except Profile.DoesNotExist:
+#                 profile = Profile(user=user, student_id=student.stdID)
+#                 profile.save()
 
-            student.user = user  # Link the user to the student
-            student.save()
+#             student.user = user  # Link the user to the student
+#             student.save()
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Panelist Registration
 class PanelistRegistration(APIView):
@@ -157,23 +174,30 @@ class StudentDetailView(APIView):
         return Response(response_data)
     
 class TeamDetailView(APIView):
-    def get(self, request):
-
-        teams = Team.objects.first()
+    def get(self, request, loggedInStudId):  
+        try:
+            student = Student.objects.get(stdID=loggedInStudId)
+            team = student.teamID 
+            if team:
+                teamDetails = {
+                    'teamID': team.teamID,
+                    'teamName': team.teamName,
+                    'teamCEO': team.teamCEO,
+                    'teamCOO': team.teamCOO,
+                    'teamCMO': team.teamCMO,
+                    'teamCTO': team.teamCTO,
+                    'teamCFO': team.teamCFO,
+                }
+            else:
+                teamDetails = {}
+        except Student.DoesNotExist:
+            return Response({'error': 'Student not found'}, status=404)
+    
         response_data = {
-            'teams': {
-                'teamName': teams.teamName,
-                'teamCEO': teams.teamCEO,
-                'teamCOO': teams.teamCOO,
-                'teamCMO': teams.teamCMO,
-                'teamCTO': teams.teamCTO,
-                'teamCFO': teams.teamCFO,
-                'teamID' : teams.teamID,
-               
-                # Add more fields as needed
-            },
+            'teams': teamDetails,
         }
-        return Response(response_data) 
+        return Response(response_data)
+
 
 class PanelistDetailView(APIView):
     def get(self, request, loggedInPanelId):

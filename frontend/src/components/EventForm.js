@@ -390,16 +390,20 @@ export const EventForm = () => {
                   <label className='labelStyle'>First Name</label>
                   <input
                     type='name'
+                    className={
+                      "form-control " +
+                      (formErrors.eventSPOCFname ? "is-invalid" : "")
+                    }
+                    placeholder='First Name'
+                    name={eventSPOCFname}
                     onChange={(e) => {
                       const value = e.target.value;
                       seteventSPOCFname(value);
                       setFormErrors((prevErrors) => ({
                         ...prevErrors,
-                        seteventSPOCFname: validateRequired(value),
+                        eventSPOCEmail: validateRequired(value),
                       }));
                     }}
-                    aria-describedby='emailHelp'
-                    placeholder='First Name'
                   />
                   {formErrors.eventSPOCFname && (
                     <div className='invalid-feedback'>
@@ -411,16 +415,20 @@ export const EventForm = () => {
                   <label className='labelStyle'>Last Name</label>
                   <input
                     type='name'
+                    className={
+                      "form-control " +
+                      (formErrors.eventSPOCLname ? "is-invalid" : "")
+                    }
+                    placeholder='Last Name'
+                    name={eventSPOCLname}
                     onChange={(e) => {
                       const value = e.target.value;
                       seteventSPOCLname(value);
                       setFormErrors((prevErrors) => ({
                         ...prevErrors,
-                        seteventSPOCLname: validateRequired(value),
+                        eventSPOCLname: validateRequired(value),
                       }));
                     }}
-                    aria-describedby='emailHelp'
-                    placeholder='Last Name'
                   />
                   {formErrors.eventSPOCLname && (
                     <div className='invalid-feedback'>
@@ -552,7 +560,7 @@ export const EventForm = () => {
                       marginRight: 12,
                       width: 20,
                     }}
-                    required
+              
                   />
 
                   {/* Terms and Conditions  */}

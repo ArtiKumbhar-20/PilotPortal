@@ -10,6 +10,7 @@ urlpatterns = [
     path('team_register/', TeamRegistration.as_view(), name='team-registration'),
     path('IdeaSubGetData/', IdeaSubGetDataAPIView.as_view(), name='ideaSubGetData'),
     path('StudGetData/<int:loggedInStudId>/', StudentDetailView.as_view(),name='student-detail'),
-    path('TeamInfo/', TeamDetailView.as_view(),name='team-detail'),
+    path('TeamInfo/<int:loggedInStudId>/', TeamDetailView.as_view(),name='team-detail'),
+    path('login/<int:student_id>/', TeamDetailView.as_view(), name='login_view'),
     path('PanelGetData/<int:loggedInPanelId>/', PanelistDetailView.as_view(),name='panelist-detail'),
 ]

@@ -11,7 +11,7 @@ import config from "./config";
 const apiUrl = `${config.backendUrl}/catalyst_register/`; // Construct Backend API URL
 
 export const CatalystForm = () => {
-  // const [catalystInstiID, setCatalystInstiID] = useState("");
+  const [catalystInstiID, setCatalystInstiID] = useState("");
   const [catalystFname, setCatalystFname] = useState("");
   const [catalystLname, setCatalystLname] = useState("");
   const [catalystEmail, setCatalystEmail] = useState("");
@@ -34,7 +34,7 @@ export const CatalystForm = () => {
   const [catalystState, setCatalystState] = useState("");
   const [catalystCountry, setCatalystCountry] = useState("");
   const [catalystBelongsTo, setCatalystBelongsTo] = useState("");
-  const [catalystInstiName, setCatalystInstiName] = useState("");
+  // const [catalystInstiName, setCatalystInstiName] = useState("");
   const [catalystType, setCatalystType] = useState("");
 
   // State to hold form field errors
@@ -49,7 +49,6 @@ export const CatalystForm = () => {
     catalystYear: "",
     catalystStreamBranch: "",
     catalystGender: "",
-    //catalystType
     catalystDOB: "",
     catalystTriedStartupBefore: "",
     catalystFamilyBackground: "",
@@ -63,7 +62,8 @@ export const CatalystForm = () => {
     catalystState: "",
     catalystCountry: "",
     catalystBelongsTo: "",
-    catalystInstiName: "",
+    // catalystInstiName: "",
+    catalystInstiID: "",
     catalystType: "",
   });
 
@@ -96,7 +96,8 @@ export const CatalystForm = () => {
       catalystState: validateRequired(catalystState),
       catalystCountry: validateRequired(catalystCountry),
       catalystBelongsTo: validateRequired(catalystBelongsTo),
-      catalystInstiName: validateRequired(catalystInstiName),
+      // catalystInstiName: validateRequired(catalystInstiName),
+      catalystInstiID: validateRequired(catalystInstiID),
       catalystType: validateRequired(catalystType),
     };
     // Step 4: For Validation : Will Not Change
@@ -108,7 +109,7 @@ export const CatalystForm = () => {
         method: "post",
         url: apiUrl,
         data: {
-          // catalystInstiID,
+          catalystInstiID,
           catalystFname,
           catalystLname,
           catalystEmail,
@@ -130,7 +131,7 @@ export const CatalystForm = () => {
           catalystState,
           catalystCountry,
           catalystBelongsTo,
-          catalystInstiName,
+          // catalystInstiName,
           catalystType,
         },
       }).then((response) => {
@@ -762,15 +763,15 @@ export const CatalystForm = () => {
                   <select
                     className={
                       "form-select " +
-                      (formErrors.catalystInstiName ? "is-invalid" : "")
+                      (formErrors.catalystInstiID ? "is-invalid" : "")
                     }
-                    name={catalystInstiName}
+                    name={catalystInstiID}
                     onChange={(e) => {
                       const value = e.target.value;
-                      setCatalystInstiName(value);
+                      setCatalystInstiID(value);
                       setFormErrors((prevErrors) => ({
                         ...prevErrors,
-                        catalystInstiName: validateRequired(value),
+                        catalystInstiID: validateRequired(value),
                       }));
                     }}
                   >
@@ -780,9 +781,9 @@ export const CatalystForm = () => {
                     <option value='1'>ABC</option>
                     <option value='2'>XYZ</option>
                   </select>
-                  {formErrors.catalystInstiName && (
+                  {formErrors.catalystInstiID && (
                     <div className='invalid-feedback'>
-                      {formErrors.catalystInstiName}
+                      {formErrors.catalystInstiID}
                     </div>
                   )}
                 </div>

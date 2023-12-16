@@ -6,7 +6,7 @@ from .models import *
 @admin.register(Student)
 class StudAdmin(admin.ModelAdmin):
     list_display = (
-        'stdID', 'stdFname', 'stdLname', 'stdInstiID', 'stdEmail',
+        'stdID', 'stdFname', 'stdLname', 'stdInstiID','teamID', 'stdEmail',
         'stdMobile', 'stdWhatsapp', 'stdPassoutYear', 'stdStream',
         'stdBranch', 'stdGender', 'stdDOB', 'stdTriedStartupBefore',
         'stdFamBackground', 'stdParentSupport', 'stdEBC', 'stdEduLoan',
@@ -50,13 +50,11 @@ class IncuAdmin(admin.ModelAdmin):
 class CatalystAdmin(admin.ModelAdmin):
     list_display = (
         'catalystID', 'catalystFname', 'catalystLname',
-        'catalystEmail', 'catalystMobile', 'catalystWhatsapp', 'catalystYear',
+        'catalystEmail', 'catalystMobile', 'catalystWhatsapp', 'catalystType', 'catalystInstiID','catalystYear',
         'catalystStreamBranch', 'catalystGender', 'catalystDOB', 'catalystTriedStartupBefore',
         'catalystFamilyBackground', 'catalystEBC', 'catalystAadhar', 'catalystAddress',
         'catalystPin', 'catalystCity', 'catalystTaluka', 'catalystDist', 'catalystState',
-        'catalystCountry', 'catalystBelongsTo',  'recordCreatedBy',
-
-        'recordUpdatedOn', 'recordUpdatedBy','catalystType'
+        'catalystCountry', 'catalystBelongsTo',  'recordCreatedBy','recordUpdatedOn', 'recordUpdatedBy'
     )
 
 

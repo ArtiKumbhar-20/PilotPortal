@@ -2,13 +2,68 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+
+# Institute Registration
+class Institute(models.Model):
+    instID = models.AutoField(primary_key=True)
+    instName = models.CharField(max_length=100)
+    instType = models.CharField(max_length=100)
+    instStream = models.CharField(max_length=100)
+    instNoOfStudents = models.CharField(max_length=100)
+    instAddress = models.CharField(max_length=100)
+    instPin = models.CharField(max_length=100)
+    instCity = models.CharField(max_length=100)
+    instTaluka = models.CharField(max_length=100)
+    instDist = models.CharField(max_length=100)
+    instState = models.CharField(max_length=100)
+    instCountry = models.CharField(max_length=100)
+    instSPOCFname = models.CharField(max_length=100)
+    instSPOCLname = models.CharField(max_length=100)
+    instSPOCEmail = models.EmailField()
+    instSPOCMobile = models.CharField(max_length=10)
+    instSPOCWhatsapp = models.CharField(max_length=10)
+    instSPOCWeb = models.TextField()
+    instIncubator = models.CharField(max_length=100,default='no')
+    instEDC = models.CharField(max_length=100,default='no')
+    instIIC = models.CharField(max_length=100,default='no')
+    instARIIA = models.CharField(max_length=100)
+    instNIRF = models.CharField(max_length=100)
+    instNAAC = models.CharField(max_length=100)
+    instNBA = models.CharField(max_length=100)
+    recordCreatedOn = models.DateField(default=timezone.now)
+    recordCreatedBy = models.CharField(max_length=100, default='admin')
+    recordUpdatedOn = models.DateField(default=timezone.now)
+    recordUpdatedBy = models.CharField(max_length=100, default='admin')
+
+    def __str__(self):
+        return f"{self.instID}"  
+    
+# Team Registration   
+class Team(models.Model):
+    teamID = models.AutoField(primary_key=True)
+    teamName = models.CharField(max_length=100)
+    teamCEO = models.CharField(max_length=100)
+    teamCOO = models.CharField(max_length=100)
+    teamCMO = models.CharField(max_length=100)
+    teamCTO = models.CharField(max_length=100)
+    teamCFO = models.CharField(max_length=100)
+    teamInstiID = models.ForeignKey(Institute, on_delete=models.CASCADE)
+    recordCreatedOn = models.DateField(default=timezone.now)
+    recordCreatedBy = models.CharField(max_length=100, default='admin')
+    recordUpdatedOn = models.DateField(default=timezone.now)
+    recordUpdatedBy = models.CharField(max_length=100, default='admin')
+
+    def __str__(self):
+        return f"{self.teamID}"
+
 # Student Registration
 class Student(models.Model):
     stdID = models.AutoField(primary_key=True)
-    # stdInstiID = models.ForeignKey('Institution', on_delete=models.CASCADE)
+    teamID = models.ForeignKey(Team, on_delete=models.CASCADE)
     stdFname = models.CharField(max_length=100)
     stdLname = models.CharField(max_length=100)
-    stdInstiID = models.CharField(max_length=100,default='1')
+    stdInstiID = models.ForeignKey(Institute, on_delete=models.CASCADE)
+    # stdInstiID = models.CharField(max_length=100,default='1')
     stdEmail = models.EmailField()
     stdMobile = models.CharField(max_length=10)
     stdWhatsapp = models.CharField(max_length=10)
@@ -50,8 +105,8 @@ class Panelist(models.Model):
     panelistMobile = models.CharField(max_length=10)
     panelistWhatsapp = models.CharField(max_length=10)
     panelistAadhar = models.CharField(max_length=14)
-    panelistInstiID = models.CharField(max_length=100)
-    # panelistInstiID = models.ForeignKey('Institution', on_delete=models.CASCADE)
+    # panelistInstiID = models.CharField(max_length=100)
+    panelistInstiID = models.ForeignKey('Institute', on_delete=models.CASCADE)
     panelistDomain = models.CharField(max_length=100)
     panelistDegree = models.CharField(max_length=100)
     panelistDesignation = models.CharField(max_length=100)
@@ -65,42 +120,7 @@ class Panelist(models.Model):
 
     def __str__(self):
         return f"{self.panelistFname} {self.panelistLname} ({self.panelID})"
-
-# Institute Registration
-class Institute(models.Model):
-    instID = models.AutoField(primary_key=True)
-    instName = models.CharField(max_length=100)
-    instType = models.CharField(max_length=100)
-    instStream = models.CharField(max_length=100)
-    instNoOfStudents = models.CharField(max_length=100)
-    instAddress = models.CharField(max_length=100)
-    instPin = models.CharField(max_length=100)
-    instCity = models.CharField(max_length=100)
-    instTaluka = models.CharField(max_length=100)
-    instDist = models.CharField(max_length=100)
-    instState = models.CharField(max_length=100)
-    instCountry = models.CharField(max_length=100)
-    instSPOCFname = models.CharField(max_length=100)
-    instSPOCLname = models.CharField(max_length=100)
-    instSPOCEmail = models.EmailField()
-    instSPOCMobile = models.CharField(max_length=10)
-    instSPOCWhatsapp = models.CharField(max_length=10)
-    instSPOCWeb = models.TextField()
-    instIncubator = models.CharField(max_length=100,default='no')
-    instEDC = models.CharField(max_length=100,default='no')
-    instIIC = models.CharField(max_length=100,default='no')
-    instARIIA = models.CharField(max_length=100)
-    instNIRF = models.CharField(max_length=100)
-    instNAAC = models.CharField(max_length=100)
-    instNBA = models.CharField(max_length=100)
-    recordCreatedOn = models.DateField(default=timezone.now)
-    recordCreatedBy = models.CharField(max_length=100, default='admin')
-    recordUpdatedOn = models.DateField(default=timezone.now)
-    recordUpdatedBy = models.CharField(max_length=100, default='admin')
-
-    def __str__(self):
-        return f"{self.instName} {self.instType} ({self.instID})"        
-
+      
 # Incubators Registration
 class Incubators(models.Model):
     incuID = models.AutoField(primary_key=True)
@@ -132,7 +152,7 @@ class Incubators(models.Model):
 #Catalyst form
 class Catalyst(models.Model):
     catalystID = models.AutoField(primary_key=True)
-    # catalystInstiID = models.ForeignKey('Institution', on_delete=models.CASCADE)  
+    catalystInstiID = models.ForeignKey('Institute', on_delete=models.CASCADE)
     catalystFname = models.CharField(max_length=100)
     catalystLname  = models.CharField(max_length=100)
     catalystEmail = models.EmailField()
@@ -164,24 +184,6 @@ class Catalyst(models.Model):
     def __str__(self):
         return f"{self.catalystFname} {self.catalystLname} ({self.catalystID})"
     
-# Team Registration
-class Team(models.Model):
-    teamID = models.AutoField(primary_key=True)
-    # instituteID = models.ForeignKey('Institution', on_delete=models.CASCADE)
-    teamName = models.CharField(max_length=100)
-    teamCEO = models.CharField(max_length=100)
-    teamCOO = models.CharField(max_length=100)
-    teamCMO = models.CharField(max_length=100)
-    teamCTO = models.CharField(max_length=100)
-    teamCFO = models.CharField(max_length=100)
-    teamInstiID = models.CharField(max_length=100,default='1')
-    recordCreatedOn = models.DateField(default=timezone.now)
-    recordCreatedBy = models.CharField(max_length=100, default='admin')
-    recordUpdatedOn = models.DateField(default=timezone.now)
-    recordUpdatedBy = models.CharField(max_length=100, default='admin')
-
-    def __str__(self):
-        return f"{self.teamID} {self.teamName} ({self.teamInstiID})"
 
 
 
