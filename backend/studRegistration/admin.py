@@ -50,13 +50,11 @@ class IncuAdmin(admin.ModelAdmin):
 class CatalystAdmin(admin.ModelAdmin):
     list_display = (
         'catalystID', 'catalystFname', 'catalystLname',
-        'catalystEmail', 'catalystMobile', 'catalystWhatsapp', 'catalystYear',
+        'catalystEmail', 'catalystMobile', 'catalystWhatsapp', 'catalystType', 'catalystInstiID','catalystYear',
         'catalystStreamBranch', 'catalystGender', 'catalystDOB', 'catalystTriedStartupBefore',
         'catalystFamilyBackground', 'catalystEBC', 'catalystAadhar', 'catalystAddress',
         'catalystPin', 'catalystCity', 'catalystTaluka', 'catalystDist', 'catalystState',
-        'catalystCountry', 'catalystBelongsTo',  'recordCreatedBy',
-
-        'recordUpdatedOn', 'recordUpdatedBy','catalystType'
+        'catalystCountry', 'catalystBelongsTo',  'recordCreatedBy','recordUpdatedOn', 'recordUpdatedBy'
     )
 
 

@@ -1,8 +1,17 @@
 from rest_framework import serializers
 from .models import *
 
+
+# Institute Form
+class InstituteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Institute   
+        fields = '__all__'
+
 # Student Registration
 class StudentSerializer(serializers.ModelSerializer):
+    stdInstiID = serializers.PrimaryKeyRelatedField(queryset=Institute.objects.all())
+    institute = serializers.PrimaryKeyRelatedField(queryset=Institute.objects.all())
     class Meta:
         model = Student
         fields = '__all__'
@@ -11,12 +20,6 @@ class StudentSerializer(serializers.ModelSerializer):
 class PanelistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Panelist
-        fields = '__all__'
-
-# Institute Form
-class InstituteSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Institute
         fields = '__all__'
 
 # Incubators Registration
