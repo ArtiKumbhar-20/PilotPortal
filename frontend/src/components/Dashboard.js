@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Header from "../components/Header";
-import { Link } from "react-router-dom";
 import ContactModal from "../components/ContactModal";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
@@ -11,14 +10,7 @@ import config from "./config";
 const apiUrl = `${config.backendUrl}/dashboard/`; // Construct Backend API URL
 
 export const Dashboard = () => {
-  const scrollToSection = (e, sectionId) => {
-    e.preventDefault(); // Prevent default anchor link behavior
-    const section = document.getElementById(sectionId);
 
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
   const [userDetails, setUserDetails] = useState({});
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
@@ -48,7 +40,7 @@ export const Dashboard = () => {
   const loggedInStudId = userDetails.student_id;
   const loggedInPanelId = userDetails.paneID;
   useEffect(() => {
-    if (userDetails.user_type == "Student") {
+    if (userDetails.user_type === "Student") {
       // student data fetching
       axios
         .get(`${config.backendUrl}/StudGetData/${loggedInStudId}/`)
@@ -102,11 +94,6 @@ export const Dashboard = () => {
       });
   }, [loggedInStudId]);
 
-  const [activeContent, setActiveContent] = useState("content");
-
-  const toggleContent = (contentId) => {
-    setActiveContent(contentId);
-  };
 
   const [activeSection, setActiveSection] = useState("profile"); // Default active section
 
