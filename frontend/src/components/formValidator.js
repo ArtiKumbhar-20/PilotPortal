@@ -68,3 +68,14 @@ export const validatePincode = (pincode) => {
   }
   return "";
 };
+
+// Pincode Validator
+export const validatePassYear = (value) => {
+  const valueRegex = /^\d{4}$/;
+  if (!value) {
+    return "This field is required";
+  } else if (!valueRegex.test(value)) {
+    return "Invalid Passout Year format";
+  }
+  return "";
+};
