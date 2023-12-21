@@ -1,11 +1,12 @@
 import React from "react";
 import Header from "../components/Header";
 import Breadcrumb from "../components/Breadcrumb";
-import IdeaEval from "../components/IdeaEval";
+import {IdeaEval} from "../components/IdeaEval";
 import Footer from "../components/Footer";
 import ContactModal from "../components/ContactModal";
 
-function IdeaEvaluation() {
+export default class IdeaEvaluation extends React.Component{
+  render(){
   return (
     <>
       <Header />
@@ -19,5 +20,5 @@ function IdeaEvaluation() {
     </>
   );
 }
+}
 
-export default IdeaEvaluation;

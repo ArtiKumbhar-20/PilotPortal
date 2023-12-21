@@ -52,6 +52,8 @@ export const PanelistForm = () => {
     const newFormErrors = {
       panelistFname: validateRequired(panelistFname),
       panelistLname: validateRequired(panelistLname),
+      panelistDOB: validateRequired(panelistDOB),
+      panelistGender: validateRequired(panelistGender),
       panelistEmail: validateEmail(panelistEmail),
       panelistMobile: validateRequired(panelistMobile),
       panelistWhatsapp: validateRequired(panelistWhatsapp),

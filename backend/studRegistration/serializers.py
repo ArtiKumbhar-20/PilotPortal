@@ -10,8 +10,9 @@ class InstituteSerializer(serializers.ModelSerializer):
 
 # Student Registration
 class StudentSerializer(serializers.ModelSerializer):
-    stdInstiID = serializers.PrimaryKeyRelatedField(queryset=Institute.objects.all())
-    institute = serializers.PrimaryKeyRelatedField(queryset=Institute.objects.all())
+    # stdInstiID = serializers.PrimaryKeyRelatedField(queryset=Institute.objects.all())
+    # institute = serializers.PrimaryKeyRelatedField(queryset=Institute.objects.all())
+    # institute = InstituteSerializer()
     class Meta:
         model = Student
         fields = '__all__'
