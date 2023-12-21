@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import {
   validateRequired,
@@ -13,6 +13,17 @@ const apiUrl = `${config.backendUrl}/register/`; // Construct Backend API URL
 
 // Step 1: For Validation
 export const Sign = () => {
+
+  // Fetch Institute List from backend
+  const [institutes, setInstitutes] = useState([]);
+  useEffect(() => {
+    fetch(`${config.backendUrl}/getInstitutesList/`)  // Adjust the URL as per your Django server
+      .then(response => response.json())
+      .then(data => setInstitutes(data.institutes))
+      .catch(error => console.error('Error fetching institutes:', error));
+  }, []);
+
+  // Form Validation Start
   const [loading, setLoading] = useState(false);
   const [stdFname, setStdFname] = useState("");
   const [stdLname, setStdLname] = useState("");
@@ -140,6 +151,7 @@ export const Sign = () => {
 
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
+        studentForm.current.reset();
       } catch (error) {
         console.error("Error submitting form:", error);
       } finally {
@@ -741,8 +753,11 @@ export const Sign = () => {
                     <option selected disabled>
                       Select Institute
                     </option>
-                    <option value='1'>Option1</option>
-                    <option value='2'>Option2</option>
+                    {institutes.map((institute, index) => (
+                      <option key={index} value={institute.instID}>
+                        {institute.instName}
+                      </option>
+                    ))}
                   </select>
                   {formErrors.stdInstiID && (
                     <div className='invalid-feedback'>

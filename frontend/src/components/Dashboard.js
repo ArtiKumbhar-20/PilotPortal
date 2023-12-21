@@ -11,6 +11,22 @@ const apiUrl = `${config.backendUrl}/dashboard/`; // Construct Backend API URL
 
 export const Dashboard = () => {
 
+  // To change the value of inputs to edit
+  const handleInputChange = (field, value) => {
+    setStud({
+      ...stud,
+      [field]: value,
+    });
+  };
+
+  // To change the value of inputs to edit
+  const handleTeamInputChange = (field, value) => {
+    setTeams({
+      ...teams,
+      [field]: value,
+    });
+  };
+
   const [userDetails, setUserDetails] = useState({});
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
@@ -40,7 +56,7 @@ export const Dashboard = () => {
   const loggedInStudId = userDetails.student_id;
   const loggedInPanelId = userDetails.paneID;
   useEffect(() => {
-    if (userDetails.user_type === "Student") {
+    if (userDetails.user_type == "Student") {
       // student data fetching
       axios
         .get(`${config.backendUrl}/StudGetData/${loggedInStudId}/`)
@@ -213,7 +229,7 @@ export const Dashboard = () => {
             >
               {activeSection === "profile" && (
                 <div className='section-content'>
-                  <h3 className='pb-3'>Student Details</h3>
+                  <h3 className='pb-3 borderBottom-2px'>Student Details</h3>
                   <form>
                     <div className='row'>
                       <div className='col-12 col-xl-4 col-lg-4 mb-2'>
@@ -225,6 +241,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your name'
                             value={stud.stdFname}
+                            onChange={(e) => handleInputChange('stdFname', e.target.value)}
                           />
                         </div>
                       </div>
@@ -237,6 +254,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your name'
                             value={stud.stdLname}
+                            onChange={(e) => handleInputChange('stdLname', e.target.value)}
                           />
                         </div>
                       </div>
@@ -249,6 +267,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Date of Birth'
                             value={stud.stdDOB}
+                            onChange={(e) => handleInputChange('stdDOB', e.target.value)}
                           />
                         </div>
                       </div>
@@ -261,6 +280,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your gender'
                             value={stud.stdGender}
+                            onChange={(e) => handleInputChange('stdGender', e.target.value)}
                           />
                         </div>
                       </div>
@@ -273,6 +293,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your gender'
                             value={stud.stdMobile}
+                            onChange={(e) => handleInputChange('stdMobile', e.target.value)}
                           />
                         </div>
                       </div>
@@ -285,6 +306,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your gender'
                             value={stud.stdWhatsapp}
+                            onChange={(e) => handleInputChange('stdWhatsapp', e.target.value)}
                           />
                         </div>
                       </div>
@@ -299,6 +321,7 @@ export const Dashboard = () => {
                             id='studentEmail'
                             placeholder='Enter your email'
                             value={stud.Email}
+                            onChange={(e) => handleInputChange('Email', e.target.value)}
                           />
                         </div>
                       </div>
@@ -311,6 +334,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your address'
                             value={stud.stdAddress}
+                            onChange={(e) => handleInputChange('stdAddress', e.target.value)}
                           />
                         </div>
                       </div>
@@ -323,6 +347,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your city'
                             value={stud.stdAddrCity}
+                            onChange={(e) => handleInputChange('stdAddrCity', e.target.value)}
                           />
                         </div>
                       </div>
@@ -335,6 +360,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your district'
                             value={stud.stdAddrDist}
+                            onChange={(e) => handleInputChange('stdAddrDist', e.target.value)}
                           />
                         </div>
                       </div>
@@ -347,6 +373,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter state'
                             value={stud.stdAddrState}
+                            onChange={(e) => handleInputChange('stdAddrState', e.target.value)}
                           />
                         </div>
                       </div>
@@ -359,6 +386,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter country'
                             value={stud.stdAddrCountry}
+                            onChange={(e) => handleInputChange('stdAddrCountry', e.target.value)}
                           />
                         </div>
                       </div>
@@ -371,6 +399,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter pin'
                             value={stud.stdAddrPin}
+                            onChange={(e) => handleInputChange('stdAddrPin', e.target.value)}
                           />
                         </div>
                       </div>
@@ -382,7 +411,9 @@ export const Dashboard = () => {
                             className='form-control cust-input'
                             id='studentName'
                             placeholder='Enter your institute name'
-                            value={stud.stdInstiID}
+                            value={stud.stdInstiID ? stud.stdInstiID.instName : ''}
+                            // value={stud.stdInstiID.instID}
+                            onChange={(e) => handleInputChange('stdInstiID', { instName: e.target.value })}
                           />
                         </div>
                       </div>
@@ -395,6 +426,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your stream'
                             value={stud.stdStream}
+                            onChange={(e) => handleInputChange('stdStream', e.target.value)}
                           />
                         </div>
                       </div>
@@ -407,6 +439,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your branch'
                             value={stud.stdBranch}
+                            onChange={(e) => handleInputChange('stdBranch', e.target.value)}
                           />
                         </div>
                       </div>
@@ -419,6 +452,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your passout year'
                             value={stud.stdPassoutYear}
+                            onChange={(e) => handleInputChange('stdPassoutYear', e.target.value)}
                           />
                         </div>
                       </div>
@@ -432,12 +466,13 @@ export const Dashboard = () => {
                             className='form-control cust-input'
                             id='studentName'
                             value={stud.stdTriedStartupBefore}
+                            onChange={(e) => handleInputChange('stdTriedStartupBefore', e.target.value)}
                           />
                         </div>
                       </div>
                     </div>
                     <button type='submit' className='btn btn-custom'>
-                      Update Details
+                      Update Profile Details
                     </button>
                   </form>
                 </div>
@@ -445,7 +480,7 @@ export const Dashboard = () => {
 
               {activeSection === "team-members" && (
                 <div className='section-content'>
-                  <h3 className='pb-3'>Team Details</h3>
+                  <h3 className='pb-3 borderBottom-2px'>Team Details</h3>
                   <form>
                     <div className='row'>
                       <div className='col-12 col-xl-4 col-lg-4 mb-2'>
@@ -457,6 +492,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your team name'
                             value={teams.teamName}
+                            onChange={(e) => handleTeamInputChange('teamName', e.target.value)}
                           />
                         </div>
                       </div>
@@ -469,6 +505,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter team CEO name'
                             value={teams.teamCEO}
+                            onChange={(e) => handleTeamInputChange('teamCEO', e.target.value)}
                           />
                         </div>
                       </div>
@@ -481,6 +518,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter team COO name'
                             value={teams.teamCOO}
+                            onChange={(e) => handleTeamInputChange('teamCOO', e.target.value)}
                           />
                         </div>
                       </div>
@@ -493,6 +531,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter team CMO name'
                             value={teams.teamCMO}
+                            onChange={(e) => handleTeamInputChange('teamCMO', e.target.value)}
                           />
                         </div>
                       </div>
@@ -505,6 +544,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter team CTO name'
                             value={teams.teamCTO}
+                            onChange={(e) => handleTeamInputChange('teamCTO', e.target.value)}
                           />
                         </div>
                       </div>
@@ -517,6 +557,7 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter team CFO name'
                             value={teams.teamCFO}
+                            onChange={(e) => handleTeamInputChange('teamCFO', e.target.value)}
                           />
                         </div>
                       </div>
@@ -528,16 +569,16 @@ export const Dashboard = () => {
                           <input
                             type='text'
                             className='form-control cust-input'
-                            id='studentName'
+                            id='teamInstiName'
                             placeholder='Enter your institute name'
-                            value={teams.teamID}
-                          // value='Zeal College of Engineering & Research, Pune'
+                            value={teams.teamInstiID ? teams.teamInstiID.instName : ''}
+                            onChange={(e) => handleTeamInputChange('teamInstiID', { instName: e.target.value })}
                           />
                         </div>
                       </div>
                     </div>
                     <button type='submit' className='btn btn-custom'>
-                      Update Details
+                      Update Team Details
                     </button>
                   </form>
                 </div>
@@ -545,14 +586,14 @@ export const Dashboard = () => {
 
               {activeSection === "submitted-ideas" && (
                 <div className='section-content'>
-                  <h3>Idea Details</h3>
+                  <h3 className='pb-3 borderBottom-2px'>Idea Details</h3>
                   {/* Submitted Ideas content */}
                 </div>
               )}
 
               {activeSection === "idea-status" && (
                 <div className='section-content'>
-                  <h3>Idea Status</h3>
+                  <h3 className='pb-3 borderBottom-2px'>Idea Status</h3>
                   {/* Idea Status content */}
                 </div>
               )}

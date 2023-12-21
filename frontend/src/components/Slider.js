@@ -53,7 +53,7 @@ function Slider() {
                           is that it has a more
                         </p>
                         <a
-                          href='service-details.html'
+                          href='#'
                           className='btn btn-style-one'
                         >
                           <span>Let's get Started!</span>
