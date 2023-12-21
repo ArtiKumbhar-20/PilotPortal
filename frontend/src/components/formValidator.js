@@ -47,6 +47,19 @@ export const validateAadhar = (aadhar) => {
   return "";
 };
 
+export const validatePassYear = (year) => {
+  const currentYear = new Date().getFullYear();
+
+  if (!year) {
+    return "Passing year is required";
+  } else if (isNaN(year) || year < 1900 || year > currentYear) {
+    return "Please enter a valid passing year";
+  }
+  
+  return ""; // Return an empty string if validation passes
+};
+
+
 // Mobile Validator
 export const validateMobile = (mobile) => {
   const mobileRegex = /^[6789]\d{9}$/;
