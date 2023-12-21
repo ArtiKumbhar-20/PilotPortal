@@ -15,6 +15,8 @@ import Event from "./pages/Event";
 import IdeaUpdate from "./components/IdeaUpdate";
 import Idea from "./pages/Idea";
 import Quiz from "./pages/Quiz";
+import Password from "./pages/Password";
+import ResetPass from "./pages/ResetPass";
 
 // Login Auth
 import { Logout } from "./components/logout";
@@ -39,6 +41,8 @@ function App() {
         <Route path='/Event' element={<Event />}></Route>
         <Route path='/Idea' element={<Idea />}></Route>
         <Route path='/Quiz' element={<Quiz />}></Route>
+        <Route path='/Password' element={<Password />}></Route>
+        <Route path='/ResetPass/:otp/:email' element={<ResetPass />}></Route>
 
         {/* Login Auth */}
         <Route path='/logout' element={<Logout />} />

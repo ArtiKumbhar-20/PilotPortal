@@ -132,7 +132,7 @@ export const LoginForm = () => {
               <div className='col-12 text-center mt-4'>
                 <p className='forgot'>Forgot Password ?</p>
                 <h6>
-                  <a href='123.html'>Click here</a> to reset password
+                <u><a href='Password'>Click here</a></u> to reset password
                 </h6>
               </div>
             </form>
