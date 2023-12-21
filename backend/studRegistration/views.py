@@ -147,6 +147,7 @@ class StudentDetailView(APIView):
         except Student.DoesNotExist:
             return Response({'error': 'Student not found'}, status=404)
 
+        institute_serializer = InstituteSerializer(stud.stdInstiID)
         response_data = {
             'stud': {
                 'stdID': stud.stdID,
@@ -163,7 +164,7 @@ class StudentDetailView(APIView):
                 'stdAddrState': stud.stdAddrState,
                 'stdAddrCountry': stud.stdAddrCountry,
                 'stdAddrPin': stud.stdAddrPin,
-                'stdInstiID': stud.stdInstiID,
+                'stdInstiID': institute_serializer.data,
                 'stdStream': stud.stdStream,
                 'stdBranch': stud.stdBranch,
                 'stdPassoutYear': stud.stdPassoutYear,
@@ -176,7 +177,9 @@ class TeamDetailView(APIView):
     def get(self, request, loggedInStudId):  
         try:
             student = Student.objects.get(stdID=loggedInStudId)
-            team = student.teamID 
+            team = student.teamID
+            # institute = Institute.objects.get(teamInstiID=team.teamInstiID)
+            institute_serializer = InstituteSerializer(team.teamInstiID)
             if team:
                 teamDetails = {
                     'teamID': team.teamID,
@@ -186,6 +189,7 @@ class TeamDetailView(APIView):
                     'teamCMO': team.teamCMO,
                     'teamCTO': team.teamCTO,
                     'teamCFO': team.teamCFO,
+                    'teamInstiID': institute_serializer.data,
                 }
             else:
                 teamDetails = {}
@@ -227,3 +231,9 @@ class PanelistDetailView(APIView):
             }
         }
         return Response(response_data)
+
+class InstituteListView(APIView):
+    def get(self, request, *args, **kwargs):
+        institutes = Institute.objects.values('instID', 'instName')
+        return JsonResponse({'institutes': list(institutes)}, safe=False)
+    

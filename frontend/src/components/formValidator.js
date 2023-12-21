@@ -69,6 +69,7 @@ export const validatePincode = (pincode) => {
   return "";
 };
 
+//OTP validator
 export const validateOTP = (otp) => {
   const otpRegex = /^\d{6}$/;
   if (!otp) {
@@ -80,6 +81,7 @@ export const validateOTP = (otp) => {
 };
 
 
+//Password Validator
 export const validatePassword = (password) => {
   if (!password) {
     return "Password is required";

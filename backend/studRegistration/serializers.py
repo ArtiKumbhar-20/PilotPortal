@@ -6,7 +6,8 @@ from .models import *
 class InstituteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Institute   
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ['instID', 'instName']
 
 # Student Registration
 class StudentSerializer(serializers.ModelSerializer):

@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
-
 # Institute Registration
 class Institute(models.Model):
     instID = models.AutoField(primary_key=True)
@@ -121,7 +120,7 @@ class Panelist(models.Model):
 
     def __str__(self):
         return f"{self.panelistFname} {self.panelistLname} ({self.panelID})"
-      
+
 # Incubators Registration
 class Incubators(models.Model):
     incuID = models.AutoField(primary_key=True)
@@ -184,7 +183,3 @@ class Catalyst(models.Model):
 
     def __str__(self):
         return f"{self.catalystFname} {self.catalystLname} ({self.catalystID})"
-    
-
-
-
