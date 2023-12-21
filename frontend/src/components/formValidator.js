@@ -68,3 +68,30 @@ export const validatePincode = (pincode) => {
   }
   return "";
 };
+
+export const validateOTP = (otp) => {
+  const otpRegex = /^\d{6}$/;
+  if (!otp) {
+    return "This field is required";
+  } else if (!otpRegex.test(otp)) {
+    return "Invalid OTP format";
+  }
+  return "";
+};
+
+
+export const validatePassword = (password) => {
+  if (!password) {
+    return "Password is required";
+  } else if (password.length < 8) {
+    return "Password is too short. It must contain at least 8 characters.";
+  } else if (!/[A-Z]/.test(password)) {
+    return "Password must contain at least one uppercase letter.";
+  } else if (!/[a-z]/.test(password)) {
+    return "Password must contain at least one lowercase letter.";
+  } else if (!/\W|_/.test(password)) {
+    return "Password must contain at least one symbol.";
+  }
+
+  return ""; // Return an empty string if validation passes
+};
