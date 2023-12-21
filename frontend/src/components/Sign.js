@@ -6,12 +6,14 @@ import {
   validateAadhar,
   validateMobile,
   validatePincode,
+  validatePassYear,
 } from "./formValidator";
 import config from "./config";
 const apiUrl = `${config.backendUrl}/register/`; // Construct Backend API URL
-// Step 1: For Validation
 
+// Step 1: For Validation
 export const Sign = () => {
+  const [loading, setLoading] = useState(false);
   const [stdFname, setStdFname] = useState("");
   const [stdLname, setStdLname] = useState("");
   const [stdDOB, setStdDOB] = useState("");
@@ -70,7 +72,7 @@ export const Sign = () => {
   // Reset from after successfull submission
   const studentForm = useRef(null);
 
-  const sendStudentDetails = (event) => {
+  const sendStudentDetails = async (event) => {
     event.preventDefault();
 
     // Step 3: For Validation
@@ -95,7 +97,7 @@ export const Sign = () => {
       stdInstiID: validateRequired(stdInstiID),
       stdBranch: validateRequired(stdBranch),
       stdStream: validateRequired(stdStream),
-      stdPassoutYear: validateRequired(stdPassoutYear),
+      stdPassoutYear: validatePassYear(stdPassoutYear),
       stdTriedStartupBefore: validateRequired(stdTriedStartupBefore),
       stdEduLoan: validateRequired(stdEduLoan),
       stdEBC: validateRequired(stdEBC),
@@ -106,10 +108,9 @@ export const Sign = () => {
 
     // Step 5: For Validation : If statement
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
-      axios({
-        method: "post",
-        url: apiUrl,
-        data: {
+      setLoading(true);
+      try {
+        const response = await axios.post(apiUrl, {
           stdFname,
           stdLname,
           stdDOB,
@@ -135,13 +136,16 @@ export const Sign = () => {
           stdParentSupport,
           stdEduLoan,
           stdEBC,
-        },
-      }).then((response) => {
+        });
+
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
-        // studentForm.current.reset();
-      });
-    } // Closing of If statment
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -213,6 +217,7 @@ export const Sign = () => {
                     </div>
                   )}
                 </div>
+
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Date of birth</label>
                   <input
@@ -720,8 +725,8 @@ export const Sign = () => {
                   <label className='labelStyle'>Institute Name</label>
                   <select
                     className={
-                      "form-select " +
-                      (formErrors.stdInstiID ? "is-invalid" : "")
+                      "form-select "
+                      + (formErrors.stdInstiID ? "is-invalid" : "")
                     }
                     name={stdInstiID}
                     onChange={(e) => {
@@ -736,8 +741,8 @@ export const Sign = () => {
                     <option selected disabled>
                       Select Institute
                     </option>
-                    <option value='1'>option1</option>
-                    <option value='2'>option2</option>
+                    <option value='1'>Option1</option>
+                    <option value='2'>Option2</option>
                   </select>
                   {formErrors.stdInstiID && (
                     <div className='invalid-feedback'>
@@ -808,8 +813,12 @@ export const Sign = () => {
                       setStdPassoutYear(value);
                       setFormErrors((prevErrors) => ({
                         ...prevErrors,
-                        stdPassoutYear: validateRequired(value),
+                        stdPassoutYear: validatePassYear(value),
                       }));
+                    }}
+                    maxLength={4}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
                     }}
                     className={
                       "form-control " +
@@ -828,7 +837,6 @@ export const Sign = () => {
               </div>
 
               <br />
-              <br />
               <h2 className='title'>Additional Details</h2>
               <div className='radio-container'>
                 <p className='labelStyle'>Have you tried Startup before?</p>
@@ -840,7 +848,6 @@ export const Sign = () => {
                     type='radio'
                     id='startupYes'
                     value='yes'
-                    checked
                     name='stdTriedStartupBefore'
                     onChange={(e) => {
                       const value = e.target.value;
@@ -1048,8 +1055,14 @@ export const Sign = () => {
               </div>
 
               <div className='col-12 text-center mt-4'>
-                <button className='btn btn-style-one' type='submit'>
-                  <span>Submit Now</span>
+                <button className='btn btn-style-one' type='submit' disabled={loading}>
+                  {loading ? (
+                    <span>
+                      <i className="fa fa-spinner fa-spin" /> Submitting...
+                    </span>
+                  ) : (
+                    <span>Submit Now</span>
+                  )}
                 </button>
               </div>
             </form>
