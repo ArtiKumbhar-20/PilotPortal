@@ -96,7 +96,7 @@ export const LoginForm = () => {
                       "form-control " + (errors.username ? "is-invalid" : "")
                     }
                     aria-describedby='emailHelp'
-                    placeholder='*Username'
+                    placeholder='*Email'
                     name='username'
                     type='text'
                     value={username}

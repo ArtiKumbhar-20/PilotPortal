@@ -10,8 +10,8 @@ import {
 } from "./formValidator";
 import config from "./config";
 const apiUrl = `${config.backendUrl}/register/`; // Construct Backend API URL
-// Step 1: For Validation
 
+// Step 1: For Validation
 export const Sign = () => {
   const [loading, setLoading] = useState(false);
   const [stdFname, setStdFname] = useState("");
@@ -142,20 +142,9 @@ export const Sign = () => {
         console.log(response.data);
       } catch (error) {
         console.error("Error submitting form:", error);
-        // Handle error if needed
       } finally {
         setLoading(false);
       }
-      // axios({
-      //   method: "post",
-      //   url: apiUrl,
-      //   data: {
-
-      //   },
-      // }).then((response) => {
-
-      //   // studentForm.current.reset();
-      // });
     }
   };
 
