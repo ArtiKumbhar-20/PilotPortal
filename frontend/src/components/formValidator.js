@@ -89,7 +89,7 @@ export const validateOTP = (otp) => {
   return "";
 };
 
-
+//Password Validator
 export const validatePassword = (password) => {
   if (!password) {
     return "Password is required";
