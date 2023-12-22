@@ -47,19 +47,6 @@ export const validateAadhar = (aadhar) => {
   return "";
 };
 
-export const validatePassYear = (year) => {
-  const currentYear = new Date().getFullYear();
-
-  if (!year) {
-    return "Passing year is required";
-  } else if (isNaN(year) || year < 1900 || year > currentYear) {
-    return "Please enter a valid passing year";
-  }
-  
-  return ""; // Return an empty string if validation passes
-};
-
-
 // Mobile Validator
 export const validateMobile = (mobile) => {
   const mobileRegex = /^[6789]\d{9}$/;
@@ -82,7 +69,16 @@ export const validatePincode = (pincode) => {
   return "";
 };
 
-//OTP validator
+export const validatePassYear = (value) => {
+  const valueRegex = /^\d{4}$/;
+  if (!value) {
+    return "This field is required";
+  } else if (!valueRegex.test(value)) {
+    return "Invalid Passout Year format";
+  }
+  return "";
+};
+
 export const validateOTP = (otp) => {
   const otpRegex = /^\d{6}$/;
   if (!otp) {
@@ -92,7 +88,6 @@ export const validateOTP = (otp) => {
   }
   return "";
 };
-
 
 //Password Validator
 export const validatePassword = (password) => {

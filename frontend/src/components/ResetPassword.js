@@ -43,11 +43,11 @@ export const ResetPassword = () => {
       return;
     }
 
-  const passwordValidationError = validatePassword(password);
-  if (passwordValidationError) {
-    setError(passwordValidationError);
-    return;
-  }
+    const passwordValidationError = validatePassword(password);
+    if (passwordValidationError) {
+      setError(passwordValidationError);
+      return;
+    }
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');

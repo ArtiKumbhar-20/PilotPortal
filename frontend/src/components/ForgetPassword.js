@@ -5,13 +5,13 @@ import { validateOTP } from "./formValidator";
 
 export const ForgetPassword = () => {
   const apiUrl = `${config.backendUrl}/forget-password/`;
-  const otpVerifyUrl = `${config.backendUrl}/verify-otp/`; 
+  const otpVerifyUrl = `${config.backendUrl}/verify-otp/`;
   const [email, setEmail] = useState('');
   const [otp, setOTP] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [emailSent, setEmailSent] = useState(false); 
+  const [emailSent, setEmailSent] = useState(false);
   const navigate = useNavigate();
 
   const submitEmail = async (e) => {
@@ -53,13 +53,13 @@ export const ForgetPassword = () => {
 
   const verifyOTP = async (e) => {
     e.preventDefault();
-  
+
     const otpValidationResult = validateOTP(otp); // Validate entered OTP
-  
+
     if (otpValidationResult) {
       setError(otpValidationResult);
       setMessage('');
-      return; 
+      return;
     }
 
     try {
@@ -68,7 +68,7 @@ export const ForgetPassword = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, otp }), 
+        body: JSON.stringify({ email, otp }),
       });
 
       const data = await response.json();
@@ -77,7 +77,7 @@ export const ForgetPassword = () => {
         setMessage(data.message);
         setError('');
         setTimeout(() => {
-          navigate(`/ResetPass/${otp}/${email}`); 
+          navigate(`/ResetPass/${otp}/${email}`);
         }, 1000);
       } else {
         setError(data.error || 'Failed to verify OTP. Please try again.');
@@ -108,17 +108,17 @@ export const ForgetPassword = () => {
                   <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                     <input
                       className={'form-control ' + (error ? 'is-invalid' : '')}
-                      placeholder='*Email' 
-                      name='email' 
-                      type='email' 
+                      placeholder='*Email'
+                      name='email'
+                      type='email'
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
                 </div>
                 <div className='col-12 text-center mt-4'>
-                  <button className='btn btn-style-one' type='submit' disabled={loading} style={{ color: 'white',':hover': { color: 'white' }}}>
-                    {loading ? 'Sending...' : 'Submit'}
+                  <button className='btn btn-style-one' type='submit' disabled={loading} style={{ color: 'white', ':hover': { color: 'white' } }}>
+                    <span>{loading ? 'Sending...' : 'Submit'}</span>
                   </button>
                 </div>
               </form>
@@ -138,7 +138,7 @@ export const ForgetPassword = () => {
                       className={'form-control ' + (error ? 'is-invalid' : '')}
                       placeholder='*Enter OTP'
                       name='otp'
-                      type='text' 
+                      type='text'
                       pattern='\d*' // Ensure only numeric input is allowed
                       inputMode='numeric' // Indicate numeric input without showing the arrows
                       value={otp}
