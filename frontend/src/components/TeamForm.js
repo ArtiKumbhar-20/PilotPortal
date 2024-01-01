@@ -1,10 +1,21 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { validateRequired } from "./formValidator";
 import config from "./config";
 const apiUrl = `${config.backendUrl}/team_register/`; // Construct Backend API URL
 
 export const TeamForm = () => {
+
+  // Fetch Institute List from backend
+  const [institutes, setInstitutes] = useState([]);
+  useEffect(() => {
+    fetch(`${config.backendUrl}/getInstitutesList/`)  // Adjust the URL as per your Django server
+      .then(response => response.json())
+      .then(data => setInstitutes(data.institutes))
+      .catch(error => console.error('Error fetching institutes:', error));
+  }, []);
+
+  const [loading, setLoading] = useState(false);
   const [teamName, setteamName] = useState("");
   const [teamCEO, setteamCEO] = useState("");
   const [teamCOO, setteamCOO] = useState("");
@@ -26,7 +37,7 @@ export const TeamForm = () => {
   // Reset from after successfull submission
   const teamForm = useRef(null);
 
-  const sendTeamDetails = (event) => {
+  const sendTeamDetails = async (event) => {
     event.preventDefault();
 
     // Step 3
@@ -43,10 +54,9 @@ export const TeamForm = () => {
     // Step 4
     setFormErrors(newFormErrors);
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
-      axios({
-        method: "POST",
-        url: apiUrl,
-        data: {
+      setLoading(true);
+      try {
+        const response = await axios.post(apiUrl, {
           teamName,
           teamCEO,
           teamCFO,
@@ -54,12 +64,15 @@ export const TeamForm = () => {
           teamCOO,
           teamCTO,
           teamInstiID,
-        },
-      }).then((response) => {
+        });
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
         teamForm.current.reset();
-      });
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -79,9 +92,9 @@ export const TeamForm = () => {
               {/* Title */}
               <div className='row'></div>
 
-              <h2 className='title'>Team Formation</h2>
+              {/* <h2 className='title'>Team Formation</h2> */}
               <div className='row'>
-                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Team Name</label>
                   <input
                     type='text'
@@ -111,8 +124,8 @@ export const TeamForm = () => {
                     </div>
                   )}
                 </div>
-                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-                  <label className='labelStyle'>CEO</label>
+                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                  <label className='labelStyle'>Chief Executive Officer (CEO)</label>
                   <input
                     type='text'
                     id='teamCEO'
@@ -135,8 +148,32 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCEO}</div>
                   )}
                 </div>
-                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-                  <label className='labelStyle'>COO</label>
+                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                  <label className='labelStyle'>Chief Marketing Officer (CMO)</label>
+                  <input
+                    type='text'
+                    id='teamCMO'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamCMO(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamCMO: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " + (formErrors.teamCMO ? "is-invalid" : "")
+                    }
+                    placeholder='Team Member looking after Marketing aspects of your ideas'
+                    name={teamCMO}
+                  />
+
+                  {formErrors.teamCMO && (
+                    <div className='invalid-feedback'>{formErrors.teamCMO}</div>
+                  )}
+                </div>
+                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                  <label className='labelStyle'>Chief Operating Officer (COO)</label>
                   <input
                     type='text'
                     id='teamCOO'
@@ -160,8 +197,8 @@ export const TeamForm = () => {
                   )}
                 </div>
 
-                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-                  <label className='labelStyle'>CFO</label>
+                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                  <label className='labelStyle'>Chief Financial Officer (CFO)</label>
                   <input
                     type='text'
                     id='teamCFO'
@@ -184,8 +221,8 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCFO}</div>
                   )}
                 </div>
-                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-                  <label className='labelStyle'>CTO</label>
+                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                  <label className='labelStyle'>Chief Technology Officer (CTO)</label>
                   <input
                     type='text'
                     id='teamCTO'
@@ -208,32 +245,9 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCTO}</div>
                   )}
                 </div>
-                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-                  <label className='labelStyle'>CMO</label>
-                  <input
-                    type='text'
-                    id='teamCMO'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setteamCMO(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        teamCMO: validateRequired(value),
-                      }));
-                    }}
-                    className={
-                      "form-control " + (formErrors.teamCMO ? "is-invalid" : "")
-                    }
-                    placeholder='Team Member looking after Marketing aspects of your ideas'
-                    name={teamCMO}
-                  />
 
-                  {formErrors.teamCMO && (
-                    <div className='invalid-feedback'>{formErrors.teamCMO}</div>
-                  )}
-                </div>
-                <div className='col-12 col-xl-12 col-lg-6 mb-3'>
-                  <label className='labelStyle'>Institute</label>
+                {/* <div className='col-12 col-xl-12 col-lg-6 mb-3'>
+                  <label className='labelStyle'>Institute Name</label>
                   <select
                     className={
                       "form-select" +
@@ -252,18 +266,44 @@ export const TeamForm = () => {
                     <option selected disabled>
                       Select Institute
                     </option>
-                    <option value='1'>
-                      Cummins College of Engineering for Women, Nagpur
+                    {institutes.map((institute, index) => (
+                      <option key={index} value={institute.instID}>
+                        {institute.instName}
+                      </option>
+                    ))}
+                  </select>
+                  {formErrors.teamInstiID && (
+                    <div className='invalid-feedback'>
+                      {formErrors.teamInstiID}
+                    </div>
+                  )}
+                </div> */}
+
+                <div className='col-12 col-xl-12 col-lg-6 mb-3'>
+                  <label className='labelStyle'>Institute Name</label>
+                  <select
+                    className={
+                      "form-select "
+                      + (formErrors.teamInstiID ? "is-invalid" : "")
+                    }
+                    name={teamInstiID}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setteamInstiID(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        teamInstiID: validateRequired(value),
+                      }));
+                    }}
+                  >
+                    <option selected disabled>
+                      Select Institute
                     </option>
-                    <option value='2'>
-                      Zeal College of Engineering and Research, Pune
-                    </option>
-                    <option value='3'>
-                      K J College of Engineering and Management Research, Pune
-                    </option>
-                    <option value='4'>
-                      D Y Patil College of Engineering, Kolhapur
-                    </option>
+                    {institutes.map((institute, index) => (
+                      <option key={index} value={institute.instID}>
+                        {institute.instName}
+                      </option>
+                    ))}
                   </select>
                   {formErrors.teamInstiID && (
                     <div className='invalid-feedback'>
@@ -297,9 +337,21 @@ export const TeamForm = () => {
                 </div>
               </div>
 
-              <div className='col-12 text-center mt-4'>
+              {/* <div className='col-12 text-center mt-4'>
                 <button className='btn btn-style-one' type='submit'>
                   <span>Form a team!</span>
+                </button>
+              </div> */}
+
+              <div className='col-12 text-center mt-4'>
+                <button className='btn btn-style-one' type='submit' disabled={loading}>
+                  {loading ? (
+                    <span>
+                      <i className="fa fa-spinner fa-spin" /> Submitting...
+                    </span>
+                  ) : (
+                    <span>Form a team!</span>
+                  )}
                 </button>
               </div>
             </form>
