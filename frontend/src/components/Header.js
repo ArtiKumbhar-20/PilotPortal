@@ -46,6 +46,7 @@ function Header() {
                         </li>
                         <li>
                           <a
+                            href="#"
                             onClick={scrollToAbout}
                             style={{ color: "#1c1c1c" }}
                           >

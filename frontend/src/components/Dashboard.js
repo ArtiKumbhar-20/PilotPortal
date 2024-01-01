@@ -30,8 +30,9 @@ export const Dashboard = () => {
   const [userDetails, setUserDetails] = useState({});
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
-      window.location.href = "/login";
-    } else {
+      return window.location.href = "/Login";
+    }
+    else {
       (async () => {
         try {
           const { data } = await axios.get(apiUrl, {
