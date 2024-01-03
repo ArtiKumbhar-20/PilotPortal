@@ -84,6 +84,22 @@ function YoutubeLink() {
                 width='100%'
               />
             </div>
+            <div style={{ padding: "5px" }}>
+              <ReactPlayer
+                ref={playerRef1}
+                url={VIDEO_PATH_1}
+                controls={true}
+                width='100%'
+              />
+            </div>
+            <div style={{ padding: "5px" }}>
+              <ReactPlayer
+                ref={playerRef2}
+                url={VIDEO_PATH_2}
+                controls={true}
+                width='100%'
+              />
+            </div>
           </Slider>
         </div>
       </div>
