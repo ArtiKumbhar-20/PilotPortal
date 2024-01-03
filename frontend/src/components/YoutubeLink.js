@@ -1,15 +1,40 @@
-// import ReactPlayer from "react-player";
 import ReactPlayer from "react-player/youtube";
 import React, { useRef } from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const VIDEO_PATH_1 =
-  "https://youtube.com/shorts/9Md_gvqj018?si=IFmOKVHTEeO5eKoY"; // Replace with your YouTube video URL
-const VIDEO_PATH_2 =
-  "https://youtube.com/shorts/9Md_gvqj018?si=IFmOKVHTEeO5eKoY";
+// Your video paths
+const VIDEO_PATH_1 = "https://youtube.com/shorts/9Md_gvqj018?si=IFmOKVHTEeO5eKoY";
+const VIDEO_PATH_2 = "https://youtu.be/iF8yFg2_0ko?si=d7yZ5tq10qPTFjDj";
 
 function YoutubeLink() {
-  const playerRef1 = React.useRef(null);
-  const playerRef2 = React.useRef(null);
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  const playerRef1 = useRef(null);
+  const playerRef2 = useRef(null);
+
   return (
     <div className='container'>
       <div className='row'>
@@ -25,26 +50,45 @@ function YoutubeLink() {
         </div>
       </div>
       <div className='row pb-5'>
-        <div className='col-sm-12 col-md-6' style={{ padding: "5px" }}>
-          <ReactPlayer
-            ref={playerRef1}
-            url={VIDEO_PATH_1}
-            controls={true}
-            width='100%'
-            // height='100%'
-          />
-        </div>
-        <div className='col-sm-12 col-md-6' style={{ padding: "5px" }}>
-          <ReactPlayer
-            ref={playerRef2}
-            url={VIDEO_PATH_2}
-            controls={true}
-            width='100%'
-            // height='100%'
-          />
+        <div className='col-12'>
+          <Slider {...sliderSettings} className="youtube-slider">
+            <div style={{ padding: "5px" }}>
+              <ReactPlayer
+                ref={playerRef1}
+                url={VIDEO_PATH_1}
+                controls={true}
+                width='100%'
+              />
+            </div>
+            <div style={{ padding: "5px" }}>
+              <ReactPlayer
+                ref={playerRef2}
+                url={VIDEO_PATH_2}
+                controls={true}
+                width='100%'
+              />
+            </div>
+            <div style={{ padding: "5px" }}>
+              <ReactPlayer
+                ref={playerRef1}
+                url={VIDEO_PATH_1}
+                controls={true}
+                width='100%'
+              />
+            </div>
+            <div style={{ padding: "5px" }}>
+              <ReactPlayer
+                ref={playerRef2}
+                url={VIDEO_PATH_2}
+                controls={true}
+                width='100%'
+              />
+            </div>
+          </Slider>
         </div>
       </div>
     </div>
   );
 }
+
 export default YoutubeLink;
