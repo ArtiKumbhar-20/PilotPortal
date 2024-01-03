@@ -30,8 +30,9 @@ export const Dashboard = () => {
   const [userDetails, setUserDetails] = useState({});
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
-      window.location.href = "/login";
-    } else {
+      return window.location.href = "/Login";
+    }
+    else {
       (async () => {
         try {
           const { data } = await axios.get(apiUrl, {
@@ -485,6 +486,19 @@ export const Dashboard = () => {
                     <div className='row'>
                       <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                         <div className='form-group'>
+                          <label className='cust-label'>Team ID</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Enter your team name'
+                            value={teams.teamID}
+                            onChange={(e) => handleTeamInputChange('teamID', e.target.value)}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
                           <label className='cust-label'>Team Name</label>
                           <input
                             type='text'
@@ -511,19 +525,6 @@ export const Dashboard = () => {
                       </div>
                       <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                         <div className='form-group'>
-                          <label className='cust-label'>Team COO</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter team COO name'
-                            value={teams.teamCOO}
-                            onChange={(e) => handleTeamInputChange('teamCOO', e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
                           <label className='cust-label'>Team CMO</label>
                           <input
                             type='text'
@@ -537,14 +538,14 @@ export const Dashboard = () => {
                       </div>
                       <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                         <div className='form-group'>
-                          <label className='cust-label'>Team CTO</label>
+                          <label className='cust-label'>Team COO</label>
                           <input
                             type='text'
                             className='form-control cust-input'
                             id='studentName'
-                            placeholder='Enter team CTO name'
-                            value={teams.teamCTO}
-                            onChange={(e) => handleTeamInputChange('teamCTO', e.target.value)}
+                            placeholder='Enter team COO name'
+                            value={teams.teamCOO}
+                            onChange={(e) => handleTeamInputChange('teamCOO', e.target.value)}
                           />
                         </div>
                       </div>
@@ -561,7 +562,21 @@ export const Dashboard = () => {
                           />
                         </div>
                       </div>
-                      <div className='col-12 col-xl-8 col-lg-4 mb-2'>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Team CTO</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Enter team CTO name'
+                            value={teams.teamCTO}
+                            onChange={(e) => handleTeamInputChange('teamCTO', e.target.value)}
+                          />
+                        </div>
+                      </div>
+
+                      <div className='col-12 col-xl-8 col-lg-8 mb-2'>
                         <div className='form-group'>
                           <label className='cust-label'>
                             Team Institute Name
