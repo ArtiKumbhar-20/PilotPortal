@@ -6,6 +6,8 @@ from authentification.models import Profile
 from .serializers import *
 from .models import *
 from django.http import JsonResponse
+from django.db import transaction
+
 # Import the logging module for debugging
 # import logging
 
@@ -55,7 +57,6 @@ class StudentRegistration(APIView):
             # Add debug statements to print information
             # logger.debug(f"Student ID: {student.stdID}")
             # logger.debug(f"User ID: {user.id}")
-            
             try:
                 profile = Profile.objects.get(user=user)
                 profile.student_id = student.stdID
@@ -123,10 +124,49 @@ class TeamRegistration(APIView):
     def post(self, request):
         serializer = TeamSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+            team_name = request.data['teamName']
+            team_ceo = request.data['teamCEO']
+            team_coo = request.data['teamCOO']
+            team_cmo = request.data['teamCMO']
+            team_cto = request.data['teamCTO']
+            team_cfo = request.data['teamCFO']
+
+            # Check if the team name is already taken (case-insensitive)
+            if Team.objects.filter(teamName__iexact=team_name).exists():
+                return Response({"error": "Team name already taken."}, status=status.HTTP_409_CONFLICT)
+
+            # Check if team members are associated or registered with other teams
+            conflicting_members = Student.objects.filter(
+                stdUniqueID__in=[team_ceo, team_coo, team_cmo, team_cto, team_cfo],
+                teamID__isnull=False
+            )
+
+            if conflicting_members.exists():
+                conflicting_members_list = list(conflicting_members.values_list('stdUniqueID', flat=True))
+                return Response({"error": f"One or more team members are already associated with other teams: {conflicting_members_list}"}, status=status.HTTP_409_CONFLICT)
+
+            with transaction.atomic():
+                # Save the team details
+                team_instance = serializer.save()
+
+                # Get the team ID
+                teamID = team_instance.teamID
+
+                # Update the teamID for each student
+                student_unique_ids = [team_ceo, team_coo, team_cmo, team_cto, team_cfo]
+
+                for uniqueID in student_unique_ids:
+                    try:
+                        student = Student.objects.get(stdUniqueID=uniqueID, teamID__isnull=True)
+                        student.teamID = team_instance
+                        student.save()
+                    except Student.DoesNotExist:
+                        return Response({"error": f"Student with uniqueID {uniqueID} is already associated with another team."}, status=status.HTTP_409_CONFLICT)
+
+            return Response({"message": "Team created successfully."}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"error": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
 class IdeaSubGetDataAPIView(APIView):
     def get(self, request):
         team = Team.objects.first()  # Fetch the first team record
@@ -151,6 +191,7 @@ class StudentDetailView(APIView):
         response_data = {
             'stud': {
                 'stdID': stud.stdID,
+                'stdUniqueID': stud.stdUniqueID,
                 'stdFname': stud.stdFname,
                 'stdLname': stud.stdLname,
                 'Email': stud.stdEmail,
@@ -200,7 +241,6 @@ class TeamDetailView(APIView):
             'teams': teamDetails,
         }
         return Response(response_data)
-
 
 class PanelistDetailView(APIView):
     def get(self, request, loggedInPanelId):

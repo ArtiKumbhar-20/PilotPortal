@@ -23,6 +23,9 @@ export const TeamForm = () => {
   const [teamCTO, setteamCTO] = useState("");
   const [teamCFO, setteamCFO] = useState("");
   const [teamInstiID, setteamInstiID] = useState("");
+  // Alert 
+  const [alertType, setAlertType] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
 
   const [formErrors, setFormErrors] = useState({
     teamName: "",
@@ -53,6 +56,7 @@ export const TeamForm = () => {
 
     // Step 4
     setFormErrors(newFormErrors);
+
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       setLoading(true);
       try {
@@ -65,11 +69,23 @@ export const TeamForm = () => {
           teamCTO,
           teamInstiID,
         });
-        alert(`Thank you for submitting your details.`);
-        console.log(response.data);
-        teamForm.current.reset();
+
+        if (response.status === 201) {
+          setAlertType("success");
+          setAlertMessage(response.data.message);
+          teamForm.current.reset();
+        } else if (response.status === 409) {
+          setAlertType("danger");
+          setAlertMessage(response.data.error || "Team creation failed. Please check the form data.");
+        } else {
+          setAlertType("danger");
+          setAlertMessage("Else: Error submitting form. Please try again.");
+        }
       } catch (error) {
         console.error("Error submitting form:", error);
+
+        setAlertType("danger");
+        setAlertMessage("Catch: Error submitting form. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -80,6 +96,12 @@ export const TeamForm = () => {
     <div className='section-padding'>
       <div className='container'>
         <div className='mb-n30'>
+          {alertMessage && (
+            <div className={`alert alert-${alertType} alert-dismissible fade show`} role="alert">
+              {alertMessage}
+              <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          )}
           <div className='col-lg-12 mb-30'>
             <form
               id='contact-form'

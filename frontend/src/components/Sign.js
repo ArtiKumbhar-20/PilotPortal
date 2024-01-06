@@ -25,6 +25,7 @@ export const Sign = () => {
 
   // Form Validation Start
   const [loading, setLoading] = useState(false);
+  // const [stdUniqueID, setStdUniqueID] = useState(null);
   const [stdFname, setStdFname] = useState("");
   const [stdLname, setStdLname] = useState("");
   const [stdDOB, setStdDOB] = useState("");
@@ -121,7 +122,10 @@ export const Sign = () => {
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       setLoading(true);
       try {
+        const generatedStdUniqueID = Math.floor(100_000_000 + Math.random() * 900_000_000);
+
         const response = await axios.post(apiUrl, {
+          stdUniqueID: generatedStdUniqueID,
           stdFname,
           stdLname,
           stdDOB,
@@ -267,7 +271,7 @@ export const Sign = () => {
                         type='radio'
                         // name='inlineRadioOptions'
                         id='stdGender'
-                        value='male'
+                        value='Male'
                         style={{ height: 20 }}
                         name={stdGender}
                         onChange={(e) => {
@@ -292,7 +296,7 @@ export const Sign = () => {
                         type='radio'
                         // name='inlineRadioOptions'
                         id='stdGender'
-                        value='female'
+                        value='Female'
                         style={{ height: 20 }}
                         name={stdGender}
                         onChange={(e) => {

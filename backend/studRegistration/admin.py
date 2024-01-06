@@ -6,7 +6,7 @@ from .models import *
 @admin.register(Student)
 class StudAdmin(admin.ModelAdmin):
     list_display = (
-        'stdID', 'stdFname', 'stdLname', 'stdInstiID','teamID', 'stdEmail',
+        'stdID','stdUniqueID', 'stdFname', 'stdLname', 'stdInstiID','teamID', 'stdEmail',
         'stdMobile', 'stdWhatsapp', 'stdPassoutYear', 'stdStream',
         'stdBranch', 'stdGender', 'stdDOB', 'stdTriedStartupBefore',
         'stdFamBackground', 'stdParentSupport', 'stdEBC', 'stdEduLoan',

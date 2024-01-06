@@ -42,11 +42,10 @@ export const Dashboard = () => {
             },
           });
 
-          console.log("API Response:", data);
+          // console.log("API Response:", data);
           setUserDetails(data);
-        } catch (e) {
-          console.log("not auth");
-          console.log("Error:", e);
+        } catch (error) {
+          console.error("Not auth | Error:", error);
         }
       })();
     }
@@ -63,7 +62,7 @@ export const Dashboard = () => {
         .get(`${config.backendUrl}/StudGetData/${loggedInStudId}/`)
         .then((response) => {
           setStud(response.data.stud);
-          console.log("Student Data : ", response.data.stud);
+          // console.log("Student Data : ", response.data.stud);
         })
         .catch((error) => {
           console.error("Error fetching submitted data:", error);
@@ -73,7 +72,7 @@ export const Dashboard = () => {
       axios
         .get(`${config.backendUrl}/PanelGetData/${loggedInPanelId}/`)
         .then((response) => {
-          console.log("PanelGetData Response:", response.data.stud);
+          // console.log("PanelGetData Response:", response.data.stud);
           setStud(response.data.stud);
         })
         .catch((error) => {
@@ -149,6 +148,9 @@ export const Dashboard = () => {
                   </div>
                   <div className='data col-xl-6 col-lg-6 col-sm-12'>
                     <h4>Student ID: {userDetails.student_id}</h4>
+                  </div>
+                  <div className='data col-xl-6 col-lg-6 col-sm-12'>
+                    <h4>Student Unique ID: {stud.stdUniqueID}</h4>
                   </div> */}
                 </div>
               </>

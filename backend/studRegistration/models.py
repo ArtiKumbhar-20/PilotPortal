@@ -58,12 +58,11 @@ class Team(models.Model):
 # Student Registration
 class Student(models.Model):
     stdID = models.AutoField(primary_key=True)
+    stdUniqueID = models.PositiveIntegerField(unique=True, blank=True, null=True)
     teamID = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True, blank=True)
-    # teamID = models.ForeignKey(Team, on_delete=models.CASCADE)
     stdFname = models.CharField(max_length=100)
     stdLname = models.CharField(max_length=100)
     stdInstiID = models.ForeignKey('Institute', on_delete=models.CASCADE)
-    # stdInstiID = models.CharField(max_length=100,default='1')
     stdEmail = models.EmailField()
     stdMobile = models.CharField(max_length=10)
     stdWhatsapp = models.CharField(max_length=10)
