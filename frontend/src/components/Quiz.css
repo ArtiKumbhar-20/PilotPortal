@@ -1,80 +1,6 @@
-/* .SpaceTop {
-    margin-top: 150px; */
-    /* padding-top: 100px; */
-/* }
 
-.app {
-    background: linear-gradient(to right, #4526b1, #8b5cf6);
-    width: 75%;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
-}
 
-.score-section {
-    display: flex;
-    font-size: 24px;
-    align-items: center;
-    color: white;
-    font-family: Jost, sans-serif;
-}
-
-.question-section {
-    width: 100%;
-    position: relative;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.question-count {
-    margin-bottom: 20px;
-    font-size: 15px;
-    color: white;
-    font-family: Jost, sans-serif;
-}
-
-.question-text {
-    margin-bottom: 12px;
-    font-size: 35px;
-    color: white;
-    font-family: Jost, sans-serif;
-    font-weight: 500;
-    line-height: 1.16;
-}
-
-.answer-button {
-    width: 100%;
-    font-family: Jost, sans-serif;
-    font-size: 16px;
-    display: flex;
-    padding: 15px;
-    color: white;
-    border-radius: 10px;
-    background: linear-gradient(to right, #8b5cf6);
-    justify-content: flex-start;
-    align-items: center;
-    border: solid 4px rgb(219, 219, 219);
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.quiz-container ul .selected-answer {
-    background: #ffd6ff;
-    border: 1px solid #800080;
-  } */
-
-  @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap');
-
-/* body {
-  font-family: 'Anek Malayalam', sans-serif;
-  background: linear-gradient(90.04deg, #800080 0.03%, #ffc0cb 99.96%);
-  color: #11052c;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  padding: 0 30px;
-} */
+@import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam:wght@100;200;300;400;500;600;700;800&display=swap');
 
 .quiz{
   /* background: linear-gradient(90.04deg, #800080 0.03%, #ffc0cb 99.96%); */
@@ -85,28 +11,31 @@
   padding: 30px 30px;
   
   align-items: center;
+  
 }
 
 .quiz-container {
-  /* max-width: 500px;
-  min-width: 250px; */
-  background: #ffffff;
+  width: 900px; 
+  /* min-width: 250px; */
+  background: linear-gradient(135deg,#020381 0%,#2874fc 100%);
   border-radius: 30px;
   margin-top: 100px;
   padding: 30px 60px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  
 }
 
 .quiz-container .active-question-no {
   font-size: 32px;
   font-weight: 500;
-  color: #800080;
+  color: white;
+  
 }
 
 .quiz-container .total-question {
   font-size: 16px;
   font-weight: 500;
-  color: #e0dee3;
+  color: white;
 }
 
 .quiz-container h2 {
@@ -123,9 +52,9 @@
 .quiz-container ul li {
   text-decoration: none;
   list-style: none;
-  color: #2d264b;
+  color: white;
   font-size: 16px;
-  background: #ffffff;
+  background: linear-gradient(135deg,#020381 0%,#2874fc 100%);
   border: 1px solid #eaeaea;
   border-radius: 16px;
   padding: 11px;
@@ -134,12 +63,12 @@
 }
 
 .quiz-container ul .selected-answer {
-  background: #ffd6ff;
-  border: 1px solid #800080;
+  background: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);
+  border: white;
 }
 
 .quiz-container button {
-  background: linear-gradient(90.04deg, #800080 0.03%, #ffc0cb 99.96%);
+  background: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);
   border-radius: 9px;
   font-size: 18px;
   color: #ffffff;
@@ -173,6 +102,51 @@
 }
 
 .result p span {
-  color: #800080;
+  color: rgb(23,78,166);
   font-size: 22px;
+}
+
+.quiz-container .question{
+  color:white;
+}
+
+
+
+.result .result-heading {
+  color: white;
+  margin-bottom: 20px; 
+  text-align: center;
+ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+
+.result .marks{
+  color:white;
+  text-align: center;
+  
+}
+
+.result .score{
+  color:white;
+}
+.result {
+  height: 220px;
+  display: flex;
+  justify-content: space-around; 
+  align-items: center; 
+}
+
+.result .box-result {
+  border-radius: 50%; 
+  width: 165px;
+  height: 165px;
+  border: 2px solid white;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  background: linear-gradient(135deg, rgba(252, 185, 0, 1) 0%, rgba(255, 105, 0, 1) 100%);
 }

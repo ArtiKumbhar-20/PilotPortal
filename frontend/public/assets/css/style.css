@@ -1652,6 +1652,11 @@ only screen and (max-width: 767px) {
   overflow: hidden;
 }
 
+.events-slider .slick-slide {
+  padding: 0 15px; /* Adjust this value to add space between events */
+}
+
+
 @media only screen and (min-width: 992px) and (max-width: 1199px) {
   .slingle-slider {
     height: 980px;
@@ -7122,6 +7127,45 @@ only screen and (max-width: 767px) {
     left: auto;
     right: 0;
   }
+}
+
+/* Slider */
+/* Add this CSS to your stylesheet */
+.slick-slider .slick-slide img {
+  margin: 0; 
+  padding: 0; 
+}
+
+/* =============================
+    Institution Partner
+================================ */
+.institution-partners-slider {
+  display: flex;
+  align-items: center; 
+}
+
+.institution-partners-slider .slick-slide {
+  display: flex;
+  justify-content: center; 
+}
+
+.institution-slider-container {
+  flex-wrap: wrap; 
+  justify-content: center;
+  align-items: center; 
+}
+
+.custom-img{
+  max-width: 250px;
+  max-height: 150px;
+  justify-content: center;
+  align-items: center; 
+  display: block;
+}
+
+
+.youtube-slider .slick-slide {
+  padding: 0 15px; 
 }
 
 /* =============================
