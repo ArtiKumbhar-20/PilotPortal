@@ -1,5 +1,4 @@
 
-
 import { useState } from 'react'
 import { quiz } from './questions'
 import './Quiz.css'
@@ -74,23 +73,28 @@ const QuizPage = () => {
             </button>
           </div>
         </div>
-        
       ) : (
-       
         <div className="result">
           <h3>Result</h3>
           <p>
-            Total Question: <span>{questions.length}</span>
+            {/* Total Score:<span> {result.score}</span> */}
+            You've scored <span> {result.score}</span> points
           </p>
-          <p>
-            Total Score:<span> {result.score}</span>
-          </p>
-          <p>
-            Correct Answers:<span> {result.correctAnswers}</span>
-          </p>
-          <p>
-            Wrong Answers:<span> {result.wrongAnswers}</span>
-          </p>
+          <hr/>
+          <div className="section">
+            <p className='section-para'>
+            <span className="section-number">{questions.length}</span><br />
+              Total Question
+            </p>
+            <p className='section-para'>
+            <span> {result.correctAnswers}</span><br />
+              Correct Answers:
+            </p>
+            <p className='section-para'>
+            <span> {result.wrongAnswers}</span><br />
+              Wrong Answers:
+            </p>
+          </div>
         </div>
       )}
     </div>
