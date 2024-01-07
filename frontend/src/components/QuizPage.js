@@ -78,33 +78,19 @@ const QuizPage = () => {
       ) : (
        
         <div className="result">
-
-          <h3 className="result-heading">Result</h3>
-
-          <div className="box-result">
-          <p className="marks">
-            Total Question: <span className="score">{questions.length}</span>
+          <h3>Result</h3>
+          <p>
+            Total Question: <span>{questions.length}</span>
           </p>
-          </div>
-
-          
-          <div className="box-result">
-          <p className="marks">
-            Total Score:<span className="score"> {result.score}</span>
+          <p>
+            Total Score:<span> {result.score}</span>
           </p>
-          </div>
-
-          <div className="box-result">
-          <p className="marks">
-            Correct Answers:<span className="score"> {result.correctAnswers}</span>
+          <p>
+            Correct Answers:<span> {result.correctAnswers}</span>
           </p>
-          </div>
-
-          <div className="box-result">
-          <p className="marks">
-            Wrong Answers:<span className="score"> {result.wrongAnswers}</span>
+          <p>
+            Wrong Answers:<span> {result.wrongAnswers}</span>
           </p>
-          </div>
         </div>
       )}
     </div>
