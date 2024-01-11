@@ -76,11 +76,12 @@ export const TeamForm = () => {
           teamForm.current.reset();
         } else if (response.status === 409) {
           setAlertType("danger");
-          setAlertMessage(response.data.error || "Team creation failed. Please check the form data.");
-        } else {
-          setAlertType("danger");
-          setAlertMessage("Else: Error submitting form. Please try again.");
+          setAlertMessage(response.data.error);
         }
+        // } else {
+        //   setAlertType("danger");
+        //   setAlertMessage("Else: Error submitting form. Please try again.");
+        // }
       } catch (error) {
         console.error("Error submitting form:", error);
 
