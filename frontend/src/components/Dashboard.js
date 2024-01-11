@@ -51,67 +51,60 @@ export const Dashboard = () => {
     }
   }, []);
 
-  // stud's
+
   const [stud, setStud] = useState({});
   const loggedInStudId = userDetails.student_id;
   const loggedInPanelId = userDetails.paneID;
+
   useEffect(() => {
-    if (userDetails.user_type == "Student") {
-      // student data fetching
+    if (userDetails.user_type === 'Student') {
       axios
         .get(`${config.backendUrl}/StudGetData/${loggedInStudId}/`)
         .then((response) => {
           setStud(response.data.stud);
-          // console.log("Student Data : ", response.data.stud);
+          console.log('Student Data : ', response.data.stud);
         })
         .catch((error) => {
-          console.error("Error fetching submitted data:", error);
+          console.error('Error fetching submitted data:', error);
         });
     } else {
-      // Panelist data fetching
       axios
         .get(`${config.backendUrl}/PanelGetData/${loggedInPanelId}/`)
         .then((response) => {
-          // console.log("PanelGetData Response:", response.data.stud);
+          console.log('PanelGetData Response:', response.data.stud);
           setStud(response.data.stud);
         })
         .catch((error) => {
-          console.error("Error fetching submitted data:", error);
+          console.error('Error fetching submitted data:', error);
         });
     }
   }, [loggedInPanelId]);
 
-  // idea
   const [idea, setIdea] = useState({});
   useEffect(() => {
-    // data fetching
     axios
       .get(`${config.backendUrl}/IdeaGetData/${loggedInStudId}/`)
       .then((response) => {
         setIdea(response.data.idea);
       })
       .catch((error) => {
-        console.error("Error fetching submitted data:", error);
+        console.error('Error fetching submitted data:', error);
       });
   }, [loggedInStudId]);
 
-  // team
   const [teams, setTeams] = useState({});
-
   useEffect(() => {
-    // data fetching
     axios
       .get(`${config.backendUrl}/TeamInfo/${loggedInStudId}/`)
       .then((response) => {
         setTeams(response.data.teams);
       })
       .catch((error) => {
-        console.error("Error fetching submitted data:", error);
+        console.error('Error fetching submitted data:', error);
       });
   }, [loggedInStudId]);
 
-
-  const [activeSection, setActiveSection] = useState("profile"); // Default active section
+  const [activeSection, setActiveSection] = useState('profile');
 
   const handleSidebarClick = (section) => {
     setActiveSection(section);
@@ -123,7 +116,6 @@ export const Dashboard = () => {
       <ContactModal />
       <div className='section-padding'>
         <div className='container'>
-          {/* Top Welcome Header */}
           <div className='stud_dashboard_header'>
             {userDetails ? (
               <>
@@ -131,109 +123,89 @@ export const Dashboard = () => {
                   <div className='message col-12'>
                     <h3 className="pb-2">
                       Hi, {userDetails.first_name} {userDetails.last_name}
-                      {/* ({userDetails.user_id}) */}
                       <br />
                       {userDetails.message}
                     </h3>
                   </div>
-                  <br />
-                  {/* <div className='data col-xl-6 col-lg-6 col-sm-12'>
-                    <h4>Username: {userDetails.username}</h4>
-                  </div>
-                  <div className='data col-xl-6 col-lg-6 col-sm-12'>
-                    <h4>Email: {userDetails.email}</h4>
-                  </div>
-                  <div className='data col-xl-6 col-lg-6 col-sm-12'>
-                    <h4>User Type: {userDetails.user_type}</h4>
-                  </div>
-                  <div className='data col-xl-6 col-lg-6 col-sm-12'>
-                    <h4>Student ID: {userDetails.student_id}</h4>
-                  </div>
-                  <div className='data col-xl-6 col-lg-6 col-sm-12'>
-                    <h4>Student Unique ID: {stud.stdUniqueID}</h4>
-                  </div> */}
                 </div>
               </>
             ) : (
               <h4>Loading user details...</h4>
             )}
           </div>
-          {/* Dashboard */}
-          <div id='sidebar-container-cust'>
-            <nav
-              id='sidebar-cust'
-              className='col-md-3 col-lg-3 d-md-block bg-primary sidebar'
-            >
-              <div className='position-sticky'>
-                <ul className='nav flex-column'>
-                  <li
-                    className={`nav-item ${activeSection === "profile" ? "active" : ""
-                      }`}
-                  >
-                    <a
-                      className='nav-link'
-                      href='#profile'
-                      onClick={() => handleSidebarClick("profile")}
-                    >
-                      Profile
-                    </a>
-                  </li>
-                  <li
-                    className={`nav-item ${activeSection === "team-members" ? "active" : ""
-                      }`}
-                  >
-                    <a
-                      className='nav-link'
-                      href='#team-members'
-                      onClick={() => handleSidebarClick("team-members")}
-                    >
-                      Team Members
-                    </a>
-                  </li>
-                  <li
-                    className={`nav-item ${activeSection === "submitted-ideas" ? "active" : ""
-                      }`}
-                  >
-                    <a
-                      className='nav-link'
-                      href='#submitted-ideas'
-                      onClick={() => handleSidebarClick("submitted-ideas")}
-                    >
-                      Submitted Ideas
-                    </a>
-                  </li>
-                  <li
-                    className={`nav-item ${activeSection === "idea-status" ? "active" : ""
-                      }`}
-                  >
-                    <a
-                      className='nav-link'
-                      href='#idea-status'
-                      onClick={() => handleSidebarClick("idea-status")}
-                    >
-                      Idea Status
-                    </a>
-                  </li>
-                  <li
-                    className={`nav-item ${activeSection === "logout-btn" ? "active" : ""
-                      }`}
-                  >
-                    <NavLink to='/logout' className='nav-link'>
-                      <span>Logout</span>
-                    </NavLink>
-                  </li>
-                </ul>
-              </div>
-            </nav>
 
-            <main
-              id='content-cust'
-              className='col-md-9 ms-sm-auto col-lg-9 px-md-4'
-            >
-              {activeSection === "profile" && (
-                <div className='section-content'>
-                  <h3 className='pb-3 borderBottom-2px'>Student Details</h3>
-                  <form>
+          {userDetails.user_type === 'Student' && (
+            <div id='sidebar-container-cust'>
+              <nav
+                id='sidebar-cust'
+                className='col-md-3 col-lg-3 d-md-block bg-primary sidebar'
+              >
+                <div className='position-sticky'>
+                  <ul className='nav flex-column'>
+                    <li
+                      className={`nav-item ${activeSection === 'profile' ? 'active' : ''}`}
+                    >
+                      <a
+                        className='nav-link'
+                        href='#profile'
+                        onClick={() => handleSidebarClick('profile')}
+                      >
+                        Profile
+                      </a>
+                    </li>
+                    <li
+                      className={`nav-item ${activeSection === 'team-members' ? 'active' : ''}`}
+                    >
+                      <a
+                        className='nav-link'
+                        href='#team-members'
+                        onClick={() => handleSidebarClick('team-members')}
+                      >
+                        Team Members
+                      </a>
+                    </li>
+                    <li
+                      className={`nav-item ${activeSection === 'submitted-ideas' ? 'active' : ''}`}
+                    >
+                      <a
+                        className='nav-link'
+                        href='#submitted-ideas'
+                        onClick={() => handleSidebarClick('submitted-ideas')}
+                      >
+                        Submitted Ideas
+                      </a>
+                    </li>
+                    <li
+                      className={`nav-item ${activeSection === 'idea-status' ? 'active' : ''}`}
+                    >
+                      <a
+                        className='nav-link'
+                        href='#idea-status'
+                        onClick={() => handleSidebarClick('idea-status')}
+                      >
+                        Idea Status
+                      </a>
+                    </li>
+                    <li
+                      className={`nav-item ${activeSection === 'logout-btn' ? 'active' : ''}`}
+                    >
+                      <NavLink to='/logout' className='nav-link'>
+                        <span>Logout</span>
+                      </NavLink>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+
+              <main
+                id='content-cust'
+                className='col-md-9 ms-sm-auto col-lg-9 px-md-4'
+              >
+                {/* Render content based on activeSection */}
+                {activeSection === 'profile' && (
+                  <div className='section-content'>
+                    <h3 className='pb-3'>Student Details</h3>
+                    <form>
                     <div className='row'>
                       <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                         <div className='form-group'>
@@ -244,7 +216,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your name'
                             value={stud.stdFname}
-                            onChange={(e) => handleInputChange('stdFname', e.target.value)}
                           />
                         </div>
                       </div>
@@ -257,7 +228,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your name'
                             value={stud.stdLname}
-                            onChange={(e) => handleInputChange('stdLname', e.target.value)}
                           />
                         </div>
                       </div>
@@ -270,7 +240,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Date of Birth'
                             value={stud.stdDOB}
-                            onChange={(e) => handleInputChange('stdDOB', e.target.value)}
                           />
                         </div>
                       </div>
@@ -283,7 +252,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your gender'
                             value={stud.stdGender}
-                            onChange={(e) => handleInputChange('stdGender', e.target.value)}
                           />
                         </div>
                       </div>
@@ -296,7 +264,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your gender'
                             value={stud.stdMobile}
-                            onChange={(e) => handleInputChange('stdMobile', e.target.value)}
                           />
                         </div>
                       </div>
@@ -309,7 +276,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your gender'
                             value={stud.stdWhatsapp}
-                            onChange={(e) => handleInputChange('stdWhatsapp', e.target.value)}
                           />
                         </div>
                       </div>
@@ -324,7 +290,6 @@ export const Dashboard = () => {
                             id='studentEmail'
                             placeholder='Enter your email'
                             value={stud.Email}
-                            onChange={(e) => handleInputChange('Email', e.target.value)}
                           />
                         </div>
                       </div>
@@ -337,7 +302,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your address'
                             value={stud.stdAddress}
-                            onChange={(e) => handleInputChange('stdAddress', e.target.value)}
                           />
                         </div>
                       </div>
@@ -350,7 +314,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your city'
                             value={stud.stdAddrCity}
-                            onChange={(e) => handleInputChange('stdAddrCity', e.target.value)}
                           />
                         </div>
                       </div>
@@ -363,7 +326,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your district'
                             value={stud.stdAddrDist}
-                            onChange={(e) => handleInputChange('stdAddrDist', e.target.value)}
                           />
                         </div>
                       </div>
@@ -376,7 +338,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter state'
                             value={stud.stdAddrState}
-                            onChange={(e) => handleInputChange('stdAddrState', e.target.value)}
                           />
                         </div>
                       </div>
@@ -389,7 +350,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter country'
                             value={stud.stdAddrCountry}
-                            onChange={(e) => handleInputChange('stdAddrCountry', e.target.value)}
                           />
                         </div>
                       </div>
@@ -402,7 +362,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter pin'
                             value={stud.stdAddrPin}
-                            onChange={(e) => handleInputChange('stdAddrPin', e.target.value)}
                           />
                         </div>
                       </div>
@@ -414,9 +373,7 @@ export const Dashboard = () => {
                             className='form-control cust-input'
                             id='studentName'
                             placeholder='Enter your institute name'
-                            value={stud.stdInstiID ? stud.stdInstiID.instName : ''}
-                            // value={stud.stdInstiID.instID}
-                            onChange={(e) => handleInputChange('stdInstiID', { instName: e.target.value })}
+                            value={stud.stdInstiID}
                           />
                         </div>
                       </div>
@@ -429,7 +386,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your stream'
                             value={stud.stdStream}
-                            onChange={(e) => handleInputChange('stdStream', e.target.value)}
                           />
                         </div>
                       </div>
@@ -442,7 +398,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your branch'
                             value={stud.stdBranch}
-                            onChange={(e) => handleInputChange('stdBranch', e.target.value)}
                           />
                         </div>
                       </div>
@@ -455,7 +410,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your passout year'
                             value={stud.stdPassoutYear}
-                            onChange={(e) => handleInputChange('stdPassoutYear', e.target.value)}
                           />
                         </div>
                       </div>
@@ -469,36 +423,25 @@ export const Dashboard = () => {
                             className='form-control cust-input'
                             id='studentName'
                             value={stud.stdTriedStartupBefore}
-                            onChange={(e) => handleInputChange('stdTriedStartupBefore', e.target.value)}
                           />
                         </div>
                       </div>
                     </div>
                     <button type='submit' className='btn btn-custom'>
-                      Update Profile Details
+                      Update Details
                     </button>
                   </form>
-                </div>
-              )}
+                  </div>
+                )}
 
-              {activeSection === "team-members" && (
+
+                {/* Add other content sections for student */}
+                {/* ... */}
+                {activeSection === "team-members" && (
                 <div className='section-content'>
-                  <h3 className='pb-3 borderBottom-2px'>Team Details</h3>
+                  <h3 className='pb-3'>Team Details</h3>
                   <form>
                     <div className='row'>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Team ID</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your team name'
-                            value={teams.teamID}
-                            onChange={(e) => handleTeamInputChange('teamID', e.target.value)}
-                          />
-                        </div>
-                      </div>
                       <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                         <div className='form-group'>
                           <label className='cust-label'>Team Name</label>
@@ -508,7 +451,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter your team name'
                             value={teams.teamName}
-                            onChange={(e) => handleTeamInputChange('teamName', e.target.value)}
                           />
                         </div>
                       </div>
@@ -521,20 +463,6 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter team CEO name'
                             value={teams.teamCEO}
-                            onChange={(e) => handleTeamInputChange('teamCEO', e.target.value)}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Team CMO</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter team CMO name'
-                            value={teams.teamCMO}
-                            onChange={(e) => handleTeamInputChange('teamCMO', e.target.value)}
                           />
                         </div>
                       </div>
@@ -547,20 +475,18 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter team COO name'
                             value={teams.teamCOO}
-                            onChange={(e) => handleTeamInputChange('teamCOO', e.target.value)}
                           />
                         </div>
                       </div>
                       <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                         <div className='form-group'>
-                          <label className='cust-label'>Team CFO</label>
+                          <label className='cust-label'>Team CMO</label>
                           <input
                             type='text'
                             className='form-control cust-input'
                             id='studentName'
-                            placeholder='Enter team CFO name'
-                            value={teams.teamCFO}
-                            onChange={(e) => handleTeamInputChange('teamCFO', e.target.value)}
+                            placeholder='Enter team CMO name'
+                            value={teams.teamCMO}
                           />
                         </div>
                       </div>
@@ -573,12 +499,22 @@ export const Dashboard = () => {
                             id='studentName'
                             placeholder='Enter team CTO name'
                             value={teams.teamCTO}
-                            onChange={(e) => handleTeamInputChange('teamCTO', e.target.value)}
                           />
                         </div>
                       </div>
-
-                      <div className='col-12 col-xl-8 col-lg-8 mb-2'>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Team CFO</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Enter team CFO name'
+                            value={teams.teamCFO}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-8 col-lg-4 mb-2'>
                         <div className='form-group'>
                           <label className='cust-label'>
                             Team Institute Name
@@ -586,36 +522,370 @@ export const Dashboard = () => {
                           <input
                             type='text'
                             className='form-control cust-input'
-                            id='teamInstiName'
+                            id='studentName'
                             placeholder='Enter your institute name'
-                            value={teams.teamInstiID ? teams.teamInstiID.instName : ''}
-                            onChange={(e) => handleTeamInputChange('teamInstiID', { instName: e.target.value })}
+                            value={teams.teamID}
+                          // value='Zeal College of Engineering & Research, Pune'
                           />
                         </div>
                       </div>
                     </div>
                     <button type='submit' className='btn btn-custom'>
-                      Update Team Details
+                      Update Details
                     </button>
                   </form>
                 </div>
               )}
 
-              {activeSection === "submitted-ideas" && (
+              </main>
+            </div>
+          )}
+
+          {userDetails.user_type === 'Panelist' && (
+            <div id='sidebar-container-cust'>
+              <nav
+                id='sidebar-cust'
+                className='col-md-3 col-lg-3 d-md-block bg-primary sidebar'
+              >
+                <div className='position-sticky'>
+                  <ul className='nav flex-column'>
+                    <li
+                      className={`nav-item ${activeSection === 'profile' ? 'active' : ''}`}
+                    >
+                      <a
+                        className='nav-link'
+                        href='#profile'
+                        onClick={() => handleSidebarClick('profile')}
+                      >
+                        Profile
+                      </a>
+                    </li>
+                    <li
+                      className={`nav-item ${activeSection === 'evaluated' ? 'active' : ''}`}
+                    >
+                      <a
+                        className='nav-link'
+                        href='#evaluated'
+                        onClick={() => handleSidebarClick('evaluated')}
+                      >
+                        Evaluated Ideas
+                      </a>
+                    </li>
+                    <li
+                      className={`nav-item ${activeSection === 'assigned' ? 'active' : ''}`}
+                    >
+                      <a
+                        className='nav-link'
+                        href='#assigned'
+                        onClick={() => handleSidebarClick('assigned')}
+                      >
+                        Assigned Ideas
+                      </a>
+                    </li>
+                    <li
+                      className={`nav-item ${activeSection === 'pass' ? 'active' : ''}`}
+                    >
+                      <a
+                        className='nav-link'
+                        href='#pass'
+                        onClick={() => handleSidebarClick('pass')}
+                      >
+                        Change Password
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+
+              <main
+                id='panelist-content-cust'
+                className='col-md-9 ms-sm-auto col-lg-9 px-md-4'
+              >
+                {/* Render content based on activeSection */}
+                {activeSection === 'profile' && (
+                  <div className='section-content'>
+                    <h3 className='pb-3'>Panelist Details</h3>
+                    <form>
+                      <div className='row'>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>First Name</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='First Name'
+                              value={stud.stdFname}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Last Name</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Last Name'
+                              value={stud.stdLname}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Date of Birth</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Date of Birth'
+                              value={stud.stdDOB}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Gender</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Gender'
+                            value={stud.stdGender}
+                          />
+                        </div>
+                      </div><div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Email</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Email'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div><div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Mobile Number</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Mobile Numbers'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Whatsapp Number</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Whatsapp Number'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Adhar Number</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Adhar Number'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Institute Name</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Institute Name'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Domain</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Domain'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Degree</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Degree'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Designation</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Designation'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Total Years of Experience</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Experience'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Total Ideas Evaluated</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Total Ideas Evaluated'
+                            value={stud.stdDOB}
+                          />
+                        </div>
+                      </div>
+                      </div>
+                      <button type='submit' className='btn btn-custom'>
+                        Update Details
+                      </button>
+                    </form>
+                  </div>
+                )}
+
+                
+                {/* ... */}
+                {activeSection === "evaluated" && (
                 <div className='section-content'>
-                  <h3 className='pb-3 borderBottom-2px'>Idea Details</h3>
-                  {/* Submitted Ideas content */}
+                  <h3 className='pb-3'>Evaluated Ideas</h3>
+                  
+                  <div class="row">
+
+                  <div class="col-sm-6">
+                    <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                      <div class="card-body">
+                       <h5 class="card-title">Idea ID:</h5>
+                       <p class="card-text">With supporting text below as a natural lead-in to additional content. The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+                       <h6>Date of Evaluation: </h6>
+                      </div>
+                    </div>
+                  </div>
+
+                      
+                     
+                  <div class="col-sm-6">
+                    <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                      <div class="card-body">
+                        <h5 class="card-title">Idea ID:</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content. The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+                        <h6>Date of Evaluation:</h6>
+                        
+                      </div>
+                    </div>
+                  </div> 
+
+                  </div>
                 </div>
               )}
 
-              {activeSection === "idea-status" && (
+      {/*.................................................... */}
+                {activeSection === "assigned" && (
                 <div className='section-content'>
-                  <h3 className='pb-3 borderBottom-2px'>Idea Status</h3>
-                  {/* Idea Status content */}
+                  <h3 className='pb-3'>Assigned Ideas</h3>
+                  
+                  <form>
+                    <hr></hr>
+                    
+                    <hr></hr>
+                    <hr></hr>
+                    <button type='submit' className='btn btn-custom'> Evaluate Ideas</button>
+                  </form>
                 </div>
-              )}
-            </main>
-          </div>
+                )}  
+      {/*.................................................... */}
+      {activeSection === "pass" && (
+                <div className='section-content'>
+                  <h3 className='pb-3'>Change Password</h3>
+                  <br></br>
+                  <form>
+                    <div className='row'>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'> Old Password</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Enter Old Password'
+                            value={teams.teamName}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>New Password</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Enter New Password'
+                            value={teams.teamCEO}
+                          />
+                        </div>
+                      </div>
+                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                        <div className='form-group'>
+                          <label className='cust-label'>Confirm Password</label>
+                          <input
+                            type='text'
+                            className='form-control cust-input'
+                            id='studentName'
+                            placeholder='Confirm your Password'
+                            value={teams.teamCOO}
+                          />
+                        </div>
+                      </div>
+                      
+                    </div>
+                    <button type='submit' className='btn btn-custom'>
+                      Confirm
+                    </button>
+                  </form>
+                </div>
+                )} 
+              
+
+              </main>
+            </div>
+          )}
         </div>
       </div>
 
