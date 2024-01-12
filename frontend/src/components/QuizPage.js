@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 import { quiz } from './questions'
 import './Quiz.css'
@@ -75,28 +74,35 @@ const QuizPage = () => {
         </div>
       ) : (
         <div className="result">
-          <h3>Result</h3>
+          <h3>Assessment Result</h3>
           <p>
             {/* Total Score:<span> {result.score}</span> */}
-            You've scored <span> {result.score}</span> points
+            You've scored <span> {result.score}</span> points !!
           </p>
-          <hr/>
+          
           <div className="section">
-            <p className='section-para'>
+            <p className='section-para'> Total Questions:
             <span className="section-number">{questions.length}</span><br />
-              Total Question
+             
             </p>
-            <p className='section-para'>
+            <p className='section-para'>Correct Answers:
             <span> {result.correctAnswers}</span><br />
-              Correct Answers:
+              
             </p>
-            <p className='section-para'>
+            <p className='section-para'>Wrong Answers:
             <span> {result.wrongAnswers}</span><br />
-              Wrong Answers:
+              
             </p>
           </div>
+          <button type='submit' className='btn btn-custom' style={{ display: 'block', margin: 'auto'}}>
+  Try Again &#10227;
+</button>
         </div>
+        
       )}
+      
+
+
     </div>
     </div>
   )
