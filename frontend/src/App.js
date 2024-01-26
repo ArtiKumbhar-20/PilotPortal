@@ -17,10 +17,12 @@ import Idea from "./pages/Idea";
 import Quiz from "./pages/Quiz";
 import Password from "./pages/Password";
 import ResetPass from "./pages/ResetPass";
+import VerifyEmail from "./pages/VerifyEmail";
 
 // Login Auth
 import { Logout } from "./components/logout";
 import { Dashboard } from "./components/Dashboard";
+
 
 function App() {
   return (
@@ -43,6 +45,7 @@ function App() {
         <Route path='/Quiz' element={<Quiz />}></Route>
         <Route path='/Password' element={<Password />}></Route>
         <Route path='/ResetPass/:otp/:email' element={<ResetPass />}></Route>
+        <Route path='/VerifyEmail' element={<VerifyEmail />}></Route>
 
         {/* Login Auth */}
         <Route path='/logout' element={<Logout />} />

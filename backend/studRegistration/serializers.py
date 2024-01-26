@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import *
 
 
+
 # Institute Form
 class InstituteSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,12 +12,19 @@ class InstituteSerializer(serializers.ModelSerializer):
 
 # Student Registration
 class StudentSerializer(serializers.ModelSerializer):
+    verification_otp = serializers.CharField(write_only=True, allow_blank=True, required=False)
     # stdInstiID = serializers.PrimaryKeyRelatedField(queryset=Institute.objects.all())
     # institute = serializers.PrimaryKeyRelatedField(queryset=Institute.objects.all())
     # institute = InstituteSerializer()
     class Meta:
         model = Student
         fields = '__all__'
+
+
+
+class OTPVerificationSerializer(serializers.Serializer):
+    # email = serializers.EmailField()
+    verification_otp = serializers.CharField(max_length=6)
         
 # Panelist Registration
 class PanelistSerializer(serializers.ModelSerializer):

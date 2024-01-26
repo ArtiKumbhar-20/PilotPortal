@@ -49,6 +49,7 @@ export const LoginForm = () => {
 
       const data = response.data;
 
+
       // Set tokens and navigate to dashboard
       localStorage.clear();
       localStorage.setItem("access_token", data.access);
