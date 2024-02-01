@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import {
   validateRequired,
@@ -13,6 +14,7 @@ const apiUrl = `${config.backendUrl}/register/`; // Construct Backend API URL
 
 // Step 1: For Validation
 export const Sign = () => {
+  const navigate = useNavigate();
 
   // Fetch Institute List from backend
   const [institutes, setInstitutes] = useState([]);
@@ -156,6 +158,7 @@ export const Sign = () => {
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
         studentForm.current.reset();
+        navigate('/VerifyEmail');
       } catch (error) {
         console.error("Error submitting form:", error);
       } finally {

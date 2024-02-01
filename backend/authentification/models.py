@@ -15,6 +15,8 @@ class Profile(models.Model):
     forget_password_token = models.CharField(max_length=100, null=True, blank=True)
     otp_expiry_time = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
+    verification_otp = models.CharField(max_length=6, blank=True, null=True)
+    is_verified = is_verified = models.BooleanField(default=False)
 
     def is_valid_otp(self, otp):
         return self.forget_password_token == otp and self.otp_expiry_time > timezone.now()

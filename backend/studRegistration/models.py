@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from datetime import date
 
 # Institute Registration
 class Institute(models.Model):
@@ -70,7 +71,7 @@ class Student(models.Model):
     stdStream = models.CharField(max_length=100)
     stdBranch = models.CharField(max_length=100)
     stdGender = models.CharField(max_length=10)
-    stdDOB = models.DateField()
+    stdDOB = models.DateField(default=date.today)
     stdTriedStartupBefore = models.CharField(max_length=100)
     stdFamBackground = models.TextField()
     stdParentSupport = models.CharField(max_length=100,default='no')
@@ -89,6 +90,7 @@ class Student(models.Model):
     recordCreatedBy = models.CharField(max_length=100, default='admin')
     recordUpdatedOn = models.DateField(default=timezone.now)
     recordUpdatedBy = models.CharField(max_length=100, default='admin')
+    stdEmailVerified = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.stdFname} {self.stdLname} ({self.stdID})"
@@ -98,7 +100,7 @@ class Panelist(models.Model):
     panelID = models.AutoField(primary_key=True)
     panelistFname = models.CharField(max_length=100)
     panelistLname = models.CharField(max_length=100)
-    panelistDOB = models.DateField()
+    panelistDOB = models.CharField(max_length=100)
     panelistGender = models.CharField(max_length=10)
     panelistEmail = models.EmailField()
     panelistMobile = models.CharField(max_length=10)
