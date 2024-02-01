@@ -70,25 +70,28 @@ export const TeamForm = () => {
           teamInstiID,
         });
 
+        // console.log("response", response)
+        // console.log("response.data", response.data)
+        // console.log("response.data.error", response.data.error)
+        // console.log("response.data.message: ", response.data.message)
+        // console.log("response.message: ", response.message)
+        // console.log("response.error: ", response.error)
+
+
         if (response.status === 201) {
           setAlertType("success");
           setAlertMessage(response.data.message);
-          teamForm.current.reset();
         } else if (response.status === 409) {
           setAlertType("danger");
-          setAlertMessage(response.data.error || "Team creation failed. Please check the form data.");
-        } else {
-          setAlertType("danger");
-          setAlertMessage("Else: Error submitting form. Please try again.");
+          setAlertMessage(response.data.error);
         }
       } catch (error) {
-        console.error("Error submitting form:", error);
-
         setAlertType("danger");
-        setAlertMessage("Catch: Error submitting form. Please try again.");
-      } finally {
-        setLoading(false);
+        setAlertMessage('Failed to reset password. Please try again.');
       }
+      // finally {
+      //   setLoading(false);
+      // }
     }
   };
 

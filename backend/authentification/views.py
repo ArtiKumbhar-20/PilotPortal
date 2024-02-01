@@ -103,7 +103,7 @@ class VerifyOTP(APIView):
             return Response({'error': 'An error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ChangePasswordWithOTP(APIView):
-    def post(self, request, otp, email):  
+    def post(self, request, otp, email):
         try:
             profile_obj = Profile.objects.filter(forget_password_token=otp).first()
             if not profile_obj or profile_obj.forget_password_token != otp:
