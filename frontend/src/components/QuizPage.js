@@ -3,48 +3,62 @@ import { quiz } from './questions'
 import './Quiz.css'
 
 const QuizPage = () => {
-  const [activeQuestion, setActiveQuestion] = useState(0)
-  const [selectedAnswer, setSelectedAnswer] = useState('')
-  const [showResult, setShowResult] = useState(false)
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null)
-  const [result, setResult] = useState({
-    score: 0,
-    correctAnswers: 0,
-    wrongAnswers: 0,
-  })
+  const initialQuizState = {
+    activeQuestion: 0,
+    selectedAnswer: '',
+    showResult: false,
+    selectedAnswerIndex: null,
+    result: {
+      score: 0,
+      correctAnswers: 0,
+      wrongAnswers: 0,
+    },
+    attempts: 1,
+  };
 
+  const [quizState, setQuizState] = useState(initialQuizState);
+  const { activeQuestion, selectedAnswer, showResult, selectedAnswerIndex, result, attempts } = quizState;
+  const maxAttempts = 3;
   const { questions } = quiz
   const { question, choices, correctAnswer } = questions[activeQuestion]
 
   const onClickNext = () => {
-    setSelectedAnswerIndex(null)
-    setResult((prev) =>
-      selectedAnswer
-        ? {
-            ...prev,
-            score: prev.score + 5,
-            correctAnswers: prev.correctAnswers + 1,
-          }
-        : { ...prev, wrongAnswers: prev.wrongAnswers + 1 }
-    )
     if (activeQuestion !== questions.length - 1) {
-      setActiveQuestion((prev) => prev + 1)
+      setQuizState((prev) => ({
+        ...prev,
+        selectedAnswerIndex: null,
+        result: selectedAnswer
+          ? {
+              ...prev.result,
+              score: prev.result.score + 5,
+              correctAnswers: prev.result.correctAnswers + 1,
+            }
+          : { ...prev.result, wrongAnswers: prev.result.wrongAnswers + 1 },
+        activeQuestion: prev.activeQuestion + 1,
+      }));
     } else {
-      setActiveQuestion(0)
-      setShowResult(true)
+      setQuizState((prev) => ({ ...prev, showResult: true }));
     }
   }
 
   const onAnswerSelected = (answer, index) => {
-    setSelectedAnswerIndex(index)
-    if (answer === correctAnswer) {
-      setSelectedAnswer(true)
-    } else {
-      setSelectedAnswer(false)
-    }
+    setQuizState((prev) => ({
+      ...prev,
+      selectedAnswerIndex: index,
+      selectedAnswer: answer === correctAnswer,
+    }));
   }
 
   const addLeadingZero = (number) => (number > 9 ? number : `0${number}`)
+
+  const resetQuiz = () => {
+    if (attempts < maxAttempts) {
+      setQuizState((prev) => ({
+        ...initialQuizState,
+        attempts: prev.attempts + 1,
+      }));
+    }
+  };
 
   return (
     <div className="quiz">
@@ -93,10 +107,19 @@ const QuizPage = () => {
             <span> {result.wrongAnswers}</span><br />
               
             </p>
+            <p className="section-para">
+                Attempts:
+                <span> {attempts}</span>
+                <br />
+              </p>
           </div>
-          <button type='submit' className='btn btn-custom' style={{ display: 'block', margin: 'auto'}}>
-  Try Again &#10227;
-</button>
+          {attempts < maxAttempts ? (
+              <button type='submit' className='btn btn-custom' style={{ display: 'block', margin: 'auto'}} onClick={resetQuiz}>
+                Try Again &#10227;
+              </button>
+            ) : (
+              <p className='max-attempts-message'>Maximum number of attempts crossed</p>
+            )}
         </div>
         
       )}
