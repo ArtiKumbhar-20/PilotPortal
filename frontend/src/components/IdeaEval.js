@@ -8,6 +8,7 @@ export const IdeaEval = () => {
   // const [evaluationID, setEvaluationID] = useState('');
   const [evalPanelistID, setevalPanelistID] = useState("");
   const [evalTeamID, setevalTeamID] = useState("");
+  const [evalTeamName, setevalTeamName] = useState("");
   const [evalAffordable, setevalAffordable] = useState("");
   const [evalSustainable, setevalSustainable] = useState("");
   const [evalScalable, setevalScalable] = useState("");
@@ -32,6 +33,7 @@ export const IdeaEval = () => {
   const [formErrors, setFormErrors] = useState({
     evalPanelistID: "",
     evalTeamID: "",
+    evalTeamName: "",
     evalAffordable: "",
     evalSustainable: "",
     evalScalable: "",
@@ -62,6 +64,7 @@ export const IdeaEval = () => {
     const newFormErrors = {
       evalPanelistID: validateRequired(evalPanelistID),
       evalTeamID: validateRequired(evalTeamID),
+      evalTeamName: validateRequired(evalTeamName),
       evalAffordable: validateRequired(evalAffordable),
       evalSustainable: validateRequired(evalSustainable),
       evalScalable: validateRequired(evalScalable),
@@ -95,6 +98,7 @@ export const IdeaEval = () => {
           // ideaID,
           evalPanelistID,
           evalTeamID,
+          evalTeamName,
           evalAffordable,
           evalSustainable,
           evalScalable,
@@ -153,24 +157,9 @@ export const IdeaEval = () => {
             >
               {/* Title */}
               <h2 className='title'>Idea Evaluation</h2>
+              
               <div className='row'>
-                <div className='col-6'>
-                  {/* Display the team ID and name */}
-                  {/* <p>Team ID: {team.id}</p>
-                  <p>Team Name: {team.name}</p> */}
-                  <p>Team ID: </p>
-                  <p>Team Name:</p>
-                </div>
-                <div className='col-6'>
-                  {/* Display the panelist ID and name */}
-                  {/* <p>Panelist ID: {panelist.id}</p>
-                  <p>Panelist Name: {panelist.name}</p> */}
-                  <p>Panelist ID: </p>
-                  <p>Panelist Name: </p>
-                </div>
-              </div>
-              <div className='row'>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'> Panelist ID</label>
                   <input
                     type='name'
@@ -204,7 +193,7 @@ export const IdeaEval = () => {
                     </div>
                   )}
                 </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Team ID</label>
                   <input
                     type='name'
@@ -215,6 +204,9 @@ export const IdeaEval = () => {
                         ...prevErrors,
                         evalTeamID: validateRequired(value),
                       }));
+                    }}
+                    onInput={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
                     }}
                     className={
                       "form-control " +
@@ -232,6 +224,39 @@ export const IdeaEval = () => {
                     </div>
                   )}
                 </div>
+
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                  <label className='labelStyle'>Team Name</label>
+                  <input
+                    type='name'
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setevalTeamName(value);
+                      setFormErrors((prevErrors) => ({
+                        ...prevErrors,
+                        evalTeamName: validateRequired(value),
+                      }));
+                    }}
+                    className={
+                      "form-control " +
+                      (formErrors.evalTeamName ? "is-invalid" : "")
+                    }
+                    id='name'
+                    aria-describedby='emailHelp'
+                    placeholder='Team Name'
+                    // value={team.id}
+                    name={evalTeamName}
+                  />
+                  {formErrors.evalTeamName && (
+                    <div className='invalid-feedback'>
+                      {formErrors.evalTeamName}
+                    </div>
+                  )}
+                </div>
+
+
+
+
                 {/* RadioButton */}
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Is this Idea Affordable?</label>
