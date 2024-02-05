@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { quiz } from './questions'
 import axios from 'axios';
 import './Quiz.css'
@@ -14,7 +14,7 @@ const QuizPage = () => {
     result: {
       score: 0,
       correctAnswers: 0,
-      wrongAnswers: 1,
+      wrongAnswers: 0,
     },
     attempts: 1,
   };
@@ -24,7 +24,47 @@ const QuizPage = () => {
   const maxAttempts = 3;
   const { questions } = quiz
   const { question, choices, correctAnswer } = questions[activeQuestion]
+  const [timer, setTimer] = useState(900);
 
+  // timer
+  useEffect(() => {
+    let timerInterval;
+
+    // Start the timer when the component mounts
+    if (!showResult) {
+      timerInterval = setInterval(() => {
+        setTimer((prevTimer) => {
+          if (prevTimer > 0) {
+            return prevTimer - 1;
+          } else {
+            clearInterval(timerInterval);
+            // Handle timeout logic here
+            handleTimeout();
+            return 0;
+          }
+        });
+      }, 1000);
+    }
+     // Clear the interval when the component is unmounted or when the quiz is finished
+     return () => clearInterval(timerInterval);
+    }, [showResult]);
+
+    const handleTimeout = () => {
+      // You can customize this function to handle what should happen when the timer reaches 0
+      setQuizState((prev) => ({ ...prev, showResult: true }));
+    };
+
+    const formatTime = (timeInSeconds) => {
+      const hours = Math.floor(timeInSeconds / 3600);
+      const minutes = Math.floor((timeInSeconds % 3600) / 60);
+      const seconds = timeInSeconds % 60;
+  
+      const formattedTime = `${addLeadingZero(hours)}:${addLeadingZero(minutes)}:${addLeadingZero(seconds)}`;
+      return formattedTime;
+    };
+
+
+  // calculate result
   const onClickNext = () => {
     if (activeQuestion !== questions.length - 1) {
       setQuizState((prev) => ({
@@ -54,6 +94,8 @@ const QuizPage = () => {
 
   const addLeadingZero = (number) => (number > 9 ? number : `0${number}`)
 
+  
+  // reset quiz
   const resetQuiz = () => {
     if (attempts < maxAttempts) {
       const quizData = {
@@ -62,6 +104,7 @@ const QuizPage = () => {
         correct_answers: result.correctAnswers,
         wrong_answers: result.wrongAnswers,
         attempts: attempts,
+        
       };
   
       // Make a POST request to the backend API
@@ -77,6 +120,7 @@ const QuizPage = () => {
         attempts: prev.attempts + 1,
       }));
     }
+    setTimer(900);
   };
 
   return (
@@ -84,6 +128,7 @@ const QuizPage = () => {
     <div className="quiz-container">
       {!showResult ? (
         <div>
+        <div className="timer">Time left: {formatTime(timer)}</div>
           <div>
             <span className="active-question-no">{addLeadingZero(activeQuestion + 1)}</span>
             <span className="total-question">/{addLeadingZero(questions.length)}</span>
