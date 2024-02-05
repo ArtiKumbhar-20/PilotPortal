@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { quiz } from './questions'
+import axios from 'axios';
 import './Quiz.css'
+
+const apiUrl = 'http://localhost:8000/api/quiz-results/';
 
 const QuizPage = () => {
   const initialQuizState = {
@@ -11,7 +14,7 @@ const QuizPage = () => {
     result: {
       score: 0,
       correctAnswers: 0,
-      wrongAnswers: 0,
+      wrongAnswers: 1,
     },
     attempts: 1,
   };
@@ -53,6 +56,22 @@ const QuizPage = () => {
 
   const resetQuiz = () => {
     if (attempts < maxAttempts) {
+      const quizData = {
+        user_id: 1,  // Replace with the actual user ID or authentication mechanism
+        score: result.score,
+        correct_answers: result.correctAnswers,
+        wrong_answers: result.wrongAnswers,
+        attempts: attempts,
+      };
+  
+      // Make a POST request to the backend API
+      axios.post(apiUrl, quizData)
+        .then(response => {
+          console.log('Quiz data sent successfully:', response.data);
+        })
+        .catch(error => {
+          console.error('Error sending quiz data:', error);
+        });
       setQuizState((prev) => ({
         ...initialQuizState,
         attempts: prev.attempts + 1,

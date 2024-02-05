@@ -60,7 +60,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'studRegistration',
     'idea',
-    'event'
+    'event',
+    'quiz'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
