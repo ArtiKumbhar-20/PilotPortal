@@ -97,7 +97,7 @@ class StudentRegistration(APIView):
 
             # Set the OTP in the serializer context
             serializer.context['verification_otp'] = otp
-            serializer.context['student_email'] = student.stdEmail
+            serializer.data['student_email'] = student.stdEmail
             serializer.context['is_active'] = user.is_active
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)

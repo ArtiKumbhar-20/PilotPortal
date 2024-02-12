@@ -11,6 +11,73 @@ const apiUrl = `${config.backendUrl}/dashboard/`; // Construct Backend API URL
 
 export const Dashboard = () => {
 
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Fetch and set authentication token from wherever you store it (e.g., local storage)
+    const authToken = localStorage.getItem('authToken');
+    // Use authToken as needed in your component
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!oldPassword || !newPassword || !confirmPassword) {
+      setError('All fields must be filled');
+      setMessage('');
+      return;
+    }
+  
+    if (newPassword !== confirmPassword) {
+      setError('New password and confirm password do not match');
+      setMessage('');
+      return;
+    }
+  
+    setLoading(true);
+   try {
+    const response = await axios.post('http://localhost:8000/home/changepassword/', {
+        old_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmPassword,
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+        },
+    });
+
+    if (response.status === 200) {
+        setMessage(response.data.message);
+        setError('');
+        setOldPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+
+        setTimeout(() => {
+            setMessage('');
+        }, 2000);
+
+    } else {
+        setError('Old password is incorrect.');
+        setMessage('');
+    }
+   } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+        setError(error.response.data.error);
+    } else {
+        setError('An unexpected error occurred.');
+    }
+    setMessage('');
+  } finally {
+    setLoading(false);
+}
+};  
+  
   // To change the value of inputs to edit
   const handleInputChange = (field, value) => {
     setStud({
@@ -832,55 +899,56 @@ export const Dashboard = () => {
                 )}  
       {/*.................................................... */}
       {activeSection === "pass" && (
-                <div className='section-content'>
-                  <h3 className='pb-3'>Change Password</h3>
-                  <br></br>
-                  <form>
-                    <div className='row'>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'> Old Password</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter Old Password'
-                            value={teams.teamName}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>New Password</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter New Password'
-                            value={teams.teamCEO}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Confirm Password</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Confirm your Password'
-                            value={teams.teamCOO}
-                          />
-                        </div>
-                      </div>
-                      
-                    </div>
-                    <button type='submit' className='btn btn-custom'>
-                      Confirm
-                    </button>
-                  </form>
-                </div>
-                )} 
+         <div className='section-content'>
+         <h3 className='pb-3'>Change Password</h3>
+         {error && <div className='alert alert-danger' role='alert'>{error}</div>}
+         {message && <div className='alert alert-success' role='alert'>{message}</div>}
+         <br />
+         <form onSubmit={handleSubmit}>
+           <div className='row'>
+             <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+               <div className='form-group'>
+                 <label className='cust-label'>Old Password</label>
+                 <input
+                   className={'form-control ' + (error ? 'is-invalid' : '')}
+                   placeholder='Enter Old Password'
+                   type='password'
+                   value={oldPassword}
+                   onChange={(e) => setOldPassword(e.target.value)}
+                 />
+               </div>
+             </div>
+             <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+               <div className='form-group'>
+                 <label className='cust-label'>New Password</label>
+                 <input
+                   className={'form-control ' + (error ? 'is-invalid' : '')}
+                   placeholder='Enter New Password'
+                   type='password'
+                   value={newPassword}
+                   onChange={(e) => setNewPassword(e.target.value)}
+                 />
+               </div>
+             </div>
+             <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+               <div className='form-group'>
+                 <label className='cust-label'>Confirm Password</label>
+                 <input
+                   className={'form-control ' + (error ? 'is-invalid' : '')}
+                   placeholder='Confirm your Password'
+                   type='password'
+                   value={confirmPassword}
+                   onChange={(e) => setConfirmPassword(e.target.value)}
+                 />
+               </div>
+             </div>
+           </div>
+           <button type='submit' className='btn btn-custom'>
+             Confirm
+           </button>
+         </form>
+       </div>
+      )}
               
 
               </main>

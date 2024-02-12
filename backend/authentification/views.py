@@ -13,6 +13,8 @@ import string
 from .helpers import send_forget_password_mail
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.hashers import check_password
 
 
 class HomeView(APIView):
@@ -46,6 +48,44 @@ class HomeView(APIView):
         content.update(serializer.data)
 
         return Response(content)
+    
+class ChangePasswordView(APIView):
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request):
+        user = request.user
+        old_password = request.data.get('old_password')
+        new_password = request.data.get('new_password')
+        confirm_password = request.data.get('confirm_password')
+
+        if not old_password or not new_password or not confirm_password:
+            return Response({'error': 'All fields must be filled'}, status=status.HTTP_404_NOT_FOUND)
+
+        if not check_password(old_password, user.password):
+            return Response({'error': 'Old password is incorrect'}, status=status.HTTP_404_NOT_FOUND)
+
+        if new_password != confirm_password:
+            return Response({'error': 'New password and confirm password do not match'}, status=status.HTTP_404_NOT_FOUND)
+
+        # Assuming you have a Profile model with a OneToOneField to User
+        profile = Profile.objects.get(user=user)
+
+        # Add any additional password complexity checks here if needed
+
+        # Set the new password for the user
+        user.set_password(new_password)
+        user.save()
+
+        # Update the session to prevent logout after password change
+        update_session_auth_hash(request, user)
+
+        # Optional: Update any additional fields in the Profile model if needed
+        # profile.some_field = new_value
+        # profile.save()
+
+        return Response({'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
+
+
 
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
