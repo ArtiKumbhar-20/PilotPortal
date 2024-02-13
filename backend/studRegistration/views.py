@@ -97,7 +97,7 @@ class StudentRegistration(APIView):
 
             # Set the OTP in the serializer context
             serializer.context['verification_otp'] = otp
-            serializer.context['student_email'] = student.stdEmail
+            serializer.data['student_email'] = student.stdEmail
             serializer.context['is_active'] = user.is_active
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -310,31 +310,38 @@ class TeamDetailView(APIView):
 class PanelistDetailView(APIView):
     def get(self, request, loggedInPanelId):
         try:
-            # Fetching the student using the stdID
-            stud = Panelist.objects.get(panelID=loggedInPanelId)
+            # Fetching the panelist using the panelID
+            panelist = Panelist.objects.get(panelID=loggedInPanelId)
         except Panelist.DoesNotExist:
+            # Return a 404 response if the panelist is not found
             return Response({'error': 'Panelist not found'}, status=404)
-
+        
+        # Create a dictionary containing the serialized data
+        institute_serializer = InstituteSerializer(panelist.panelistInstiID)
         response_data = {
-            'stud': {
-                'panelID': stud.panelID,
-                'panelistFname': stud.panelistFname,
-                'panelistLname': stud.panelistLname,
-                'panelistDOB': stud.panelistDOB,
-                'panelistGender': stud.panelistGender,
-                'panelistEmail': stud.panelistEmail,
-                'panelistMobile': stud.panelistMobile,
-                'panelistWhatsapp': stud.panelistWhatsapp,
-                'panelistAadhar': stud.panelistAadhar,
-                'panelistInstiID': stud.panelistInstiID,
-                'panelistDomain': stud.panelistDomain,
-                'panelistDegree': stud.panelistDegree,
-                'panelistDesignation': stud.panelistDesignation,
-                'panelistTotalExp': stud.panelistTotalExp,
-                'panelistIdeaEvaluated': stud.panelistIdeaEvaluated,
-                'panelistStatus': stud.panelistStatus
+            'panelist': {
+                'panelID': panelist.panelID,
+                'panelistFname': panelist.panelistFname,
+                'panelistLname': panelist.panelistLname,
+                'panelistDOB': panelist.panelistDOB,
+                'panelistGender': panelist.panelistGender,
+                'panelistEmail': panelist.panelistEmail,
+                'panelistMobile': panelist.panelistMobile,
+                'panelistWhatsapp': panelist.panelistWhatsapp,
+                'panelistAadhar': panelist.panelistAadhar,
+                'panelistInstiID': institute_serializer.data,
+
+                'panelistDomain': panelist.panelistDomain,
+                'panelistDegree': panelist.panelistDegree,
+                'panelistDesignation': panelist.panelistDesignation,
+                'panelistTotalExp': panelist.panelistTotalExp,
+                'panelistIdeaEvaluated': panelist.panelistIdeaEvaluated,
+                'panelistStatus': panelist.panelistStatus
+                
             }
         }
+
+        # Return the serialized data in the response
         return Response(response_data)
 
 class InstituteListView(APIView):

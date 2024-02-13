@@ -7,6 +7,7 @@ export const EmailVerification = () => {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
+  const [studentEmail, setStudentEmail] = useState(''); 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -36,6 +37,8 @@ export const EmailVerification = () => {
       if (response.ok) {
         setMessage(data.message);
         setError('');
+        const studentEmail = data.student_email || '';
+        setStudentEmail(studentEmail);
         setTimeout(() => {
           navigate('/login');
         }, 1000);
@@ -63,7 +66,7 @@ export const EmailVerification = () => {
               data-wow-delay='.1s'
             >
               <h2 className='title'>Verify Email</h2>
-              <div style={{ marginTop: '-25px',marginBottom: '10px', color: 'gray' }}>An email has been sent to your registered email. Please verify your email with the OTP.</div>
+              <div style={{ marginTop: '-25px',marginBottom: '10px', color: 'gray' }}>An email has been sent to {studentEmail}. Please verify your email with the OTP.</div>
               {error && <div className='alert alert-danger' role='alert'>{error}</div>}
               {message && <div className='alert alert-success' role='alert'>{message}</div>}
              

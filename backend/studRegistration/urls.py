@@ -12,7 +12,7 @@ urlpatterns = [
     path('StudGetData/<int:loggedInStudId>/', StudentDetailView.as_view(),name='student-detail'),
     path('TeamInfo/<int:loggedInStudId>/', TeamDetailView.as_view(),name='team-detail'),
     path('login/<int:student_id>/', TeamDetailView.as_view(), name='login_view'),
-    path('PanelGetData/<int:loggedInPanelId>/', PanelistDetailView.as_view(),name='panelist-detail'),
+    path('PanelGetData/<int:loggedInPanelId>/',PanelistDetailView.as_view(),name='panelist-detail'),
     path('getInstitutesList/', InstituteListView.as_view(), name='institute-list'),
     path('student-verify-otp/', OTPVerification.as_view(), name='student-verify_otp'),
 ]
