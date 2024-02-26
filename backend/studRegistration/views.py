@@ -289,6 +289,7 @@ class TeamDetailView(APIView):
             if team:
                 teamDetails = {
                     'teamID': team.teamID,
+                    'teamUniqueID': team.teamUniqueID,
                     'teamName': team.teamName,
                     'teamCEO': team.teamCEO,
                     'teamCOO': team.teamCOO,

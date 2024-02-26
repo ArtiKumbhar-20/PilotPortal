@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from datetime import date
 
+
 # Institute Registration
 class Institute(models.Model):
     instID = models.AutoField(primary_key=True)
@@ -41,6 +42,7 @@ class Institute(models.Model):
 # Team Registration   
 class Team(models.Model):
     teamID = models.AutoField(primary_key=True)
+    teamUniqueID = models.PositiveIntegerField(unique=True, blank=True, null=True)
     teamName = models.CharField(max_length=100)
     teamCEO = models.CharField(max_length=100)
     teamCOO = models.CharField(max_length=100)

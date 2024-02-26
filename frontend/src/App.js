@@ -33,7 +33,7 @@ function App() {
         <Route path='/InstituteForm' element={<InstituteForm />}></Route>
         <Route path='/IdeaStatus' element={<IdeaStatus />}></Route>
         <Route path='/Login' element={<Login />}></Route>
-        <Route path='/IdeaSub' element={<IdeaSub />}></Route>
+        <Route path='/Idea-Submission' element={<IdeaSub />}></Route>
         <Route path='/Team-Formation' element={<Team />}></Route>
         <Route path='/Student-Registration' element={<SignUp />}></Route>
         <Route path='/PanelistForm' element={<PanelForm />}></Route>

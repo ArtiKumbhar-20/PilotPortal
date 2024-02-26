@@ -1,14 +1,16 @@
 from django.db import models
-
-# Create your models here.
-from django.db import models
 from django.utils import timezone
+from studRegistration.models import Institute
+from studRegistration.models import Team
 
 class IdeaSub(models.Model):
     ideaID = models.AutoField(primary_key=True)
-    # ideaTeamID = models.ForeignKey('Institution', on_delete=models.CASCADE)
+    ideaStatus = models.CharField(max_length=100, default='Idea Submitted')
+    # ideaTeamID = models.CharField(max_length=100, blank=True, null=True)
+    ideaTeamID = models.ForeignKey(Team, to_field='teamUniqueID', on_delete=models.CASCADE, blank=True, null=True)
+    ideaUniqueID = models.PositiveIntegerField(unique=True, blank=True, null=True)
     ideaTeamName = models.CharField(max_length=100)
-    ideaTeamInstiID = models.CharField(max_length=100,default='1')
+    ideaTeamInstiID = models.ForeignKey(Institute, on_delete=models.CASCADE)
     ideaTeamCFO = models.CharField(max_length=100)
     ideaTeamCEO = models.CharField(max_length=100) 
     ideaTeamCTO = models.CharField(max_length=100)

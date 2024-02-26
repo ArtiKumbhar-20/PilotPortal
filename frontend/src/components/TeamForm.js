@@ -60,7 +60,10 @@ export const TeamForm = () => {
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       setLoading(true);
       try {
+        const generatedTeamUniqueID = Math.floor(100_000_000 + Math.random() * 900_000_000);
+
         const response = await axios.post(apiUrl, {
+          teamUniqueID: generatedTeamUniqueID,
           teamName,
           teamCEO,
           teamCFO,
@@ -76,7 +79,6 @@ export const TeamForm = () => {
         // console.log("response.data.message: ", response.data.message)
         // console.log("response.message: ", response.message)
         // console.log("response.error: ", response.error)
-
 
         if (response.status === 201) {
           setAlertType("success");

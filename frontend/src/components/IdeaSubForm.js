@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 //Step 1:
 import { validateRequired } from "./formValidator";
@@ -7,6 +7,17 @@ import config from "./config";
 const apiUrl = `${config.backendUrl}/ideasub/`; // Construct Backend API URL
 
 export const IdeaSubForm = () => {
+
+  // Fetch Institute List from backend
+  const [institutes, setInstitutes] = useState([]);
+  useEffect(() => {
+    fetch(`${config.backendUrl}/getInstitutesList/`)  // Adjust the URL as per your Django server
+      .then(response => response.json())
+      .then(data => setInstitutes(data.institutes))
+      .catch(error => console.error('Error fetching institutes:', error));
+  }, []);
+
+  const [loading, setLoading] = useState(false);
   // const [ideaID, setIdeaID] = useState('');
   const [ideaTeamID, setIdeaTeamID] = useState("");
   const [ideaTeamName, setIdeaTeamName] = useState("");
@@ -77,7 +88,7 @@ export const IdeaSubForm = () => {
   // Reset from after successfull submission
   const ideaForm = useRef(null);
 
-  const sendIdeaDetails = (event) => {
+  const sendIdeaDetails = async (event) => {
     event.preventDefault();
 
     // Step 3: For Validation
@@ -119,11 +130,13 @@ export const IdeaSubForm = () => {
 
     // Step 5: For Validation : If statement
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
-      console.log(formErrors); // Add this line before the axios call
-      axios({
-        method: "post",
-        url: apiUrl,
-        data: {
+      setLoading(true);
+      try {
+        console.log(formErrors); // Add this line before the axios call
+        const generatedIdeaUniqueID = Math.floor(100_000_000 + Math.random() * 900_000_000);
+
+        const response = await axios.post(apiUrl, {
+          ideaUniqueID: generatedIdeaUniqueID,
           // ideaID,
           ideaTeamID,
           ideaTeamName,
@@ -155,13 +168,16 @@ export const IdeaSubForm = () => {
           ideaTeamProtoTime,
           ideaTeamProtoCost,
           ideaTeamIncuSupport,
-        },
-      }).then((response) => {
+        });
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
-        ideaForm.current.reset();
-      });
-    } // Closing of If statment
+        // ideaForm.current.reset();
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   return (
@@ -254,7 +270,11 @@ export const IdeaSubForm = () => {
                     <option selected disabled>
                       Select Institute
                     </option>
-                    <option value='1'>DYP</option>
+                    {institutes.map((institute, index) => (
+                      <option key={index} value={institute.instID}>
+                        {institute.instName}
+                      </option>
+                    ))}
                   </select>
                   {formErrors.ideaTeamInstiID && (
                     <div className='invalid-feedback'>
@@ -612,8 +632,8 @@ export const IdeaSubForm = () => {
                     <option selected disabled>
                       Select Problem Statement Domain
                     </option>
-                    <option value='1'>Health</option>
-                    <option value='1'>Agriculture</option>
+                    <option value='Health'>Health</option>
+                    <option value='Agriculture'>Agriculture</option>
                   </select>
                   {formErrors.ideaTeamDomain && (
                     <div className='invalid-feedback'>
@@ -644,8 +664,8 @@ export const IdeaSubForm = () => {
                     <option selected disabled>
                       Select Sustainable Development Goals
                     </option>
-                    <option value='1'>Health</option>
-                    <option value='1'>Agriculture</option>
+                    <option value='Health'>Health</option>
+                    <option value='Agriculture'>Agriculture</option>
                   </select>
                   {formErrors.ideaTeamSDG && (
                     <div className='invalid-feedback'>
@@ -835,8 +855,8 @@ export const IdeaSubForm = () => {
                     <option selected disabled>
                       Select Team Offering Type
                     </option>
-                    <option value='1'>Health</option>
-                    <option value='1'>Agriculture</option>
+                    <option value='Health'>Health</option>
+                    <option value='Agriculture'>Agriculture</option>
                   </select>
                   {formErrors.ideaTeamOfferingType && (
                     <div className='invalid-feedback'>
@@ -1057,8 +1077,14 @@ export const IdeaSubForm = () => {
                 </div>
               </div>
               <div className='col-12 text-center mt-4'>
-                <button className='btn btn-style-one' type='submit'>
-                  <span>Submit Now</span>
+                <button className='btn btn-style-one' type='submit' disabled={loading}>
+                  {loading ? (
+                    <span>
+                      <i className="fa fa-spinner fa-spin" /> Submitting...
+                    </span>
+                  ) : (
+                    <span>Submit Now</span>
+                  )}
                 </button>
               </div>
             </form>

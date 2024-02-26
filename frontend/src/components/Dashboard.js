@@ -26,32 +26,32 @@ export const Dashboard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!oldPassword || !newPassword || !confirmPassword) {
       setError('All fields must be filled');
       setMessage('');
       return;
     }
-  
+
     if (newPassword !== confirmPassword) {
       setError('New password and confirm password do not match');
       setMessage('');
       return;
     }
-  
+
     setLoading(true);
-   try {
-    const response = await axios.post('http://localhost:8000/home/changepassword/', {
+    try {
+      const response = await axios.post('http://localhost:8000/home/changepassword/', {
         old_password: oldPassword,
         new_password: newPassword,
         confirm_password: confirmPassword,
-    }, {
+      }, {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
-    });
+      });
 
-    if (response.status === 200) {
+      if (response.status === 200) {
         setMessage(response.data.message);
         setError('');
         setOldPassword('');
@@ -59,25 +59,25 @@ export const Dashboard = () => {
         setConfirmPassword('');
 
         setTimeout(() => {
-            setMessage('');
+          setMessage('');
         }, 2000);
 
-    } else {
+      } else {
         setError('Old password is incorrect.');
         setMessage('');
-    }
-   } catch (error) {
-    if (error.response && error.response.data && error.response.data.error) {
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.error) {
         setError(error.response.data.error);
-    } else {
+      } else {
         setError('An unexpected error occurred.');
+      }
+      setMessage('');
+    } finally {
+      setLoading(false);
     }
-    setMessage('');
-  } finally {
-    setLoading(false);
-}
-};  
-  
+  };
+
   // To change the value of inputs to edit
   const handleInputChange = (field, value) => {
     setStud({
@@ -137,14 +137,14 @@ export const Dashboard = () => {
         });
     } else {
       axios
-      .get(`${config.backendUrl}/PanelGetData/${loggedInPanelId}/`)
-      .then((response) => {
-        console.log('PanelGetData Response:', response.data.panelist);
-        setPanelist(response.data.panelist);
-      })
-      .catch((error) => {
-        console.error('Error fetching submitted data:', error);
-      });
+        .get(`${config.backendUrl}/PanelGetData/${loggedInPanelId}/`)
+        .then((response) => {
+          console.log('PanelGetData Response:', response.data.panelist);
+          setPanelist(response.data.panelist);
+        })
+        .catch((error) => {
+          console.error('Error fetching submitted data:', error);
+        });
     }
   }, [loggedInPanelId]);
 
@@ -274,231 +274,243 @@ export const Dashboard = () => {
                   <div className='section-content'>
                     <h3 className='pb-3'>Student Details</h3>
                     <form>
-                    <div className='row'>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>First Name</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your name'
-                            value={stud.stdFname}
-                          />
+                      <div className='row'>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Student Unique ID</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your name'
+                              value={stud.stdUniqueID}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>First Name</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your name'
+                              value={stud.stdFname}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Last Name</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your name'
+                              value={stud.stdLname}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Date of Birth</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Date of Birth'
+                              value={stud.stdDOB}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Gender</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your gender'
+                              value={stud.stdGender}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Mobile Number</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your gender'
+                              value={stud.stdMobile}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Whatsapp Number</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your gender'
+                              value={stud.stdWhatsapp}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label for='studentEmail' className='cust-label'>
+                              Email
+                            </label>
+                            <input
+                              type='email'
+                              className='form-control cust-input'
+                              id='studentEmail'
+                              placeholder='Enter your email'
+                              value={stud.Email}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Student Address</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your address'
+                              value={stud.stdAddress}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>City </label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your city'
+                              value={stud.stdAddrCity}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>District</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your district'
+                              value={stud.stdAddrDist}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>State</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter state'
+                              value={stud.stdAddrState}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Country</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter country'
+                              value={stud.stdAddrCountry}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Pincode</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter pin'
+                              value={stud.stdAddrPin}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Institute Name</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your institute name'
+                              value={stud.stdInstiID}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Stream</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your stream'
+                              value={stud.stdStream}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Branch</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your branch'
+                              value={stud.stdBranch}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Passout Year</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your passout year'
+                              value={stud.stdPassoutYear}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>
+                              Tried Startup Before
+                            </label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              value={stud.stdTriedStartupBefore}
+                            />
+                          </div>
                         </div>
                       </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Last Name</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your name'
-                            value={stud.stdLname}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Date of Birth</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Date of Birth'
-                            value={stud.stdDOB}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Gender</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your gender'
-                            value={stud.stdGender}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Mobile Number</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your gender'
-                            value={stud.stdMobile}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Whatsapp Number</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your gender'
-                            value={stud.stdWhatsapp}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label for='studentEmail' className='cust-label'>
-                            Email
-                          </label>
-                          <input
-                            type='email'
-                            className='form-control cust-input'
-                            id='studentEmail'
-                            placeholder='Enter your email'
-                            value={stud.Email}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Student Address</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your address'
-                            value={stud.stdAddress}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>City </label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your city'
-                            value={stud.stdAddrCity}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>District</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your district'
-                            value={stud.stdAddrDist}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>State</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter state'
-                            value={stud.stdAddrState}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Country</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter country'
-                            value={stud.stdAddrCountry}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Pincode</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter pin'
-                            value={stud.stdAddrPin}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Institute Name</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your institute name'
-                            value={stud.stdInstiID}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Stream</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your stream'
-                            value={stud.stdStream}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Branch</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your branch'
-                            value={stud.stdBranch}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Passout Year</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your passout year'
-                            value={stud.stdPassoutYear}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>
-                            Tried Startup Before
-                          </label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            value={stud.stdTriedStartupBefore}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <button type='submit' className='btn btn-custom'>
-                      Update Details
-                    </button>
-                  </form>
+                      <button type='submit' className='btn btn-custom'>
+                        Update Details
+                      </button>
+                    </form>
                   </div>
                 )}
 
@@ -506,104 +518,116 @@ export const Dashboard = () => {
                 {/* Add other content sections for student */}
                 {/* ... */}
                 {activeSection === "team-members" && (
-                <div className='section-content'>
-                  <h3 className='pb-3'>Team Details</h3>
-                  <form>
-                    <div className='row'>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Team Name</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your team name'
-                            value={teams.teamName}
-                          />
+                  <div className='section-content'>
+                    <h3 className='pb-3'>Team Details</h3>
+                    <form>
+                      <div className='row'>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Team Unique ID</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your team name'
+                              value={teams.teamUniqueID}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Team Name</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your team name'
+                              value={teams.teamName}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Team CEO</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter team CEO name'
+                              value={teams.teamCEO}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Team COO</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter team COO name'
+                              value={teams.teamCOO}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Team CMO</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter team CMO name'
+                              value={teams.teamCMO}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Team CTO</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter team CTO name'
+                              value={teams.teamCTO}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Team CFO</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter team CFO name'
+                              value={teams.teamCFO}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-8 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>
+                              Team Institute Name
+                            </label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Enter your institute name'
+                              value={teams.teamInstiID.instName}
+                            // value='Zeal College of Engineering & Research, Pune'
+                            />
+                          </div>
                         </div>
                       </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Team CEO</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter team CEO name'
-                            value={teams.teamCEO}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Team COO</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter team COO name'
-                            value={teams.teamCOO}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Team CMO</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter team CMO name'
-                            value={teams.teamCMO}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Team CTO</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter team CTO name'
-                            value={teams.teamCTO}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Team CFO</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter team CFO name'
-                            value={teams.teamCFO}
-                          />
-                        </div>
-                      </div>
-                      <div className='col-12 col-xl-8 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>
-                            Team Institute Name
-                          </label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Enter your institute name'
-                            value={teams.teamID}
-                          // value='Zeal College of Engineering & Research, Pune'
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <button type='submit' className='btn btn-custom'>
-                      Update Details
-                    </button>
-                  </form>
-                </div>
-              )}
+                      <button type='submit' className='btn btn-custom'>
+                        Update Details
+                      </button>
+                    </form>
+                  </div>
+                )}
 
               </main>
             </div>
@@ -712,18 +736,18 @@ export const Dashboard = () => {
                           </div>
                         </div>
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-                        <div className='form-group'>
-                          <label className='cust-label'>Gender</label>
-                          <input
-                            type='text'
-                            className='form-control cust-input'
-                            id='studentName'
-                            placeholder='Gender'
-                            value={panelist.panelistGender}
+                          <div className='form-group'>
+                            <label className='cust-label'>Gender</label>
+                            <input
+                              type='text'
+                              className='form-control cust-input'
+                              id='studentName'
+                              placeholder='Gender'
+                              value={panelist.panelistGender}
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Email</label>
@@ -736,7 +760,7 @@ export const Dashboard = () => {
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Mobile Number</label>
@@ -749,7 +773,7 @@ export const Dashboard = () => {
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Whatsapp Number</label>
@@ -762,7 +786,7 @@ export const Dashboard = () => {
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Adhar Number</label>
@@ -775,7 +799,7 @@ export const Dashboard = () => {
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Institute Name</label>
@@ -784,12 +808,12 @@ export const Dashboard = () => {
                               className='form-control cust-input'
                               id='studentName'
                               placeholder='Institute Name'
-                             value={panelist.panelistInstiID}
-                              //value={panelist.panelistInstiID.instName}
-                            /> 
-                          </div> 
-                        </div> 
-                        
+                              value={panelist.panelistInstiID}
+                            //value={panelist.panelistInstiID.instName}
+                            />
+                          </div>
+                        </div>
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Domain</label>
@@ -802,7 +826,7 @@ export const Dashboard = () => {
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Degree</label>
@@ -815,7 +839,7 @@ export const Dashboard = () => {
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Designation</label>
@@ -828,7 +852,7 @@ export const Dashboard = () => {
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Total Years of Experience</label>
@@ -841,7 +865,7 @@ export const Dashboard = () => {
                             />
                           </div>
                         </div>
-                        
+
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
                           <div className='form-group'>
                             <label className='cust-label'>Total Ideas Evaluated</label>
@@ -851,9 +875,9 @@ export const Dashboard = () => {
                               id='studentName'
                               placeholder='Total Ideas Evaluated'
                               value={panelist.panelistIdeaEvaluated}
-                          />
+                            />
+                          </div>
                         </div>
-                      </div>
                       </div>
                       <button type='submit' className='btn btn-custom'>
                         Update Details
@@ -862,132 +886,132 @@ export const Dashboard = () => {
                   </div>
                 )}
 
-                
+
                 {/* ... */}
                 {activeSection === "evaluated" && (
-                <div className='section-content'>
-                  <h3 className='pb-3'>Evaluated Ideas</h3>
-                  
-                  <div class="row">
+                  <div className='section-content'>
+                    <h3 className='pb-3'>Evaluated Ideas</h3>
 
-                  <div class="col-sm-6">
-                    <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                      <div class="card-body">
-                       <h5 class="card-title">Idea ID:</h5>
-                       <p class="card-text">With supporting text below as a natural lead-in to additional content. The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
-                       <h6>Date of Evaluation: </h6>
+                    <div class="row">
+
+                      <div class="col-sm-6">
+                        <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                          <div class="card-body">
+                            <h5 class="card-title">Idea ID:</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content. The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+                            <h6>Date of Evaluation: </h6>
+                          </div>
+                        </div>
                       </div>
+
+
+
+                      <div class="col-sm-6">
+                        <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                          <div class="card-body">
+                            <h5 class="card-title">Idea ID:</h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content. The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+                            <h6>Date of Evaluation:</h6>
+
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   </div>
+                )}
 
-                      
-                     
-                  <div class="col-sm-6">
-                    <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                      <div class="card-body">
-                        <h5 class="card-title">Idea ID:</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content. The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
-                        <h6>Date of Evaluation:</h6>
-                        
+                {/*.................................................... */}
+                {activeSection === "assigned" && (
+                  <div className='section-content'>
+                    <h3 className='pb-3'>Assigned Ideas</h3>
+
+
+                    <div class="row">
+
+                      <div class="col-sm-6">
+                        <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                          <div class="card-body">
+                            <h5 class="card-title">Idea ID:</h5>
+                            <p class="card-text">With supporting text </p>
+                            <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+
+                            <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>Evaluate</button>
+
+                          </div>
+                        </div>
                       </div>
+
+                      <div class="col-sm-6">
+                        <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                          <div class="card-body">
+                            <h5 class="card-title">Idea ID:</h5>
+                            <p class="card-text">With supporting text </p>
+                            <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+
+                            <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>Evaluate</button>
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
-                  </div> 
+
 
                   </div>
-                </div>
-              )}
-
-      {/*.................................................... */}
-      {activeSection === "assigned" && (
-                <div className='section-content'>
-                  <h3 className='pb-3'>Assigned Ideas</h3>
-                  
-                 
-                  <div class="row">
-
-                  <div class="col-sm-6">
-                    <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                      <div class="card-body">
-                       <h5 class="card-title">Idea ID:</h5>
-                       <p class="card-text">With supporting text </p>
-                       <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
-
-                       <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>Evaluate</button>
-
+                )}
+                {/*.................................................... */}
+                {activeSection === "pass" && (
+                  <div className='section-content'>
+                    <h3 className='pb-3'>Change Password</h3>
+                    {error && <div className='alert alert-danger' role='alert'>{error}</div>}
+                    {message && <div className='alert alert-success' role='alert'>{message}</div>}
+                    <br />
+                    <form onSubmit={handleSubmit}>
+                      <div className='row'>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Old Password</label>
+                            <input
+                              className={'form-control ' + (error ? 'is-invalid' : '')}
+                              placeholder='Enter Old Password'
+                              type='password'
+                              value={oldPassword}
+                              onChange={(e) => setOldPassword(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>New Password</label>
+                            <input
+                              className={'form-control ' + (error ? 'is-invalid' : '')}
+                              placeholder='Enter New Password'
+                              type='password'
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Confirm Password</label>
+                            <input
+                              className={'form-control ' + (error ? 'is-invalid' : '')}
+                              placeholder='Confirm your Password'
+                              type='password'
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>   
-                     
-                  <div class="col-sm-6">
-                    <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                      <div class="card-body">
-                       <h5 class="card-title">Idea ID:</h5>
-                       <p class="card-text">With supporting text </p>
-                       <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
-
-                       <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>Evaluate</button> 
-                      </div>
-                    </div>
-                  </div> 
-
+                      <button type='submit' className='btn btn-custom'>
+                        Confirm
+                      </button>
+                    </form>
                   </div>
-                    
-                 
-                </div>
-                )}   
-      {/*.................................................... */}
-      {activeSection === "pass" && (
-         <div className='section-content'>
-         <h3 className='pb-3'>Change Password</h3>
-         {error && <div className='alert alert-danger' role='alert'>{error}</div>}
-         {message && <div className='alert alert-success' role='alert'>{message}</div>}
-         <br />
-         <form onSubmit={handleSubmit}>
-           <div className='row'>
-             <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-               <div className='form-group'>
-                 <label className='cust-label'>Old Password</label>
-                 <input
-                   className={'form-control ' + (error ? 'is-invalid' : '')}
-                   placeholder='Enter Old Password'
-                   type='password'
-                   value={oldPassword}
-                   onChange={(e) => setOldPassword(e.target.value)}
-                 />
-               </div>
-             </div>
-             <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-               <div className='form-group'>
-                 <label className='cust-label'>New Password</label>
-                 <input
-                   className={'form-control ' + (error ? 'is-invalid' : '')}
-                   placeholder='Enter New Password'
-                   type='password'
-                   value={newPassword}
-                   onChange={(e) => setNewPassword(e.target.value)}
-                 />
-               </div>
-             </div>
-             <div className='col-12 col-xl-4 col-lg-4 mb-2'>
-               <div className='form-group'>
-                 <label className='cust-label'>Confirm Password</label>
-                 <input
-                   className={'form-control ' + (error ? 'is-invalid' : '')}
-                   placeholder='Confirm your Password'
-                   type='password'
-                   value={confirmPassword}
-                   onChange={(e) => setConfirmPassword(e.target.value)}
-                 />
-               </div>
-             </div>
-           </div>
-           <button type='submit' className='btn btn-custom'>
-             Confirm
-           </button>
-         </form>
-       </div>
-      )}
-              
+                )}
+
 
               </main>
             </div>
