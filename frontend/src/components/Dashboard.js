@@ -672,7 +672,7 @@ export const Dashboard = () => {
                   <div className='section-content'>
                     <h3>Idea Status</h3>
                     <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
-
+                    <p><b>Idea Status: </b>{ideaDetail.ideaStatus}</p>
                   </div>
                 )}
 
