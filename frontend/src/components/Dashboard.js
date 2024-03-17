@@ -629,6 +629,48 @@ export const Dashboard = () => {
                   </div>
                 )}
 
+                {activeSection === 'submitted-ideas' && (
+                  <div className='section-content'>
+                    <h3>Submitted Ideas</h3>
+                    <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
+                    <div className='section-content'>
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                            <div class="card-body">
+                              <h6 class="card-title"><b>Idea ID:</b></h6>
+                              <hr style={{ borderBottom: '1px solid #000', margin: '15px 0' }} />
+                              <p class="card-text">With supporting text </p>
+                              <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+                              <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>View More</button>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                            <div class="card-body">
+                              <h6 class="card-title"><b>Idea ID:</b></h6>
+                              <hr style={{ borderBottom: '1px solid #000', margin: '15px 0' }} />
+                              <p class="card-text">With supporting text </p>
+                              <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+                              <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>View More</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeSection === 'idea-status' && (
+                  <div className='section-content'>
+                    <h3>Idea Status</h3>
+                    <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
+
+                  </div>
+                )}
+
               </main>
             </div>
           )}
@@ -696,7 +738,8 @@ export const Dashboard = () => {
                 {/* Render content based on activeSection */}
                 {activeSection === 'profile' && (
                   <div className='section-content'>
-                    <h3 className='pb-3'>Panelist Details</h3>
+                    <h3 >Panelist Details</h3>
+                    <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
                     <form>
                       <div className='row'>
                         <div className='col-12 col-xl-4 col-lg-4 mb-2'>
@@ -890,7 +933,8 @@ export const Dashboard = () => {
                 {/* ... */}
                 {activeSection === "evaluated" && (
                   <div className='section-content'>
-                    <h3 className='pb-3'>Evaluated Ideas</h3>
+                    <h3>Evaluated Ideas</h3>
+                    <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
 
                     <div class="row">
 
@@ -924,10 +968,19 @@ export const Dashboard = () => {
                 {/*.................................................... */}
                 {activeSection === "assigned" && (
                   <div className='section-content'>
-                    <h3 className='pb-3'>Assigned Ideas</h3>
-
-
+                    <h3>Assigned Ideas</h3>
+                    <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
                     <div class="row">
+                      <div class="col-sm-6">
+                        <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
+                          <div class="card-body">
+                            <h5 class="card-title">Idea ID:</h5>
+                            <p class="card-text">With supporting text </p>
+                            <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
+                            <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>Evaluate</button>
+                          </div>
+                        </div>
+                      </div>
 
                       <div class="col-sm-6">
                         <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
@@ -937,32 +990,17 @@ export const Dashboard = () => {
                             <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
 
                             <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>Evaluate</button>
-
                           </div>
                         </div>
                       </div>
-
-                      <div class="col-sm-6">
-                        <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '20px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                          <div class="card-body">
-                            <h5 class="card-title">Idea ID:</h5>
-                            <p class="card-text">With supporting text </p>
-                            <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
-
-                            <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>Evaluate</button>
-                          </div>
-                        </div>
-                      </div>
-
                     </div>
-
-
                   </div>
                 )}
                 {/*.................................................... */}
                 {activeSection === "pass" && (
                   <div className='section-content'>
-                    <h3 className='pb-3'>Change Password</h3>
+                    <h3>Change Password</h3>
+                    <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
                     {error && <div className='alert alert-danger' role='alert'>{error}</div>}
                     {message && <div className='alert alert-success' role='alert'>{message}</div>}
                     <br />

@@ -10,12 +10,12 @@ class IdeaSub(models.Model):
     ideaTeamID = models.ForeignKey(Team, to_field='teamUniqueID', on_delete=models.CASCADE, blank=True, null=True)
     ideaUniqueID = models.PositiveIntegerField(unique=True, blank=True, null=True)
     ideaTeamName = models.CharField(max_length=100)
-    ideaTeamInstiID = models.ForeignKey(Institute, on_delete=models.CASCADE)
-    ideaTeamCFO = models.CharField(max_length=100)
-    ideaTeamCEO = models.CharField(max_length=100) 
-    ideaTeamCTO = models.CharField(max_length=100)
-    ideaTeamCOO = models.CharField(max_length=100)
-    ideaTeamCMO = models.CharField(max_length=100)
+    # ideaTeamInstiID = models.ForeignKey(Institute, on_delete=models.CASCADE)
+    # ideaTeamCFO = models.CharField(max_length=100)
+    # ideaTeamCEO = models.CharField(max_length=100) 
+    # ideaTeamCTO = models.CharField(max_length=100)
+    # ideaTeamCOO = models.CharField(max_length=100)
+    # ideaTeamCMO = models.CharField(max_length=100)
     ideaTeamPSdetail = models.CharField(max_length=100)
     ideaTeamPersona1 = models.CharField(max_length=100)
     ideaTeamPersona2 = models.CharField(max_length=100)
@@ -44,7 +44,7 @@ class IdeaSub(models.Model):
     recordUpdatedBy = models.CharField(max_length=100, default='admin')
 
     def __str__(self):
-        return f"{self.ideaTeamName} {self.ideaID} ({self.ideaTeamInstiID})"
+        return f"{self.ideaID} {self.ideaTeamName}"
 
 class IdeaStat(models.Model):
     ideaStatID = models.AutoField(primary_key=True)

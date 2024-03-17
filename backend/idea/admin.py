@@ -5,8 +5,7 @@ from .models import *
 @admin.register(IdeaSub)
 class IdeaSubAdmin(admin.ModelAdmin):
     list_display = (
-        'ideaID','ideaUniqueID','ideaTeamID','ideaTeamName','ideaTeamInstiID',
-        'ideaTeamCFO','ideaTeamCEO','ideaTeamCTO','ideaTeamCOO','ideaTeamCMO','ideaTeamPSdetail',
+        'ideaID','ideaUniqueID','ideaTeamID','ideaTeamName','ideaTeamPSdetail',
         'ideaTeamPersona1','ideaTeamPersona2','ideaTeamInterviews','ideaTeamQuestions',
         'ideaTeamInsights','ideaTeamFinalPS','ideaTeamDomain','ideaTeamSDG',
         'ideaTeamSolnCount','ideaTeamTopSoln1','ideaTeamTopSoln2','ideaTeamTopSoln3',

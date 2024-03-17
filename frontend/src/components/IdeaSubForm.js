@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 //Step 1:
 import { validateRequired } from "./formValidator";
@@ -9,24 +9,24 @@ const apiUrl = `${config.backendUrl}/ideasub/`; // Construct Backend API URL
 export const IdeaSubForm = () => {
 
   // Fetch Institute List from backend
-  const [institutes, setInstitutes] = useState([]);
-  useEffect(() => {
-    fetch(`${config.backendUrl}/getInstitutesList/`)  // Adjust the URL as per your Django server
-      .then(response => response.json())
-      .then(data => setInstitutes(data.institutes))
-      .catch(error => console.error('Error fetching institutes:', error));
-  }, []);
+  // const [institutes, setInstitutes] = useState([]);
+  // useEffect(() => {
+  //   fetch(`${config.backendUrl}/getInstitutesList/`)  // Adjust the URL as per your Django server
+  //     .then(response => response.json())
+  //     .then(data => setInstitutes(data.institutes))
+  //     .catch(error => console.error('Error fetching institutes:', error));
+  // }, []);
 
   const [loading, setLoading] = useState(false);
   // const [ideaID, setIdeaID] = useState('');
   const [ideaTeamID, setIdeaTeamID] = useState("");
   const [ideaTeamName, setIdeaTeamName] = useState("");
-  const [ideaTeamInstiID, setIdeaTeamInstiID] = useState("");
-  const [ideaTeamCFO, setIdeaTeamCFO] = useState("");
-  const [ideaTeamCEO, setIdeaTeamCEO] = useState("");
-  const [ideaTeamCTO, setIdeaTeamCTO] = useState("");
-  const [ideaTeamCOO, setIdeaTeamCOO] = useState("");
-  const [ideaTeamCMO, setIdeaTeamCMO] = useState("");
+  // const [ideaTeamInstiID, setIdeaTeamInstiID] = useState("");
+  // const [ideaTeamCFO, setIdeaTeamCFO] = useState("");
+  // const [ideaTeamCEO, setIdeaTeamCEO] = useState("");
+  // const [ideaTeamCTO, setIdeaTeamCTO] = useState("");
+  // const [ideaTeamCOO, setIdeaTeamCOO] = useState("");
+  // const [ideaTeamCMO, setIdeaTeamCMO] = useState("");
   const [ideaTeamPSdetail, setIdeaTeamPSdetail] = useState("");
   const [ideaTeamPersona1, setIdeaTeamPersona1] = useState("");
   const [ideaTeamPersona2, setIdeaTeamPersona2] = useState("");
@@ -55,12 +55,12 @@ export const IdeaSubForm = () => {
   const [formErrors, setFormErrors] = useState({
     ideaTeamID: "",
     ideaTeamName: "",
-    ideaTeamInstiID: "",
-    ideaTeamCFO: "",
-    ideaTeamCEO: "",
-    ideaTeamCTO: "",
-    ideaTeamCOO: "",
-    ideaTeamCMO: "",
+    // ideaTeamInstiID: "",
+    // ideaTeamCFO: "",
+    // ideaTeamCEO: "",
+    // ideaTeamCTO: "",
+    // ideaTeamCOO: "",
+    // ideaTeamCMO: "",
     ideaTeamPSdetail: "",
     ideaTeamPersona1: "",
     ideaTeamPersona2: "",
@@ -95,12 +95,12 @@ export const IdeaSubForm = () => {
     const newFormErrors = {
       ideaTeamID: validateRequired(ideaTeamID),
       ideaTeamName: validateRequired(ideaTeamName),
-      ideaTeamInstiID: validateRequired(ideaTeamInstiID),
-      ideaTeamCFO: validateRequired(ideaTeamCFO),
-      ideaTeamCEO: validateRequired(ideaTeamCEO),
-      ideaTeamCTO: validateRequired(ideaTeamCTO),
-      ideaTeamCOO: validateRequired(ideaTeamCOO),
-      ideaTeamCMO: validateRequired(ideaTeamCMO),
+      // ideaTeamInstiID: validateRequired(ideaTeamInstiID),
+      // ideaTeamCFO: validateRequired(ideaTeamCFO),
+      // ideaTeamCEO: validateRequired(ideaTeamCEO),
+      // ideaTeamCTO: validateRequired(ideaTeamCTO),
+      // ideaTeamCOO: validateRequired(ideaTeamCOO),
+      // ideaTeamCMO: validateRequired(ideaTeamCMO),
       ideaTeamPSdetail: validateRequired(ideaTeamPSdetail),
       ideaTeamPersona1: validateRequired(ideaTeamPersona1),
       ideaTeamPersona2: validateRequired(ideaTeamPersona2),
@@ -140,12 +140,12 @@ export const IdeaSubForm = () => {
           // ideaID,
           ideaTeamID,
           ideaTeamName,
-          ideaTeamInstiID,
-          ideaTeamCFO,
-          ideaTeamCEO,
-          ideaTeamCTO,
-          ideaTeamCOO,
-          ideaTeamCMO,
+          // ideaTeamInstiID,
+          // ideaTeamCFO,
+          // ideaTeamCEO,
+          // ideaTeamCTO,
+          // ideaTeamCOO,
+          // ideaTeamCMO,
           ideaTeamPSdetail,
           ideaTeamPersona1,
           ideaTeamPersona2,
@@ -250,163 +250,7 @@ export const IdeaSubForm = () => {
                     </div>
                   )}
                 </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>Institute Name</label>
-                  <select
-                    className={
-                      "form-select " +
-                      (formErrors.ideaTeamInstiID ? "is-invalid" : "")
-                    }
-                    name={ideaTeamInstiID}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setIdeaTeamInstiID(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        ideaTeamInstiID: validateRequired(value),
-                      }));
-                    }}
-                  >
-                    <option selected disabled>
-                      Select Institute
-                    </option>
-                    {institutes.map((institute, index) => (
-                      <option key={index} value={institute.instID}>
-                        {institute.instName}
-                      </option>
-                    ))}
-                  </select>
-                  {formErrors.ideaTeamInstiID && (
-                    <div className='invalid-feedback'>
-                      {formErrors.ideaTeamInstiID}
-                    </div>
-                  )}
-                </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>CEO</label>
-                  <input
-                    type='text'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setIdeaTeamCEO(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        ideaTeamCEO: validateRequired(value),
-                      }));
-                    }}
-                    className={
-                      "form-control " +
-                      (formErrors.ideaTeamCEO ? "is-invalid" : "")
-                    }
-                    placeholder='Enter Team CEO'
-                    name={ideaTeamCEO}
-                  />
-                  {formErrors.ideaTeamCEO && (
-                    <div className='invalid-feedback'>
-                      {formErrors.ideaTeamCEO}
-                    </div>
-                  )}
-                </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>CFO</label>
-                  <input
-                    type='text'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setIdeaTeamCFO(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        ideaTeamCFO: validateRequired(value),
-                      }));
-                    }}
-                    className={
-                      "form-control " +
-                      (formErrors.ideaTeamCFO ? "is-invalid" : "")
-                    }
-                    placeholder='Enter Team CFO'
-                    name={ideaTeamCFO}
-                  />
-                  {formErrors.ideaTeamCFO && (
-                    <div className='invalid-feedback'>
-                      {formErrors.ideaTeamCFO}
-                    </div>
-                  )}
-                </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>CTO</label>
-                  <input
-                    type='text'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setIdeaTeamCTO(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        ideaTeamCTO: validateRequired(value),
-                      }));
-                    }}
-                    className={
-                      "form-control " +
-                      (formErrors.ideaTeamCTO ? "is-invalid" : "")
-                    }
-                    placeholder='Team Member looking after Technological aspects of your ideas'
-                    name={ideaTeamCTO}
-                  />
-                  {formErrors.ideaTeamCTO && (
-                    <div className='invalid-feedback'>
-                      {formErrors.ideaTeamCTO}
-                    </div>
-                  )}
-                </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>COO</label>
-                  <input
-                    type='text'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setIdeaTeamCOO(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        ideaTeamCOO: validateRequired(value),
-                      }));
-                    }}
-                    className={
-                      "form-control " +
-                      (formErrors.ideaTeamCOO ? "is-invalid" : "")
-                    }
-                    placeholder='Team Member looking after Operational aspects of your ideas'
-                    name={ideaTeamCOO}
-                  />
-                  {formErrors.ideaTeamCOO && (
-                    <div className='invalid-feedback'>
-                      {formErrors.ideaTeamCOO}
-                    </div>
-                  )}
-                </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>CMO</label>
-                  <input
-                    type='text'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setIdeaTeamCMO(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        ideaTeamCMO: validateRequired(value),
-                      }));
-                    }}
-                    className={
-                      "form-control " +
-                      (formErrors.ideaTeamCMO ? "is-invalid" : "")
-                    }
-                    placeholder='Team Member looking after Marketing aspects of your ideas'
-                    name={ideaTeamCMO}
-                  />
-                  {formErrors.ideaTeamCMO && (
-                    <div className='invalid-feedback'>
-                      {formErrors.ideaTeamCMO}
-                    </div>
-                  )}
-                </div>
+
               </div>
               <br />
               <h2 className='title'>Idea Details</h2>

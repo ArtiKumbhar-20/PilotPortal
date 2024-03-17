@@ -112,7 +112,7 @@ body {
   background: linear-gradient(135deg, #4526b1 0%, #5435be 45%, #7153d9 66%);
   color: #ffffff;
   border: 0px;
-  border-radius: 12px;
+  border-radius: 5px;
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
@@ -1653,7 +1653,8 @@ only screen and (max-width: 767px) {
 }
 
 .events-slider .slick-slide {
-  padding: 0 15px; /* Adjust this value to add space between events */
+  padding: 0 15px;
+  /* Adjust this value to add space between events */
 }
 
 
@@ -7132,8 +7133,8 @@ only screen and (max-width: 767px) {
 /* Slider */
 /* Add this CSS to your stylesheet */
 .slick-slider .slick-slide img {
-  margin: 0; 
-  padding: 0; 
+  margin: 0;
+  padding: 0;
 }
 
 /* =============================
@@ -7141,31 +7142,31 @@ only screen and (max-width: 767px) {
 ================================ */
 .institution-partners-slider {
   display: flex;
-  align-items: center; 
+  align-items: center;
 }
 
 .institution-partners-slider .slick-slide {
   display: flex;
-  justify-content: center; 
+  justify-content: center;
 }
 
 .institution-slider-container {
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
 
-.custom-img{
+.custom-img {
   max-width: 250px;
   max-height: 150px;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
   display: block;
 }
 
 
 .youtube-slider .slick-slide {
-  padding: 0 15px; 
+  padding: 0 15px;
 }
 
 /* =============================
