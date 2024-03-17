@@ -172,6 +172,21 @@ export const Dashboard = () => {
       });
   }, [loggedInStudId]);
 
+  const teamUniqueID = teams.teamUniqueID;
+
+  const [ideaDetail, setIdeaDetail] = useState({});
+  useEffect(() => {
+    axios
+      .get(`${config.backendUrl}/ideaDetailFetch/${teamUniqueID}/`)
+      .then((response) => {
+        setIdeaDetail(response.data.idea);
+        // console.log("Idea Data: ", ideaDetail)
+      })
+      .catch((error) => {
+        console.error('Error fetching submitted data:', error);
+      });
+  }, [teamUniqueID]);
+
   const [activeSection, setActiveSection] = useState('profile');
 
   const handleSidebarClick = (section) => {
@@ -631,30 +646,20 @@ export const Dashboard = () => {
 
                 {activeSection === 'submitted-ideas' && (
                   <div className='section-content'>
-                    <h3>Submitted Ideas</h3>
+                    <h3>Submitted Idea</h3>
                     <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
                     <div className='section-content'>
                       <div class="row">
                         <div class="col-sm-6">
                           <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
                             <div class="card-body">
-                              <h6 class="card-title"><b>Idea ID:</b></h6>
+                              <h6 class="card-title"><b>Idea ID:{ideaDetail.ideaUniqueID}</b></h6>
                               <hr style={{ borderBottom: '1px solid #000', margin: '15px 0' }} />
-                              <p class="card-text">With supporting text </p>
-                              <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
-                              <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>View More</button>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                          <div class="card" style={{ border: '1.4px solid #EDEEEE', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-                            <div class="card-body">
-                              <h6 class="card-title"><b>Idea ID:</b></h6>
-                              <hr style={{ borderBottom: '1px solid #000', margin: '15px 0' }} />
-                              <p class="card-text">With supporting text </p>
-                              <p class="card-text">The catchy tune has now led to countless memes, parodies and reels, and has even given birth to its own dance craze.</p>
-                              <button type='submit' className='btn btn-custom' style={{ fontSize: 'small' }}>View More</button>
+                              <p class="card-text mb-1"><b>Team Name:</b> {ideaDetail.ideaTeamName} </p>
+                              <p class="card-text mb-1"><b>Offering Type:</b> {ideaDetail.offering_type} </p>
+                              <p class="card-text mb-1"><b>Domain:</b> {ideaDetail.domain} </p>
+                              <p class="card-text mb-3"><b>Description:</b> {ideaDetail.final_ps}</p>
+                              <a href={ideaDetail.ideaUniqueID} className='btn btn-custom' style={{ fontSize: 'small' }}>View More</a>
                             </div>
                           </div>
                         </div>
