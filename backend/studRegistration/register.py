@@ -9,11 +9,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 logger = logging.getLogger(__name__)
 
-def send_welcome_email(student_email, otp, stdEmail, password, stdUniqueID):
+def send_welcome_email(student_email,stdEmail, password, stdUniqueID):
     try:
         subject = 'Welcome to EvolvingX'
         template_path = BASE_DIR / 'templates' / 'welcome_email.html'
-        context = {'stdEmail': stdEmail, 'password': password, 'stdUniqueID': stdUniqueID, 'otp': otp}
+        context = {'stdEmail': stdEmail, 'password': password, 'stdUniqueID': stdUniqueID}
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [student_email]
 

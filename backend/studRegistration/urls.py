@@ -15,4 +15,5 @@ urlpatterns = [
     path('PanelGetData/<int:loggedInPanelId>/',PanelistDetailView.as_view(),name='panelist-detail'),
     path('getInstitutesList/', InstituteListView.as_view(), name='institute-list'),
     path('student-verify-otp/', OTPVerification.as_view(), name='student-verify_otp'),
+    path('resend-otp/', ResendOTP.as_view(), name='resend-otp'), 
 ]
