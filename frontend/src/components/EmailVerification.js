@@ -50,7 +50,7 @@ export const EmailVerification = () => {
         const studentEmail = data.student_email || '';
         setStudentEmail(studentEmail);
         setTimeout(() => {
-          navigate('/login');
+          navigate('/FLogin');
         }, 1000);
       } else {
         setError(data.error || 'Failed to verify OTP. Please try again.');

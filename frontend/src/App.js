@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import InstituteForm from "./pages/InstituteForm";
 import IdeaStatus from "./pages/IdeaStatus";
 import Login from "./pages/Login";
+import FirstLogin from "./pages/FLogin";
 import IdeaSub from "./pages/IdeaSub";
 import Team from "./pages/Team";
 import PanelForm from "./pages/PanelForm";
@@ -33,6 +34,7 @@ function App() {
         <Route path='/InstituteForm' element={<InstituteForm />}></Route>
         <Route path='/IdeaStatus' element={<IdeaStatus />}></Route>
         <Route path='/Login' element={<Login />}></Route>
+        <Route path='/FLogin' element={<FirstLogin />}></Route>
         <Route path='/Idea-Submission' element={<IdeaSub />}></Route>
         <Route path='/Team-Formation' element={<Team />}></Route>
         <Route path='/Student-Registration' element={<SignUp />}></Route>
