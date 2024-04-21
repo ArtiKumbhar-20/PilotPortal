@@ -120,7 +120,7 @@ const QuizPage = () => {
         attempts: prev.attempts + 1,
       }));
     }
-    setTimer(900);
+    setTimer(60);
   };
 
   return (

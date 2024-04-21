@@ -12,8 +12,6 @@ from .verify import verify_email
 from .otp import resend_email
 import random
 import string
-from .serializers import OTPVerificationSerializer
-import secrets
 import string
 
 
@@ -62,9 +60,9 @@ class StudentRegistration(APIView):
             std_email = request.data.get('stdEmail', '')
 
             # Check if a student with the same email already exists
-            # existing_student = Student.objects.filter(stdEmail=std_email).first()
-            # if existing_student:
-            #     return Response({'error': 'User already exists. Please use a different email.'}, status=status.HTTP_400_BAD_REQUEST)
+            existing_student = Student.objects.filter(stdEmail=std_email).first()
+            if existing_student:
+                return Response({'error': 'User already exists. Please use a different email.'}, status=status.HTTP_400_BAD_REQUEST)
 
             try:
                 # If no existing student, create a new one

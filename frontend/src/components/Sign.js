@@ -176,6 +176,19 @@ export const Sign = () => {
     }
   };
 
+
+  // catch (error) {
+  //   // Handle specific error message
+  //   // Inside the catch block
+  //   if (error.response && error.response.status === 400 && error.response.data.error === "User already exists. Please use a different email.") {
+  //     alert("User already exists. Please use a different email.");
+  //   } else {
+  //     console.error("Error submitting form:", error);
+  //   }
+  // } finally {
+  //   setLoading(false);
+  // }
+
   return (
     <div className='section-padding'>
       <div className='container'>
