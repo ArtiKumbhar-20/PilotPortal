@@ -6,5 +6,5 @@ from .views import QuestionListAPIView
 
 urlpatterns = [
     path('quiz-results/', QuizResultListCreateView.as_view(), name='quiz-result-list-create'),
-    path('questions/', QuestionListAPIView.as_view(), name='question_list'),
+    path('quiz-questions/', QuestionListAPIView.as_view(), name='question_list'),
 ]
