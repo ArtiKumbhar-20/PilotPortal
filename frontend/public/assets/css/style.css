@@ -721,6 +721,7 @@ hr {
   color: #ffffff;
 }
 
+
 .btn-style-two {
   background: transparent;
   border: 2px solid #4526b1;
@@ -843,6 +844,19 @@ hr {
   transition: 0.5s;
   border-radius: 27px;
   z-index: 1;
+}
+
+.btn-style-five {
+  border-color: #4526b1;
+  background: #4526b1;
+  background: linear-gradient(135deg, #4526b1 0%, #5435be 45%, #7153d9 66%);
+  border: 0px;
+  border-radius: 27px;
+  padding: 20px 45px;
+  line-height: 1;
+  font-size: 16px;
+  font-family: "Jost", sans-serif;
+  position: relative;
 }
 
 /* Spacing */

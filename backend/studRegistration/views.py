@@ -8,10 +8,10 @@ from .models import *
 from django.http import JsonResponse
 from django.db import transaction
 from .register import send_welcome_email
+from .verify import verify_email
+from .otp import resend_email
 import random
 import string
-from .serializers import OTPVerificationSerializer
-import secrets
 import string
 
 
@@ -48,63 +48,75 @@ class InstituteRegistration(APIView):
 
 # Backup 'StudentRegistration'below
 
-#Student Registration
+# Student Registration
 class StudentRegistration(APIView):
     def generate_otp(self):
-        # Generate a random 6-digit OTP
         return ''.join(random.choices(string.digits, k=6))
 
+    @transaction.atomic
     def post(self, request):
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
-            student = serializer.save()
+            std_email = request.data.get('stdEmail', '')
 
-            # Create a new user for the student with a default password
-            user = User(username=student.stdEmail, email=student.stdEmail, first_name=student.stdFname, last_name=student.stdLname)
-            # user.set_password("admin@123")  # Set the default password
-            password_characters = string.ascii_letters + string.digits
-            password = ''.join(secrets.choice(password_characters) for _ in range(8))
-            # Set the password for the user
-            user.set_password(password)
-            user.is_active = False
-            user.save()
+            # Check if a student with the same email already exists
+            existing_student = Student.objects.filter(stdEmail=std_email).first()
+            if existing_student:
+                return Response({'error': 'User already exists. Please use a different email.'}, status=status.HTTP_400_BAD_REQUEST)
 
-            # Add the new user to the 'Student' group
-            student_group = Group.objects.get(name='Student')
-            user.groups.add(student_group)
-
-            # Add debug statements to print information
-            # logger.debug(f"Student ID: {student.stdID}")
-            # logger.debug(f"User ID: {user.id}")
             try:
-                profile = Profile.objects.get(user=user)
-                profile.student_id = student.stdID
+                # If no existing student, create a new one
+                student = serializer.save()
+
+                # Create a new user for the student with a default password
+                user = User(username=student.stdEmail, email=student.stdEmail, first_name=student.stdFname, last_name=student.stdLname)
+                user.is_active = False
+                user.save()
+
+                # Add the new user to the 'Student' group
+                student_group = Group.objects.get(name='Student')
+                user.groups.add(student_group)
+
+                # Add debug statements to print information
+                try:
+                    profile = Profile.objects.get(user=user)
+                    profile.student_id = student.stdID
+                    profile.save()
+                except Profile.DoesNotExist:
+                    profile = Profile(user=user, student_id=student.stdID)
+                    profile.save()
+
+                student.user = user  # Link the user to the student
+                student.save()
+
+                otp = self.generate_otp()
+                profile.verification_otp = otp
+                profile.otp_expiry_time = timezone.now() + timezone.timedelta(minutes=15)
                 profile.save()
-            except Profile.DoesNotExist:
-                profile = Profile(user=user, student_id=student.stdID)
-                profile.save()
 
-            student.user = user  # Link the user to the student
-            student.save()
-            
-            otp = self.generate_otp()
-            profile.verification_otp = otp
-            profile.otp_expiry_time = timezone.now() + timezone.timedelta(minutes=15)
-            profile.save()
+                # Send the verification email
+                verify_email(student.stdEmail, otp)
 
-            # Pass the OTP to the send_welcome_email function
-            send_welcome_email(student.stdEmail, otp, student.stdEmail, password, student.stdUniqueID)
+                # Set the OTP in the serializer context
+                serializer.context['verification_otp'] = otp
+                serializer.data['student_email'] = student.stdEmail
+                serializer.context['is_active'] = user.is_active
 
-            # Set the OTP in the serializer context
-            serializer.context['verification_otp'] = otp
-            serializer.data['student_email'] = student.stdEmail
-            serializer.context['is_active'] = user.is_active
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                logger.error(f"An error occurred while processing the registration: {e}", exc_info=True)
+                return Response({'error': 'An error occurred while processing the registration.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# OTP Verification
+    
+# Student OTP Verification  
 class OTPVerification(APIView):
+    def generate_password(self):
+        # Generate a random 8-character password
+        password_characters = string.ascii_letters + string.digits
+        password = ''.join(random.choice(password_characters) for _ in range(8))
+        return password
+
     def post(self, request):
         # Get the received OTP from the request data
         received_otp = request.data.get('verification_otp', '')
@@ -126,11 +138,47 @@ class OTPVerification(APIView):
             student.stdEmailVerified = True
             student.save()
 
+            # Generate a new password for the user
+            password = self.generate_password()
+            user.set_password(password)
+            user.save()
+
+            # Send the welcome email with the new password
+            send_welcome_email(student.stdEmail, student.stdEmail, password, student.stdUniqueID)
+            
             return Response({'message': 'Email verification successful'}, status=status.HTTP_200_OK)
         except Profile.DoesNotExist:
             return Response({'error': 'Invalid or expired OTP'}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
+            logger.error(f"An error occurred while verifying OTP: {e}", exc_info=True)
             return Response({'error': 'An error occurred while verifying OTP'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+# Resend OTP for Student 
+class ResendOTP(APIView):
+    def post(self, request):
+        email = request.data.get('email', '')
+        try:
+            # Check if a user with the provided email exists
+            print("Inside resend_email function") 
+            profile = Profile.objects.get(user__email=email)
+
+            # Generate a new OTP
+            otp = ''.join(random.choices(string.digits, k=6))
+            profile.verification_otp = otp
+            profile.otp_expiry_time = timezone.now() + timezone.timedelta(minutes=1)
+            profile.save()
+
+            # Send the new OTP
+            resend_email(student_email=email, otp=otp, email=email)  # Implement this function according to your email sending mechanism
+
+            return Response({'message': 'New OTP sent successfully'}, status=200)
+        except Exception as e:
+            # Log the exception for debugging purposes
+            logger.error(f"An error occurred in ResendOTP view: {e}")
+            logger.error(f"An error occurred in ResendOTP view: {e}", exc_info=True)
+            return Response({'error': 'Internal Server Error'}, status=500)
+        except Profile.DoesNotExist:
+            return Response({'error': 'User not found'}, status=404)
 
 # Panelist Registration
 class PanelistRegistration(APIView):

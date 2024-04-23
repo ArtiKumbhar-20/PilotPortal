@@ -48,7 +48,9 @@ class HomeView(APIView):
         content.update(serializer.data)
 
         return Response(content)
-    
+
+
+
 class ChangePasswordView(APIView):
     permission_classes = (IsAuthenticated, )
 
@@ -125,6 +127,7 @@ class ForgetPassword(APIView):
             print(email)
             print(e)
             return Response({'error': 'An error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class VerifyOTP(APIView):
     def post(self, request):
