@@ -1,7 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
 function Header() {
+
+  const location = useLocation();
+
   // Login Auth
   const [isAuth, setIsAuth] = useState(false);
 
@@ -18,6 +21,14 @@ function Header() {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
+
+  // Scroll to About section if query param is present
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("scrollToAbout")) {
+      scrollToAbout();
+    }
+  }, [location.search]);
   return (
     <>
       <header className='header-wrapper sticky-header'>
@@ -45,16 +56,13 @@ function Header() {
                           </NavLink>
                         </li>
                         <li>
-                          <a
-                            href="#"
-                            onClick={scrollToAbout}
-                            style={{ color: "#1c1c1c" }}
-                          >
-                            About Us
-                          </a>
+                          <NavLink to={{ pathname: "/", search: "?scrollToAbout=true" }} style={{ color: "#1c1c1c" }}>About Us</NavLink>
                         </li>
                         <li>
-                          <NavLink to='/Home'>Ideation</NavLink>
+                          <NavLink to='/Idea-Submission'>Ideation</NavLink>
+                        </li>
+                        <li>
+                          <NavLink to='/Quiz'>Quiz</NavLink>
                         </li>
                         <li>
                           <a

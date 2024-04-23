@@ -22,6 +22,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 
 // Login Auth
 import { Logout } from "./components/logout";
+import { quiz } from "./components/questions";
 import { Dashboard } from "./components/Dashboard";
 
 
@@ -45,6 +46,7 @@ function App() {
         <Route path='/Event' element={<Event />}></Route>
         <Route path='/Idea' element={<Idea />}></Route>
         <Route path='/Quiz' element={<Quiz />}></Route>
+        <Route path='/questions' element={<quiz />}></Route>
         <Route path='/Password' element={<Password />}></Route>
         <Route path='/ResetPass/:otp/:email' element={<ResetPass />}></Route>
         <Route path='/VerifyEmail' element={<VerifyEmail />}></Route>

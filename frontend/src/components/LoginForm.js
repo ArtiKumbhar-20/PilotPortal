@@ -1,12 +1,14 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, NavLink } from "react-router-dom";
 import { validateLoginForm } from "./formValidator";
 import config from "./config";
 const apiUrl = `${config.backendUrl}/token/`; // Construct Backend API URL
 
 export const LoginForm = () => {
+  const location = useLocation();
+  const message = location.state?.message;
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -77,17 +79,25 @@ export const LoginForm = () => {
       <div className='container'>
         <div className='mb-n30'>
           <div className='col-lg-6 mb-30 mx-auto'>
+
+
             <form
               onSubmit={submit}
-              className='comment-form-inner contact-form wow fadeIn'
+              className='comment-form-inner shadow contact-form wow fadeIn'
               data-wow-duration='1.5s'
               data-wow-delay='.1s'
             >
-              <h2 className='title'>Log In</h2>
+              <h2 className='title mb-0'>Login</h2>
+              <hr className="mt-4 mb-5" style={{ borderColor: '#000' }} />
               {/* Display the login error message */}
               {loginError && (
                 <div className='alert alert-danger' role='alert'>
                   {loginError}
+                </div>
+              )}
+              {message && (
+                <div className='alert alert-danger' role='alert'>
+                  {message}
                 </div>
               )}
               <div className='row'>
@@ -123,6 +133,9 @@ export const LoginForm = () => {
                     <div className='invalid-feedback'>{errors.password}</div>
                   )}
                 </div>
+                <h6>
+                  <u><NavLink to='/Password'>Forgot Password?</NavLink></u>
+                </h6>
               </div>
 
               <div className='col-12 text-center mt-4'>
@@ -131,9 +144,9 @@ export const LoginForm = () => {
                 </button>
               </div>
               <div className='col-12 text-center mt-4'>
-                <p className='forgot'>Forgot Password ?</p>
+                {/* <p className='forgot'>Forgot Password?</p> */}
                 <h6>
-                <u><a href='Password'>Click here</a></u> to reset password
+                  <span style={{ color: '#000', fontFamily: '"Jost", sans-serif' }}>New to Pilot Portal</span><NavLink to='/Student-Registration'> <u>Sign up</u></NavLink>
                 </h6>
               </div>
             </form>
