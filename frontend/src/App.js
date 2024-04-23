@@ -22,7 +22,8 @@ import VerifyEmail from "./pages/VerifyEmail";
 
 // Login Auth
 import { Logout } from "./components/logout";
-import { Dashboard } from "./components/Dashboard";
+import Dashboard from "./components/Dashboard";
+
 
 
 function App() {
