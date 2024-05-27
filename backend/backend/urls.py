@@ -14,6 +14,7 @@ urlpatterns = [
     path('', include('idea.urls')),
     path('', include ('event.urls')),
     path('', include ('quiz.urls')),
+    path('', include ('partner.urls')),
     path('token/', jwt_views.TokenObtainPairView.as_view(), name ='token_obtain_pair'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name ='token_refresh'),
     path('api/', include('quiz.urls')),
