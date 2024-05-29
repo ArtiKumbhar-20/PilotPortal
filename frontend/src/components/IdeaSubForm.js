@@ -49,6 +49,8 @@ export const IdeaSubForm = () => {
   const [ideaTeamProtoTime, setIdeaTeamProtoTime] = useState("");
   const [ideaTeamProtoCost, setIdeaTeamProtoCost] = useState("");
   const [ideaTeamIncuSupport, setIdeaTeamIncuSupport] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
 
   // Step 2: For Validation
   // State to hold form field errors
@@ -91,6 +93,8 @@ export const IdeaSubForm = () => {
   const sendIdeaDetails = async (event) => {
     event.preventDefault();
 
+    
+
     // Step 3: For Validation
     const newFormErrors = {
       ideaTeamID: validateRequired(ideaTeamID),
@@ -127,6 +131,11 @@ export const IdeaSubForm = () => {
 
     // Step 4: For Validation : Will Not Change
     setFormErrors(newFormErrors);
+
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
 
     // Step 5: For Validation : If statement
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
@@ -903,6 +912,8 @@ export const IdeaSubForm = () => {
                       id='flexcheckDefault'
                       // name={ideaTeamterms}
                       // onChange={(e) => setideaTeamterms(e.target.value)}
+                      checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
                       style={{
                         height: 20,
                         padding: 0,
@@ -919,6 +930,11 @@ export const IdeaSubForm = () => {
                     </label>
                   </div>
                 </div>
+                {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
               </div>
               <div className='col-12 text-center mt-4'>
                 <button className='btn btn-style-one' type='submit' disabled={loading}>

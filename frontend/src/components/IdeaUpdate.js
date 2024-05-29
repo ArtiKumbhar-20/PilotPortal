@@ -2,12 +2,18 @@ import React, { useState } from "react";
 function IdeaUpdate() {
 
   const [inputsDisabled, setInputsDisabled] = useState(false);
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
   const [inputValues, setInputValues] = useState({
    
   });
 
   const handleButtonClick = () => {
     setInputsDisabled((prevState) => !prevState);
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
   };
 
   const handleInputChange = (event, inputName) => {
@@ -206,12 +212,19 @@ function IdeaUpdate() {
                     type='checkbox'
                     value=''
                     id='flexcheckDefault'
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
                     style={{ height: 20, padding: 0, marginBottom:-8, marginRight: 12, width: 20 }}
                   />
                   <label className='form-check-label labelStyle' htmlFor='flexCheckDefault'>
                     I agree to all terms and conditions.
                   </label>
                 </div>
+                {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
               </div>
 
               {/* Save and Update */}
