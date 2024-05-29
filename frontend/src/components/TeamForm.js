@@ -27,6 +27,9 @@ export const TeamForm = () => {
   const [alertType, setAlertType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
+
   const [formErrors, setFormErrors] = useState({
     teamName: "",
     teamCEO: "",
@@ -43,6 +46,7 @@ export const TeamForm = () => {
   const sendTeamDetails = async (event) => {
     event.preventDefault();
 
+   
     // Step 3
     const newFormErrors = {
       teamName: validateRequired(teamName),
@@ -56,6 +60,13 @@ export const TeamForm = () => {
 
     // Step 4
     setFormErrors(newFormErrors);
+
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
+
+    
 
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       setLoading(true);
@@ -347,6 +358,8 @@ export const TeamForm = () => {
                     type='checkbox'
                     value=''
                     id='flexcheckDefault'
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
                     style={{
                       height: 20,
                       padding: 0,
@@ -361,6 +374,11 @@ export const TeamForm = () => {
                   >
                     I agree to all terms and conditions.
                   </label>
+                  {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
                 </div>
               </div>
 
