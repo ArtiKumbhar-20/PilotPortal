@@ -29,11 +29,18 @@ export const InstantForm = () => {
   const [instNAAC, setinstNAAC] = useState("");
   const [instNBA, setinstNBA] = useState("");
 
-  // Reset from after successfull submission
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
+
   const instituteForm = useRef(null);
 
   const sendInstituteDetails = (event) => {
     event.preventDefault();
+
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
 
     axios({
       method: "post",
@@ -64,11 +71,15 @@ export const InstantForm = () => {
         instNAAC,
         instNBA,
       },
-    }).then((response) => {
-      alert(`Thank you for submitting your details.`);
-      console.log(response.data);
-      instituteForm.current.reset();
-    });
+    })
+      .then((response) => {
+        alert(`Thank you for submitting your details.`);
+        console.log(response.data);
+        instituteForm.current.reset();
+      })
+      .catch((error) => {
+        console.error("There was an error submitting the form!", error);
+      });
   };
 
   return (
@@ -229,7 +240,7 @@ export const InstantForm = () => {
                 </div>
               </div>
               <br />
-              <h2 className='title'>Single Point of Contact (SPOC) Details</h2>
+              <h2 className='title'>SPOC Details</h2>
               <div className='row'>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>First Name</label>
@@ -256,23 +267,23 @@ export const InstantForm = () => {
                   />
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>Email</label>
+                  <label className='labelStyle'>Email Address</label>
                   <input
-                    type='name'
+                    type='email'
                     className='form-control'
-                    id='name'
+                    id='email'
                     name={instSPOCEmail}
                     onChange={(e) => setinstSPOCEmail(e.target.value)}
                     aria-describedby='emailHelp'
-                    placeholder='Enter Email'
+                    placeholder='Enter Email Address'
                   />
                 </div>
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Mobile Number</label>
                   <input
-                    type='name'
+                    type='text'
                     className='form-control'
-                    id='name'
+                    id='mobile'
                     name={instSPOCMobile}
                     onChange={(e) => setinstSPOCMobile(e.target.value)}
                     aria-describedby='emailHelp'
@@ -282,9 +293,9 @@ export const InstantForm = () => {
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Whatsapp Number</label>
                   <input
-                    type='name'
+                    type='text'
                     className='form-control'
-                    id='name'
+                    id='whatsapp'
                     name={instSPOCWhatsapp}
                     onChange={(e) => setinstSPOCWhatsapp(e.target.value)}
                     aria-describedby='emailHelp'
@@ -294,226 +305,144 @@ export const InstantForm = () => {
                 <div className='col-12 col-xl-6 col-lg-6 mb-3'>
                   <label className='labelStyle'>Website</label>
                   <input
-                    type='name'
+                    type='text'
                     className='form-control'
-                    id='name'
+                    id='website'
                     name={instSPOCWeb}
                     onChange={(e) => setinstSPOCWeb(e.target.value)}
                     aria-describedby='emailHelp'
-                    placeholder='Enter Website'
+                    placeholder='Enter Website URL'
                   />
                 </div>
               </div>
               <br />
-
-              {/* Additional Details */}
-              <h2 className='title'>Additional Details</h2>
-
-              <div class='radio-container'>
-                <p className='labelStyle'>
-                  Does your institute have Incubator Support?
-                </p>
-                <label className='radio-label'>
-                  <input
-                    type='radio'
-                    id='IncubYes'
-                    value='yes'
-                    name='instIncubator'
-                    onChange={(e) => setinstIncubator(e.target.value)}
-                  />
-                  <span className='radio-custom'></span>
-                  Yes
-                </label>
-                <label class='radio-label'>
-                  <input
-                    type='radio'
-                    id='IncubNo'
-                    value='no'
-                    name='instIncubator'
-                    onChange={(e) => setinstIncubator(e.target.value)}
-                  />
-                  <span class='radio-custom'></span>
-                  No
-                </label>
-              </div>
-
-              <div class='radio-container'>
-                <p className='labelStyle'>
-                  Does your institute have IIC-MoE Innovation Cell?
-                </p>
-                <label className='radio-label'>
-                  <input
-                    type='radio'
-                    value='yes'
-                    id='IICyes'
-                    name='instIIC'
-                    onChange={(e) => setinstIIC(e.target.value)}
-                  />
-                  <span class='radio-custom'></span>
-                  Yes
-                </label>
-                <label className='radio-label'>
-                  <input
-                    type='radio'
-                    value='no'
-                    id='IICno'
-                    name='instIIC'
-                    onChange={(e) => setinstIIC(e.target.value)}
-                  />
-                  <span class='radio-custom'></span>
-                  No
-                </label>
-              </div>
-
-              <div class='radio-container'>
-                <p className='labelStyle'>
-                  Does your institute have Entrepreneurship Development Cell?
-                </p>
-                <label className='radio-label'>
-                  <input
-                    type='radio'
-                    value='yes'
-                    id='EDCyes'
-                    name='instEDC'
-                    onChange={(e) => setinstEDC(e.target.value)}
-                  />
-                  <span class='radio-custom'></span>
-                  Yes
-                </label>
-                <label className='radio-label'>
-                  <input
-                    type='radio'
-                    value='no'
-                    id='EDCno'
-                    name='instEDC'
-                    onChange={(e) => setinstEDC(e.target.value)}
-                  />
-                  <span class='radio-custom'></span>
-                  No
-                </label>
-              </div>
-              <br />
-              <br />
-
-              {/* Ranking details */}
-              <h2 className='title'>Institute Ranking Details</h2>
+              <h2 className='title'>Accreditations</h2>
               <div className='row'>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>
-                    Does your institute have ARIIA (Atal Ranking of Institutions
-                    on Innovation Achievements) Ranking
-                  </label>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                  <label className='labelStyle'>Incubator</label>
+                  <select
+                    name={instIncubator}
+                    onChange={(e) => setinstIncubator(e.target.value)}
+                    className='form-select'
+                  >
+                    <option selected disabled>
+                      Select Incubator
+                    </option>
+                    <option value='1'>Yes</option>
+                    <option value='0'>No</option>
+                  </select>
+                </div>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                  <label className='labelStyle'>EDC</label>
+                  <select
+                    name={instEDC}
+                    onChange={(e) => setinstEDC(e.target.value)}
+                    className='form-select'
+                  >
+                    <option selected disabled>
+                      Select EDC
+                    </option>
+                    <option value='1'>Yes</option>
+                    <option value='0'>No</option>
+                  </select>
+                </div>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                  <label className='labelStyle'>IIC</label>
+                  <select
+                    name={instIIC}
+                    onChange={(e) => setinstIIC(e.target.value)}
+                    className='form-select'
+                  >
+                    <option selected disabled>
+                      Select IIC
+                    </option>
+                    <option value='1'>Yes</option>
+                    <option value='0'>No</option>
+                  </select>
+                </div>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                  <label className='labelStyle'>ARIIA</label>
                   <select
                     name={instARIIA}
                     onChange={(e) => setinstARIIA(e.target.value)}
                     className='form-select'
                   >
                     <option selected disabled>
-                      Select ARIIA Ranking
+                      Select ARIIA
                     </option>
-                    <option value='1'>One</option>
-                    <option value='2'>Two</option>
-                    <option value='3'>Three</option>
-                    <option value='4'>Four</option>
-                    <option value='5'>Five</option>
+                    <option value='1'>Yes</option>
+                    <option value='0'>No</option>
                   </select>
                 </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>
-                    Does your institute have NAAC (National Assessment And
-                    Accrediation Council) Ranking
-                  </label>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                  <label className='labelStyle'>NIRF</label>
+                  <select
+                    name={instNIRF}
+                    onChange={(e) => setinstNIRF(e.target.value)}
+                    className='form-select'
+                  >
+                    <option selected disabled>
+                      Select NIRF
+                    </option>
+                    <option value='1'>Yes</option>
+                    <option value='0'>No</option>
+                  </select>
+                </div>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                  <label className='labelStyle'>NAAC</label>
                   <select
                     name={instNAAC}
                     onChange={(e) => setinstNAAC(e.target.value)}
                     className='form-select'
                   >
                     <option selected disabled>
-                      Select NAAC Ranking
+                      Select NAAC
                     </option>
-                    <option value='1'>One</option>
-                    <option value='2'>Two</option>
-                    <option value='3'>Three</option>
-                    <option value='4'>Four</option>
-                    <option value='5'>Five</option>
+                    <option value='1'>Yes</option>
+                    <option value='0'>No</option>
                   </select>
                 </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>
-                    Does your institute have NIRF (National Institutional
-                    Ranking Framework) Ranking
-                  </label>
-                  <select
-                    name={instNIRF}
-                    onChange={(e) => setinstNIRF(e.target.value)}
-                    className='form-select'
-                  >
-                    <option selected disabled style={{ opacity: "5" }}>
-                      Select NIRF Ranking
-                    </option>
-                    <option value='1'>One</option>
-                    <option value='2'>Two</option>
-                    <option value='3'>Three</option>
-                    <option value='4'>Four</option>
-                    <option value='5'>Five</option>
-                  </select>
-                </div>
-                <div className='col-12 col-xl-6 col-lg-6 mb-3'>
-                  <label className='labelStyle'>
-                    Does your institute have NBA (National Board of
-                    Accrediation) Ranking
-                  </label>
+                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                  <label className='labelStyle'>NBA</label>
                   <select
                     name={instNBA}
                     onChange={(e) => setinstNBA(e.target.value)}
                     className='form-select'
                   >
                     <option selected disabled>
-                      Select NBA Ranking
+                      Select NBA
                     </option>
-                    <option value='1'>One</option>
-                    <option value='2'>Two</option>
-                    <option value='3'>Three</option>
-                    <option value='4'>Four</option>
-                    <option value='5'>Five</option>
+                    <option value='1'>Yes</option>
+                    <option value='0'>No</option>
                   </select>
-                  {/* <input
-                    type='name'
-                    className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
-                    placeholder='NBA Ranking'
-                  /> */}
                 </div>
               </div>
-
-              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-                <div className='form-check'>
-                  <input
-                    className='form-check-input'
-                    type='checkbox'
-                    value=''
-                    id='flexcheckDefault'
-                    style={{
-                      height: 20,
-                      padding: 0,
-                      marginBottom: -8,
-                      marginRight: 12,
-                      width: 20,
-                    }}
-                  />
-                  {/* Terms and Conditions */}
-                  <label
-                    className='form-check-label labelStyle'
-                    htmlFor='flexCheckDefault'
-                  >
-                    I agree to all terms and conditions.
-                  </label>
-                </div>
+              <br />
+              <div className='form-check'>
+                <input
+                  type='checkbox'
+                  className='form-check-input'
+                  id='termsCheckbox'
+                  checked={agreeTerms}
+                  onChange={(e) => setAgreeTerms(e.target.checked)}
+                  style={{
+                    height: 20,
+                    padding: 0,
+                    marginBottom: -8,
+                    marginRight: 12,
+                    width: 20,
+                  }}
+                />
+                <label className='form-check-label' htmlFor='termsCheckbox'>
+                  Agree to terms and conditions
+                </label>
               </div>
-
-              {/* Submit */}
-
+              {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
+              <br />
               <div className='col-12 text-center mt-4'>
                 <button className='btn btn-style-one' type='submit'>
                   <span>Submit Now</span>
