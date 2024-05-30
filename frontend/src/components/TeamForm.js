@@ -132,7 +132,7 @@ export const TeamForm = () => {
 
               {/* <h2 className='title'>Team Formation</h2> */}
               <div className='row'>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Team Name</label>
                   <input
                     type='text'
@@ -162,7 +162,7 @@ export const TeamForm = () => {
                     </div>
                   )}
                 </div>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Executive Officer (CEO)</label>
                   <input
                     type='text'
@@ -178,7 +178,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCEO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Executive aspects of your ideas'
+                    placeholder='Member looking after Executive aspects'
                     name={teamCEO}
                   />
 
@@ -186,7 +186,7 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCEO}</div>
                   )}
                 </div>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Marketing Officer (CMO)</label>
                   <input
                     type='text'
@@ -202,7 +202,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCMO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Marketing aspects of your ideas'
+                    placeholder='Member looking after Marketing aspects'
                     name={teamCMO}
                   />
 
@@ -210,7 +210,7 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCMO}</div>
                   )}
                 </div>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Operating Officer (COO)</label>
                   <input
                     type='text'
@@ -226,7 +226,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCOO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Operational aspects of your ideas'
+                    placeholder='Member looking after Operational aspects'
                     name={teamCOO}
                   />
 
@@ -235,7 +235,7 @@ export const TeamForm = () => {
                   )}
                 </div>
 
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Financial Officer (CFO)</label>
                   <input
                     type='text'
@@ -251,7 +251,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCFO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Financial aspects of your ideas'
+                    placeholder='Member looking after Financial aspects'
                     name={teamCFO}
                   />
 
@@ -259,7 +259,7 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCFO}</div>
                   )}
                 </div>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Technology Officer (CTO)</label>
                   <input
                     type='text'
@@ -275,7 +275,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCTO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Technological aspects of your ideas'
+                    placeholder='Member looking after Technological aspects'
                     name={teamCTO}
                   />
 
@@ -317,7 +317,7 @@ export const TeamForm = () => {
                   )}
                 </div> */}
 
-                <div className='col-12 col-xl-12 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Institute Name</label>
                   <select
                     className={

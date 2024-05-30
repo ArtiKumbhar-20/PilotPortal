@@ -59,14 +59,14 @@ function Header() {
                           <NavLink to={{ pathname: "/", search: "?scrollToAbout=true" }} style={{ color: "#1c1c1c" }}>About Us</NavLink>
                         </li>
                         <li>
-                          <NavLink to='/Idea-Submission'>Ideation</NavLink>
+                          <NavLink to='/idea_submission'>Ideation</NavLink>
                         </li>
                         <li>
-                          <NavLink to='/Quiz'>Quiz</NavLink>
+                          <NavLink to='/quiz'>Quiz</NavLink>
                         </li>
                         <li>
                           <a
-                            href='#'
+                            href='/#'
                             data-bs-toggle='modal'
                             data-bs-target='#exampleModal'
                           >
@@ -75,7 +75,7 @@ function Header() {
                         </li>
                         {isAuth ? (
                           <li>
-                            <NavLink to='/Dashboard'>Your Account</NavLink>
+                            <NavLink to='/dashboard'>Your Account</NavLink>
                           </li>
                         ) : null}
                       </ul>
@@ -139,17 +139,17 @@ function Header() {
           <nav>
             <ul className='mobile-menu'>
               <li>
-                <a href='#'>Home</a>
+                <a href='/#'>Home</a>
               </li>
               <li>
-                <a href='#'>About Us</a>
+                <a href='/#'>About Us</a>
               </li>
               <li>
-                <a href='#'>Ideation</a>
+                <a href='/#'>Ideation</a>
               </li>
               <li>
                 <a
-                  href='#'
+                  href='/#'
                   data-bs-toggle='modal'
                   data-bs-target='#exampleModal'
                 >
