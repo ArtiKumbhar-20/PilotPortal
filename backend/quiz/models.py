@@ -26,7 +26,7 @@ class Question(models.Model):
     option_b = models.CharField(max_length=255)
     option_c = models.CharField(max_length=255)
     option_d = models.CharField(max_length=255)
-    correct_answer = models.CharField(max_length=1, choices=[('A', 'Option A'), ('B', 'Option B'), ('C', 'Option C'), ('D', 'Option D')])
+    correct_answer = models.CharField(max_length=255)
     difficulty_level = models.CharField(max_length=50)
     score = models.IntegerField()
     

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { quiz } from './questions';
 import axios from 'axios';
+import { quiz } from './questions';
 import './Quiz.css';
 import config from "./config";
 const apiUrl = `${config.backendUrl}`;
@@ -9,7 +9,7 @@ const apiUrl = `${config.backendUrl}`;
 const QuizPage = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [questionList, setQuestionsList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const initialQuizState = {
     activeQuestion: 0,
     selectedAnswer: '',
@@ -24,13 +24,27 @@ const QuizPage = () => {
   };
   const [quizState, setQuizState] = useState(initialQuizState);
   const [timer, setTimer] = useState(900);
+  const maxAttempts = 3;
 
   useEffect(() => {
     // Fetch questions from backend when component mounts
     axios.get(apiUrl + '/quiz-questions/')
       .then(response => {
-        setQuestionsList(response.data);
-        console.log("List of the Questions" + response.data);
+        const questions = response.data.map(question => ({
+          question: question.question_text,
+          choices: [question.option_a, question.option_b, question.option_c, question.option_d],
+          questionTopic: question.topic,
+          questionSubTopic: question.subtopic,
+          questionDiffLevel: question.difficulty_level,
+          correctAnswer: question.correct_answer,
+          questionScore: question.score,
+        }));
+        // Update quiz questions in questions.js
+        quiz.questions = questions;
+        setIsLoggedIn(true);
+        setLoading(false);
+
+        console.log("List of the Questions" + questions);
 
       })
       .catch(error => {
@@ -77,10 +91,15 @@ const QuizPage = () => {
     return null;
   }
 
+  if (loading) {
+    return <div>Loading quiz...</div>; // Display loading message while fetching questions
+  }
+
   const { activeQuestion, selectedAnswer, showResult, selectedAnswerIndex, result, attempts } = quizState;
-  const maxAttempts = 3;
-  const { questions } = quiz;
-  const { question, choices, correctAnswer } = questions[activeQuestion];
+  const { questions = [] } = quiz;
+
+  // Check if questions array is populated before accessing it
+  const { question, choices, correctAnswer } = questions && questions.length > 0 ? questions[activeQuestion] : {};
 
   const formatTime = (timeInSeconds) => {
     const hours = Math.floor(timeInSeconds / 3600);
@@ -92,23 +111,39 @@ const QuizPage = () => {
   };
 
   const onClickNext = () => {
-    if (activeQuestion !== questions.length - 1) {
-      setQuizState((prev) => ({
-        ...prev,
-        selectedAnswerIndex: null,
-        result: selectedAnswer
-          ? {
-            ...prev.result,
-            score: prev.result.score + 5,
-            correctAnswers: prev.result.correctAnswers + 1,
-          }
-          : { ...prev.result, wrongAnswers: prev.result.wrongAnswers + 1 },
-        activeQuestion: prev.activeQuestion + 1,
-      }));
-    } else {
-      setQuizState((prev) => ({ ...prev, showResult: true }));
+    if (!quizState.showResult) {
+      if (activeQuestion !== questions.length - 1) {
+        const currentQuestion = questions[activeQuestion];
+        let questionScore = 1;
+        let difficultyMultiplier = 1;
+
+        if (currentQuestion && typeof currentQuestion.questionScore === 'number') {
+          questionScore = currentQuestion.questionScore;
+        }
+
+        if (currentQuestion && typeof currentQuestion.questionDiffLevel === 'number') {
+          difficultyMultiplier = currentQuestion.questionDiffLevel;
+        }
+
+        setQuizState((prev) => ({
+          ...prev,
+          selectedAnswerIndex: null,
+          result: selectedAnswer
+            ? {
+              ...prev.result,
+              score: prev.result.score + (questionScore * difficultyMultiplier),
+              correctAnswers: prev.result.correctAnswers + 1,
+            }
+            : { ...prev.result, wrongAnswers: prev.result.wrongAnswers + 1 },
+          activeQuestion: prev.activeQuestion + 1,
+        }));
+      } else {
+        setQuizState((prev) => ({ ...prev, showResult: true }));
+      }
     }
   };
+
+
 
   const onAnswerSelected = (answer, index) => {
     setQuizState((prev) => ({
@@ -137,13 +172,24 @@ const QuizPage = () => {
         .catch(error => {
           console.error('Error sending quiz data:', error);
         });
-      setQuizState((prev) => ({
+
+      // Reset quiz state to initial values except for the attempts count
+      setQuizState({
         ...initialQuizState,
-        attempts: prev.attempts + 1,
-      }));
+        attempts: attempts + 1,
+      });
+      setTimer(60); // Reset timer
+    } else {
+      // Redirect to quiz questions section
+      setQuizState({
+        ...initialQuizState,
+        attempts: attempts + 1,
+        showResult: false, // Ensure quiz section is displayed
+      });
+      setTimer(60); // Reset timer
     }
-    setTimer(60);
   };
+
 
   return (
     <div className="quiz">
@@ -174,23 +220,20 @@ const QuizPage = () => {
           </div>
         ) : (
           <div className="result">
-            <h3>Assessment Result</h3>
+            <h3> <b>Assessment Result</b></h3>
             <p>
-              You've scored <span> {result.score}</span> points !!
+              You've scored <span> {result.score}</span> points!!
             </p>
 
             <div className="section">
               <p className='section-para'> Total Questions:
                 <span className="section-number">{questions.length}</span><br />
-
               </p>
               <p className='section-para'>Correct Answers:
                 <span> {result.correctAnswers}</span><br />
-
               </p>
               <p className='section-para'>Wrong Answers:
                 <span> {result.wrongAnswers}</span><br />
-
               </p>
               <p className="section-para">
                 Attempts:
@@ -198,6 +241,7 @@ const QuizPage = () => {
                 <br />
               </p>
             </div>
+
             {attempts < maxAttempts ? (
               <button type='submit' className='btn btn-custom' style={{ display: 'block', margin: 'auto' }} onClick={resetQuiz}>
                 Try Again &#10227;
@@ -208,9 +252,6 @@ const QuizPage = () => {
           </div>
 
         )}
-
-
-
       </div>
     </div>
   )
