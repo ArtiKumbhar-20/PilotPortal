@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'event',
     'quiz',
     'partner',
+    'contact',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
