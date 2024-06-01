@@ -24,6 +24,8 @@ export const PanelistForm = () => {
   const [panelistDesignation, setPanelistDesignation] = useState("");
   const [panelistTotalExp, setPanelistTotalExp] = useState("");
   const [panelistIdeaEvaluated, setPanelistIdeaEvaluated] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
 
   // State to hold form field errors
   const [formErrors, setFormErrors] = useState({
@@ -67,6 +69,11 @@ export const PanelistForm = () => {
     };
 
     setFormErrors(newFormErrors);
+
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
 
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       axios({
@@ -583,6 +590,8 @@ export const PanelistForm = () => {
                     type='checkbox'
                     value=''
                     id='flexcheckDefault'
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
                     style={{
                       height: 20,
                       padding: 0,
@@ -600,6 +609,11 @@ export const PanelistForm = () => {
                     I agree to all terms and conditions.
                   </label>
                 </div>
+                {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
               </div>
 
               <div className='col-12 text-center mt-4'>

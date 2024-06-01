@@ -27,6 +27,8 @@ export const IdeaEval = () => {
   const [evalRecommendedToIncu, setevalRecommendedToIncu] = useState("");
   const [evalAreaOfImprov, setevalAreaOfImprov] = useState("");
   const [evalOverallFeedback, setevalOverallFeedback] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
 
   // Step 2: For Validation
   // State to hold form field errors
@@ -87,6 +89,11 @@ export const IdeaEval = () => {
 
     // Step 4: For Validation : Will Not Change
     setFormErrors(newFormErrors);
+
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
 
     // Step 5: For Validation : If statement
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
@@ -822,6 +829,8 @@ export const IdeaEval = () => {
                       type='checkbox'
                       value=''
                       id='flexcheckDefault'
+                      checked={agreeTerms}
+                      onChange={(e) => setAgreeTerms(e.target.checked)}
                       style={{
                         height: 20,
                         padding: 0,
@@ -838,6 +847,11 @@ export const IdeaEval = () => {
                       I agree to all terms and conditions.
                     </label>
                   </div>
+                  {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
                 </div>
               </div>
               {/* Submit */}

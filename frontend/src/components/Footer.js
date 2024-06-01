@@ -76,16 +76,16 @@ function Footer() {
               <h5 className='footer-widget-title'>Quick Links</h5>
               <ul className='footer-widget-list'>
                 <li>
-                  <a href='#'>About us</a>
+                  <a href='/#'>About us</a>
                 </li>
                 <li>
-                  <a href='#'>Sign Up</a>
+                  <a href='/#'>Sign Up</a>
                 </li>
                 <li>
-                  <a href='#'>Sign In</a>
+                  <a href='/#'>Sign In</a>
                 </li>
                 <li>
-                  <a href='#'>Contact Us</a>
+                  <a href='/#'>Contact Us</a>
                 </li>
               </ul>
             </div>
@@ -161,15 +161,15 @@ function Footer() {
               data-wow-delay='.1s'
             >
               <p className='order-md-1 order-2'>
-                © 2023 by <span>EvolvingX</span>
+                © 2024 by <span>EvolvingX</span>
               </p>
 
               <ul className='footer-bootm-list order-md-2 order-1'>
                 <li>
-                  <a href='#'>Terms & Condition</a>
+                  <a href='/#'>Terms & Condition</a>
                 </li>
                 <li>
-                  <a href='#'>Privacy Policy</a>
+                  <a href='/#'>Privacy Policy</a>
                 </li>
               </ul>
             </div>
