@@ -5,7 +5,7 @@ from studRegistration.models import Team
 
 class IdeaSub(models.Model):
     ideaID = models.AutoField(primary_key=True)
-    ideaStatus = models.CharField(max_length=100, default='Idea Submitted')
+    ideaStatus = models.CharField(max_length=100, default='Submitted')
     # ideaTeamID = models.CharField(max_length=100, blank=True, null=True)
     ideaTeamID = models.ForeignKey(Team, to_field='teamUniqueID', on_delete=models.CASCADE, blank=True, null=True)
     ideaUniqueID = models.PositiveIntegerField(unique=True, blank=True, null=True)

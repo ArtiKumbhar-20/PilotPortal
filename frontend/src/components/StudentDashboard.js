@@ -526,7 +526,25 @@ const StudentDashboard = ({ userDetails }) => {
             <div className='section-content'>
               <h3>Idea Status</h3>
               <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
-              <p><b>Idea Status: </b>{ideaDetail.ideaStatus}</p>
+              {/* <p><b>Idea Status: </b>{ideaDetail.ideaStatus}</p> */}
+              <ol className="process_checkout">
+                <li className={`step ${ideaDetail.ideaStatus === 'Submitted' ? 'completed' : (ideaDetail.ideaStatus === 'Reviewed' || ideaDetail.ideaStatus === 'Remarked' || ideaDetail.ideaStatus === 'Closed' ? 'completed' : 'active')}`}>
+                  <span className="step-icon"></span>
+                  <span className="step-label">Submitted</span>
+                </li>
+                <li className={`step ${ideaDetail.ideaStatus === 'Reviewed' ? 'completed' : (ideaDetail.ideaStatus === 'Submitted' ? 'active' : 'completed')}`}>
+                  <span className="step-icon"></span>
+                  <span className="step-label">Reviewed</span>
+                </li>
+                <li className={`step ${ideaDetail.ideaStatus === 'Remarked' ? 'completed' : ((ideaDetail.ideaStatus === 'Submitted' ? '' : ideaDetail.ideaStatus === 'Reviewed' ? 'active' : 'completed'))}`}>
+                  <span className="step-icon"></span>
+                  <span className="step-label">Remarked</span>
+                </li>
+                <li className={`step ${ideaDetail.ideaStatus === 'Closed' ? 'completed' : ((ideaDetail.ideaStatus === 'Submitted' || ideaDetail.ideaStatus === 'Reviewed' ? '' : ideaDetail.ideaStatus === 'Remarked' ? 'active' : ''))}`}>
+                  <span className="step-icon"></span>
+                  <span className="step-label">Closed</span>
+                </li>
+              </ol>
             </div>
           )}
 
