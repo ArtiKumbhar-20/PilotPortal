@@ -4,6 +4,8 @@ import config from "./config";
 import Dashboard from "./Dashboard";
 import { NavLink } from "react-router-dom";
 
+import IdeaDetailModal from './IdeaDetailModal';
+
 
 const StudentDashboard = ({ userDetails }) => {
   const loggedInStudId = userDetails.student_id;
@@ -67,6 +69,34 @@ const StudentDashboard = ({ userDetails }) => {
 
   const handleSidebarClick = (section) => {
     setActiveSection(section);
+  };
+
+  // Idea Detail Modal
+  const [modalShow, setModalShow] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalBody, setModalBody] = useState('');
+
+  const handleShow = (title, body) => {
+    setModalTitle(`Idea ID: ${ideaDetail.ideaUniqueID}`);
+    setModalBody(
+      <>
+        <p className="card-text mb-1"><b>Team Name:</b> {ideaDetail.ideaTeamName}</p>
+        <p className="card-text mb-1"><b>Problem Statement:</b> {ideaDetail.final_ps}</p>
+        <p className="card-text mb-1"><b>Offering Type:</b> {ideaDetail.offering_type}</p>
+        <p className="card-text mb-1"><b>Domain:</b> {ideaDetail.domain}</p>
+        <p className="card-text mb-1"><b>Top Solution:</b> {ideaDetail.final_soln}</p>
+        <p className="card-text mb-1"><b>Technical Requirements:</b> {ideaDetail.tech_req}</p>
+        <p className="card-text mb-1"><b>Hardware Requirements:</b> {ideaDetail.hardware_req}</p>
+        <p className="card-text mb-1"><b>Non-Technical Requirements:</b> {ideaDetail.non_tech_req}</p>
+        <p className="card-text mb-1"><b>Estimated Time for implementing your idea:</b> {ideaDetail.proto_time}</p>
+        <p className="card-text mb-3"><b>Estimated Cost for implementing your idea:</b> {ideaDetail.proto_cost}</p>
+      </>
+    );
+    setModalShow(true);
+  };
+
+  const handleClose = () => {
+    setModalShow(false);
   };
 
   return (
@@ -497,7 +527,6 @@ const StudentDashboard = ({ userDetails }) => {
               </form>
             </div>
           )}
-
           {activeSection === 'submitted-ideas' && (
             <div className='section-content'>
               <h3>Submitted Idea</h3>
@@ -513,10 +542,12 @@ const StudentDashboard = ({ userDetails }) => {
                         <p class="card-text mb-1"><b>Offering Type:</b> {ideaDetail.offering_type} </p>
                         <p class="card-text mb-1"><b>Domain:</b> {ideaDetail.domain} </p>
                         <p class="card-text mb-3"><b>Description:</b> {ideaDetail.final_ps}</p>
-                        <a href={ideaDetail.ideaUniqueID} className='btn btn-custom' style={{ fontSize: 'small' }}>View More</a>
+                        {/* <a href={ideaDetail.ideaUniqueID} className='btn btn-custom' style={{ fontSize: 'small' }}>View More</a> */}
+                        <button className='btn btn-custom' onClick={() => handleShow()} style={{ fontSize: 'small' }}>View More</button>
                       </div>
                     </div>
                   </div>
+                  <IdeaDetailModal show={modalShow} handleClose={handleClose} title={modalTitle} body={modalBody} />
                 </div>
               </div>
             </div>
