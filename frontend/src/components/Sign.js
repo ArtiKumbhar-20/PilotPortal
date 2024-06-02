@@ -174,7 +174,7 @@ export const Sign = () => {
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
         studentForm.current.reset();
-        navigate('/VerifyEmail');
+        navigate('/verify_email');
       } catch (error) {
         console.error("Error submitting form:", error);
       } finally {

@@ -379,7 +379,6 @@ class PanelistDetailView(APIView):
                 'panelistWhatsapp': panelist.panelistWhatsapp,
                 'panelistAadhar': panelist.panelistAadhar,
                 'panelistInstiID': institute_serializer.data,
-
                 'panelistDomain': panelist.panelistDomain,
                 'panelistDegree': panelist.panelistDegree,
                 'panelistDesignation': panelist.panelistDesignation,

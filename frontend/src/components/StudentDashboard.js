@@ -4,12 +4,20 @@ import config from "./config";
 import Dashboard from "./Dashboard";
 import { NavLink } from "react-router-dom";
 
+import IdeaDetailModal from './IdeaDetailModal';
+
 
 const StudentDashboard = ({ userDetails }) => {
   const loggedInStudId = userDetails.student_id;
   const loggedInPanelId = userDetails.paneID;
   const apiUrl = `${config.backendUrl}/StudGetData/${userDetails.student_id}/`;
   const [stud, setStud] = useState({});
+  const [oldPassword, setOldPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     axios
@@ -63,10 +71,95 @@ const StudentDashboard = ({ userDetails }) => {
       });
   }, [teamUniqueID]);
 
+// Change Password
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!oldPassword || !newPassword || !confirmPassword) {
+    setError('All fields must be filled');
+    setMessage('');
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    setError('New password and confirm password do not match');
+    setMessage('');
+    return;
+  }
+
+  setLoading(true);
+  try {
+    const response = await axios.post('http://localhost:8000/home/changepassword/', {
+      old_password: oldPassword,
+      new_password: newPassword,
+      confirm_password: confirmPassword,
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+
+    if (response.status === 200) {
+      setMessage(response.data.message);
+      setError('');
+      setOldPassword('');
+      setNewPassword('');
+      setConfirmPassword('');
+
+      setTimeout(() => {
+        setMessage('');
+      }, 2000);
+
+    } else {
+      setError('Old password is incorrect.');
+      setMessage('');
+    }
+  } catch (error) {
+    if (error.response && error.response.data && error.response.data.error) {
+      setError(error.response.data.error);
+    } else {
+      setError('An unexpected error occurred.');
+    }
+    setMessage('');
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
   const [activeSection, setActiveSection] = useState('profile');
 
   const handleSidebarClick = (section) => {
     setActiveSection(section);
+  };
+
+  // Idea Detail Modal
+  const [modalShow, setModalShow] = useState(false);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalBody, setModalBody] = useState('');
+
+  const handleShow = (title, body) => {
+    setModalTitle(`Idea ID: ${ideaDetail.ideaUniqueID}`);
+    setModalBody(
+      <>
+        <p className="card-text mb-1"><b>Team Name:</b> {ideaDetail.ideaTeamName}</p>
+        <p className="card-text mb-1"><b>Problem Statement:</b> {ideaDetail.final_ps}</p>
+        <p className="card-text mb-1"><b>Offering Type:</b> {ideaDetail.offering_type}</p>
+        <p className="card-text mb-1"><b>Domain:</b> {ideaDetail.domain}</p>
+        <p className="card-text mb-1"><b>Top Solution:</b> {ideaDetail.final_soln}</p>
+        <p className="card-text mb-1"><b>Technical Requirements:</b> {ideaDetail.tech_req}</p>
+        <p className="card-text mb-1"><b>Hardware Requirements:</b> {ideaDetail.hardware_req}</p>
+        <p className="card-text mb-1"><b>Non-Technical Requirements:</b> {ideaDetail.non_tech_req}</p>
+        <p className="card-text mb-1"><b>Estimated Time for implementing your idea:</b> {ideaDetail.proto_time}</p>
+        <p className="card-text mb-3"><b>Estimated Cost for implementing your idea:</b> {ideaDetail.proto_cost}</p>
+      </>
+    );
+    setModalShow(true);
+  };
+
+  const handleClose = () => {
+    setModalShow(false);
   };
 
   return (
@@ -121,6 +214,17 @@ const StudentDashboard = ({ userDetails }) => {
                   onClick={() => handleSidebarClick('idea-status')}
                 >
                   Idea Status
+                </a>
+              </li>
+              <li
+                className={`nav-item ${activeSection === 'pass' ? 'active' : ''}`}
+              >
+                <a
+                  className='nav-link'
+                  href='#pass'
+                  onClick={() => handleSidebarClick('pass')}
+                >
+                  Change Password
                 </a>
               </li>
               <li
@@ -497,7 +601,6 @@ const StudentDashboard = ({ userDetails }) => {
               </form>
             </div>
           )}
-
           {activeSection === 'submitted-ideas' && (
             <div className='section-content'>
               <h3>Submitted Idea</h3>
@@ -513,10 +616,12 @@ const StudentDashboard = ({ userDetails }) => {
                         <p class="card-text mb-1"><b>Offering Type:</b> {ideaDetail.offering_type} </p>
                         <p class="card-text mb-1"><b>Domain:</b> {ideaDetail.domain} </p>
                         <p class="card-text mb-3"><b>Description:</b> {ideaDetail.final_ps}</p>
-                        <a href={ideaDetail.ideaUniqueID} className='btn btn-custom' style={{ fontSize: 'small' }}>View More</a>
+                        {/* <a href={ideaDetail.ideaUniqueID} className='btn btn-custom' style={{ fontSize: 'small' }}>View More</a> */}
+                        <button className='btn btn-custom' onClick={() => handleShow()} style={{ fontSize: 'small' }}>View More</button>
                       </div>
                     </div>
                   </div>
+                  <IdeaDetailModal show={modalShow} handleClose={handleClose} title={modalTitle} body={modalBody} />
                 </div>
               </div>
             </div>
@@ -547,6 +652,60 @@ const StudentDashboard = ({ userDetails }) => {
               </ol>
             </div>
           )}
+
+          {/*.................................................... */}
+          {activeSection === "pass" && (
+                  <div className='section-content'>
+                    <h3>Change Password</h3>
+                    <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
+                    {error && <div className='alert alert-danger' role='alert'>{error}</div>}
+                    {message && <div className='alert alert-success' role='alert'>{message}</div>}
+                    <br />
+                    <form onSubmit={handleSubmit}>
+                      <div className='row'>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Old Password</label>
+                            <input
+                              className={'form-control ' + (error ? 'is-invalid' : '')}
+                              placeholder='Enter Old Password'
+                              type='password'
+                              value={oldPassword}
+                              onChange={(e) => setOldPassword(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>New Password</label>
+                            <input
+                              className={'form-control ' + (error ? 'is-invalid' : '')}
+                              placeholder='Enter New Password'
+                              type='password'
+                              value={newPassword}
+                              onChange={(e) => setNewPassword(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                        <div className='col-12 col-xl-4 col-lg-4 mb-2'>
+                          <div className='form-group'>
+                            <label className='cust-label'>Confirm Password</label>
+                            <input
+                              className={'form-control ' + (error ? 'is-invalid' : '')}
+                              placeholder='Confirm your Password'
+                              type='password'
+                              value={confirmPassword}
+                              onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <button type='submit' className='btn btn-custom'>
+                        Confirm
+                      </button>
+                    </form>
+                  </div>
+                )}
 
         </main>
       </div>
