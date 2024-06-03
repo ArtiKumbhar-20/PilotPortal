@@ -148,7 +148,7 @@ export const ForgetPassword = () => {
                   </div>
                 </div>
                 <div className='col-12 text-center mt-4'>
-                  <button className='btn btn-style-one' type='submit' disabled={loading} style={{ color: 'white' }}>
+                  <button className='btn btn-style-one' type='submit' disabled={loading} style={{ color: 'white'  }}>
                     {loading ? 'Verifying...' : 'Verify OTP'}
                   </button>
                 </div>
