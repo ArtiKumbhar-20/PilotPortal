@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import { validateLoginForm } from "./formValidator";
 import config from "./config";
 const apiUrl = `${config.backendUrl}/token/`; // Construct Backend API URL
@@ -128,6 +128,9 @@ export const FirstLogin = () => {
                     <div className='invalid-feedback'>{errors.password}</div>
                   )}
                 </div>
+                <h6>
+                  <u><NavLink to='/forgot_password'>Forgot Password?</NavLink></u>
+                </h6>
               </div>
 
               <div className='col-12 text-center mt-4'>
@@ -135,10 +138,11 @@ export const FirstLogin = () => {
                   <span>Submit</span>
                 </button>
               </div>
+
               <div className='col-12 text-center mt-4'>
-                <p className='forgot'>Forgot Password ?</p>
+                {/* <p className='forgot'>Forgot Password?</p> */}
                 <h6>
-                <u><a href='Password'>Click here</a></u> to reset password
+                  <span style={{ color: '#000', fontFamily: '"Jost", sans-serif' }}>New to Pilot Portal</span><NavLink to='/student_registration'> <u>Sign up</u></NavLink>
                 </h6>
               </div>
             </form>

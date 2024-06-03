@@ -107,7 +107,7 @@ export const LoginForm = () => {
                       "form-control " + (errors.username ? "is-invalid" : "")
                     }
                     aria-describedby='emailHelp'
-                    placeholder='*Email'
+                    placeholder='*Username'
                     name='username'
                     type='text'
                     value={username}
@@ -134,7 +134,7 @@ export const LoginForm = () => {
                   )}
                 </div>
                 <h6>
-                  <u><NavLink to='/Password'>Forgot Password?</NavLink></u>
+                  <u><NavLink to='/forgot_password'>Forgot Password?</NavLink></u>
                 </h6>
               </div>
 
@@ -146,7 +146,7 @@ export const LoginForm = () => {
               <div className='col-12 text-center mt-4'>
                 {/* <p className='forgot'>Forgot Password?</p> */}
                 <h6>
-                  <span style={{ color: '#000', fontFamily: '"Jost", sans-serif' }}>New to Pilot Portal</span><NavLink to='/Student-Registration'> <u>Sign up</u></NavLink>
+                  <span style={{ color: '#000', fontFamily: '"Jost", sans-serif' }}>New to Pilot Portal</span><NavLink to='/student_registration'> <u>Sign up</u></NavLink>
                 </h6>
               </div>
             </form>

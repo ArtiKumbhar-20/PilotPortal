@@ -48,8 +48,8 @@ function App() {
         <Route path='/idea' element={<Idea />}></Route>
         <Route path='/quiz' element={<Quiz />}></Route>
         <Route path='/questions' element={<quiz />}></Route>
-        <Route path='/password' element={<Password />}></Route>
-        <Route path='/reset_pass/:otp/:email' element={<ResetPass />}></Route>
+        <Route path='/forgot_password' element={<Password />}></Route>
+        <Route path='/reset_password/:otp/:email' element={<ResetPass />}></Route>
         <Route path='/verify_email' element={<VerifyEmail />}></Route>
 
         {/* Login Auth */}

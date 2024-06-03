@@ -29,6 +29,7 @@ export default function ContactModal() {
 
   return (
     <div>
+    
     <div
       className='modal fade'
       id='exampleModal'
@@ -109,36 +110,46 @@ export default function ContactModal() {
     
     {showToast && (
         <div
-          id="toast"
           style={{
             position: "fixed",
-            top: "20px", // Position at the top of the page
-            left: "50%",
-            transform: "translateX(-50%)",
-            backgroundColor: "#fff", // White background
-            color: "#000", // Black text
-            padding: "15px",
-            borderRadius: "5px",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", 
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             zIndex: "1000",
-            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.3)", // Optional: to give a subtle shadow for better visibility
-            width: "300px",
-            textAlign: "center",
           }}
         >
-          <p>Form submitted successfully!</p>
-          <button
-            onClick={() => setShowToast(false)}
+          <div
+            id="toast"
             style={{
-              backgroundColor: "purple",
-              color: "white",
-              border: "none",
-              padding: "10px",
+              backgroundColor: "#fff", 
+              color: "#000", 
+              padding: "15px",
               borderRadius: "5px",
-              cursor: "pointer",
+              boxShadow: "0 2px 5px rgba(0, 0, 0, 0.3)", 
+              width: "300px",
+              textAlign: "center",
             }}
           >
-            OK
-          </button>
+            <p>Form submitted successfully!</p>
+            <button
+              onClick={() => setShowToast(false)}
+              style={{
+                backgroundColor: "purple",
+                color: "white",
+                border: "none",
+                padding: "10px",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+            >
+              OK
+            </button>
+          </div>
         </div>
       )}
     </div>
