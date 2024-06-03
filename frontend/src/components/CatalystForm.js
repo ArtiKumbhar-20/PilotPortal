@@ -248,7 +248,7 @@ export const CatalystForm = () => {
                 </div>
 
                 {/* row 2 */}
-                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                <div className={`col-12 col-xl-4 col-lg-4 mb-3 ${formError && !catalystGender ? 'has-error' : ''}`}>
                   <label className='labelStyle'>Gender</label>
                   <br />
                   <br />
@@ -263,18 +263,21 @@ export const CatalystForm = () => {
                         // name='inlineRadioOptions'
                         id='catalystGender'
                         value='male'
-                        style={{ height: 20 }}
+                        style={{ height: 20 ,marginRight: 5}}
                         name={catalystGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setCatalystGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            catalystGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setCatalystGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     catalystGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={catalystGender === 'male'}
+                        onChange={(e) => catalystGender(e.target.value)}
                       />
-                      Male
+
+    <span style={{ color: formError && !catalystGender ? 'red' : '' }}>Male</span>
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
@@ -290,16 +293,18 @@ export const CatalystForm = () => {
                         value='female'
                         style={{ height: 20 }}
                         name={catalystGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setCatalystGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            catalystGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setCatalystGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     catalystGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={catalystGender === 'female'}
+      onChange={(e) => catalystGender(e.target.value)}
                       />
-                      Female
+    <span style={{ color: formError && !catalystGender ? 'red' : '' }}>Female</span>
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
@@ -315,23 +320,28 @@ export const CatalystForm = () => {
                         value='other'
                         style={{ height: 20 }}
                         name={catalystGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setCatalystGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            catalystGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setCatalystGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     catalystGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={catalystGender === 'other'}
+                        onChange={(e) => catalystGender(e.target.value)}
                       />
-                      Other
+                      {/* <span className='radio-custom' style={{ borderColor: formError && !catalystGender ? 'red' : '' }}></span> */}
+    <span style={{ color: formError && !catalystGender ? 'red' : '' }}>Other</span>
                     </label>
                   </div>
-                  {formErrors.catalystGender && (
+                  {/* {formErrors.catalystGender && (
                     <div className='invalid-feedback'>
                       {formErrors.catalystGender}
                     </div>
-                  )}
+                  )} */}
+                    {formError && !catalystGender && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
+
                 </div>
 
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
@@ -852,7 +862,7 @@ export const CatalystForm = () => {
 
               {/* Background Details */}
               <h2 className='title'>Background Details</h2>
-              <div className='radio-container'>
+              <div className={`radio-container mb-3 ${formError && !catalystTriedStartupBefore ? 'has-error' : ''}`}>
                 <p className='labelStyle'>Have you tried startup before?</p>
                 <label className='radio-label'>
                   <input
@@ -863,17 +873,20 @@ export const CatalystForm = () => {
                     id='startupYes'
                     value='yes'
                     name='catalystTriedStartupBefore'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setCatalystTriedStartupBefore(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        catalystTriedStartupBefore: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setCatalystTriedStartupBefore(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     catalystTriedStartupBefore: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={catalystTriedStartupBefore === 'yes'}
+                    onChange={(e) => catalystTriedStartupBefore(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  Yes
+                  <span className='radio-custom' style={{ borderColor: formError && !catalystTriedStartupBefore ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !catalystTriedStartupBefore ? 'red' : '' }}>Yes</span>
                 </label>
                 <label className='radio-label'>
                   <input
@@ -884,17 +897,20 @@ export const CatalystForm = () => {
                     id='startupNo'
                     value='no'
                     name='catalystTriedStartupBefore'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setCatalystTriedStartupBefore(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        catalystTriedStartupBefore: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setCatalystTriedStartupBefore(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     catalystTriedStartupBefore: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={catalystTriedStartupBefore === 'no'}
+                    onChange={(e) => catalystTriedStartupBefore(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  No
+                  <span className='radio-custom' style={{ borderColor: formError && !catalystTriedStartupBefore ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !catalystTriedStartupBefore ? 'red' : '' }}>No</span>
                 </label>
                 <label className='radio-label'>
                   <input
@@ -905,26 +921,30 @@ export const CatalystForm = () => {
                     id='startupPlanning'
                     value='planning'
                     name='catalystTriedStartupBefore'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setCatalystTriedStartupBefore(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        catalystTriedStartupBefore: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setCatalystTriedStartupBefore(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     catalystTriedStartupBefore: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={catalystTriedStartupBefore === 'planning'}
+                    onChange={(e) => catalystTriedStartupBefore(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  Planning
+                  <span className='radio-custom' style={{ borderColor: formError && !catalystTriedStartupBefore ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !catalystTriedStartupBefore ? 'red' : '' }}>Planning</span>
                 </label>
-                {formErrors.catalystTriedStartupBefore && (
+                {/* {formErrors.catalystTriedStartupBefore && (
                   <div className='invalid-feedback'>
                     {formErrors.catalystTriedStartupBefore}
                   </div>
-                )}
+                )} */}
+                {formError && !catalystTriedStartupBefore && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
               </div>
 
-              <div className='radio-container'>
+              <div className={`radio-container mb-3 ${formError && !catalystEBC ? 'has-error' : ''}`}>
                 <p className='labelStyle'>
                   Are you eligible for benefits provided to EBC(Economically
                   Backward Class)?
@@ -936,17 +956,20 @@ export const CatalystForm = () => {
                     id='ebcYes'
                     value='yes'
                     name='catalystEBC'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setCatalystEBC(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        catalystEBC: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setCatalystEBC(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     catalystEBC: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={catalystEBC === 'yes'}
+                    onChange={(e) => catalystEBC(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  Yes
+                  <span className='radio-custom' style={{ borderColor: formError && !catalystEBC ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !catalystEBC ? 'red' : '' }}>Yes</span>
                 </label>
                 <label className='radio-label'>
                   <input
@@ -955,23 +978,27 @@ export const CatalystForm = () => {
                     id='parentSupportNo'
                     value='no'
                     name='catalystEBC'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setCatalystEBC(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        catalystEBC: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setCatalystEBC(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     catalystEBC: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={catalystEBC === 'no'}
+                    onChange={(e) => catalystEBC(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  No
+                  <span className='radio-custom' style={{ borderColor: formError && !catalystEBC ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !catalystEBC ? 'red' : '' }}>No</span>
                 </label>
-                {formErrors.catalystEBC && (
+                {/* {formErrors.catalystEBC && (
                   <div className='invalid-feedback'>
                     {formErrors.catalystEBC}
                   </div>
-                )}
+                )} */}
+                {formError && !catalystEBC && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
               </div>
               <br />
 
