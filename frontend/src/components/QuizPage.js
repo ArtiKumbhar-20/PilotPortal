@@ -7,6 +7,7 @@ import config from "./config";
 const apiUrl = `${config.backendUrl}`;
 
 const QuizPage = () => {
+  const loggedInStudId = sessionStorage.getItem('loggedInStudId');
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -22,9 +23,19 @@ const QuizPage = () => {
     },
     attempts: 1,
   };
-  const [quizState, setQuizState] = useState(initialQuizState);
-  const [timer, setTimer] = useState(900);
-  const maxAttempts = 3;
+  const [quizState, setQuizState] = useState(() => {
+    const savedState = localStorage.getItem('quizState');
+    return savedState ? JSON.parse(savedState) : initialQuizState;
+  });
+  const [quizStarted, setQuizStarted] = useState(() => {
+    const savedQuizStarted = localStorage.getItem('quizStarted');
+    return savedQuizStarted ? JSON.parse(savedQuizStarted) : false;
+  });
+  const [timer, setTimer] = useState(() => {
+    const savedTimer = localStorage.getItem('timer');
+    return savedTimer ? JSON.parse(savedTimer) : 900;
+  });
+  const maxAttempts = 20;
 
   useEffect(() => {
     // Fetch questions from backend when component mounts
@@ -45,7 +56,6 @@ const QuizPage = () => {
         setLoading(false);
 
         console.log("List of the Questions" + questions);
-
       })
       .catch(error => {
         console.error('Error fetching questions:', error);
@@ -61,11 +71,13 @@ const QuizPage = () => {
   useEffect(() => {
     let timerInterval;
 
-    if (!quizState.showResult) {
+    if (!quizState.showResult && quizStarted) {
       timerInterval = setInterval(() => {
         setTimer((prevTimer) => {
           if (prevTimer > 0) {
-            return prevTimer - 1;
+            const newTimer = prevTimer - 1;
+            localStorage.setItem('timer', JSON.stringify(newTimer));
+            return newTimer;
           } else {
             clearInterval(timerInterval);
             // Handle timeout logic here
@@ -77,14 +89,27 @@ const QuizPage = () => {
     }
     // Clear the interval when the component is unmounted or when the quiz is finished
     return () => clearInterval(timerInterval);
-  }, [quizState.showResult]);
+  }, [quizState.showResult, quizStarted]);
 
   const handleTimeout = () => {
     // You can customize this function to handle what should happen when the timer reaches 0
     setQuizState((prev) => ({ ...prev, showResult: true }));
   };
 
-  // Other functions
+  const startQuiz = () => {
+    setQuizStarted(true);
+    localStorage.setItem('quizStarted', JSON.stringify(true));
+  };
+
+  useEffect(() => {
+    if (quizStarted) {
+      localStorage.setItem('quizStarted', JSON.stringify(quizStarted));
+    }
+  }, [quizStarted]);
+
+  useEffect(() => {
+    localStorage.setItem('quizState', JSON.stringify(quizState));
+  }, [quizState]);
 
   if (!isLoggedIn) {
     // If user is not logged in, don't render anything
@@ -112,38 +137,45 @@ const QuizPage = () => {
 
   const onClickNext = () => {
     if (!quizState.showResult) {
-      if (activeQuestion !== questions.length - 1) {
-        const currentQuestion = questions[activeQuestion];
-        let questionScore = 1;
-        let difficultyMultiplier = 1;
+      const currentQuestion = questions[activeQuestion];
+      let questionScore = 1;
+      let difficultyMultiplier = 1;
 
-        if (currentQuestion && typeof currentQuestion.questionScore === 'number') {
-          questionScore = currentQuestion.questionScore;
+      if (currentQuestion && typeof currentQuestion.questionScore === 'number') {
+        questionScore = currentQuestion.questionScore;
+      }
+
+      if (currentQuestion && typeof currentQuestion.questionDiffLevel === 'number') {
+        difficultyMultiplier = currentQuestion.questionDiffLevel;
+      }
+
+      const updatedResult = selectedAnswer
+        ? {
+          ...quizState.result,
+          score: quizState.result.score + questionScore * difficultyMultiplier,
+          correctAnswers: quizState.result.correctAnswers + 1,
         }
+        : {
+          ...quizState.result,
+          wrongAnswers: quizState.result.wrongAnswers + 1,
+        };
 
-        if (currentQuestion && typeof currentQuestion.questionDiffLevel === 'number') {
-          difficultyMultiplier = currentQuestion.questionDiffLevel;
-        }
-
+      if (activeQuestion === questions.length - 1) {
+        setQuizState((prev) => ({
+          ...prev,
+          showResult: true,
+          result: updatedResult,
+        }));
+      } else {
         setQuizState((prev) => ({
           ...prev,
           selectedAnswerIndex: null,
-          result: selectedAnswer
-            ? {
-              ...prev.result,
-              score: prev.result.score + (questionScore * difficultyMultiplier),
-              correctAnswers: prev.result.correctAnswers + 1,
-            }
-            : { ...prev.result, wrongAnswers: prev.result.wrongAnswers + 1 },
+          result: updatedResult,
           activeQuestion: prev.activeQuestion + 1,
         }));
-      } else {
-        setQuizState((prev) => ({ ...prev, showResult: true }));
       }
     }
   };
-
-
 
   const onAnswerSelected = (answer, index) => {
     setQuizState((prev) => ({
@@ -158,7 +190,7 @@ const QuizPage = () => {
   const resetQuiz = () => {
     if (attempts < maxAttempts) {
       const quizData = {
-        user_id: 1,
+        student: loggedInStudId,
         score: result.score,
         correct_answers: result.correctAnswers,
         wrong_answers: result.wrongAnswers,
@@ -178,7 +210,8 @@ const QuizPage = () => {
         ...initialQuizState,
         attempts: attempts + 1,
       });
-      setTimer(60); // Reset timer
+      setTimer(900); // Reset timer
+      localStorage.setItem('timer', JSON.stringify(900));
     } else {
       // Redirect to quiz questions section
       setQuizState({
@@ -186,71 +219,76 @@ const QuizPage = () => {
         attempts: attempts + 1,
         showResult: false, // Ensure quiz section is displayed
       });
-      setTimer(60); // Reset timer
+      setTimer(900); // Reset timer
+      localStorage.setItem('timer', JSON.stringify(900));
     }
+    localStorage.removeItem('quizState');
+    localStorage.removeItem('quizStarted');
   };
-
 
   return (
     <div className="quiz">
       <div className="quiz-container">
-        {!showResult ? (
-          <div>
-            <div className="timer">Time left: {formatTime(timer)}</div>
-            <div>
-              <span className="active-question-no">{addLeadingZero(activeQuestion + 1)}</span>
-              <span className="total-question">/{addLeadingZero(questions.length)}</span>
-            </div>
-            <h2 className="question">{question}</h2>
-            <ul>
-              {choices.map((answer, index) => (
-                <li
-                  onClick={() => onAnswerSelected(answer, index)}
-                  key={answer}
-                  className={selectedAnswerIndex === index ? 'selected-answer' : null}>
-                  {answer}
-                </li>
-              ))}
-            </ul>
-            <div className="flex-right">
-              <button onClick={onClickNext} disabled={selectedAnswerIndex === null}>
-                {activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
-              </button>
-            </div>
+        {!quizStarted ? (
+          <div className="start-quiz text-center">
+            <h2 className="question">Are you ready?</h2>
+            <button onClick={startQuiz} className="start-button">Start Quiz</button>
           </div>
         ) : (
-          <div className="result">
-            <h3> <b>Assessment Result</b></h3>
-            <p>
-              You've scored <span> {result.score}</span> points!!
-            </p>
-
-            <div className="section">
-              <p className='section-para'> Total Questions:
-                <span className="section-number">{questions.length}</span><br />
-              </p>
-              <p className='section-para'>Correct Answers:
-                <span> {result.correctAnswers}</span><br />
-              </p>
-              <p className='section-para'>Wrong Answers:
-                <span> {result.wrongAnswers}</span><br />
-              </p>
-              <p className="section-para">
-                Attempts:
-                <span> {attempts}</span>
-                <br />
-              </p>
+          !showResult ? (
+            <div>
+              <div className="timer">Time left: {formatTime(timer)}</div>
+              <div>
+                <span className="active-question-no">{addLeadingZero(activeQuestion + 1)}</span>
+                <span className="total-question">/{addLeadingZero(questions.length)}</span>
+              </div>
+              <h2 className="question">{question}</h2>
+              <ul>
+                {choices.map((answer, index) => (
+                  <li
+                    onClick={() => onAnswerSelected(answer, index)}
+                    key={answer}
+                    className={selectedAnswerIndex === index ? 'selected-answer' : null}>
+                    {answer}
+                  </li>
+                ))}
+              </ul>
+              <div className="flex-right">
+                <button onClick={onClickNext} disabled={selectedAnswerIndex === null}>
+                  {activeQuestion === questions.length - 1 ? 'Finish' : 'Next'}
+                </button>
+              </div>
             </div>
+          ) : (
+            <div className="result">
+              <h3><b>Assessment Result</b></h3>
+              <p>You've scored <span>{result.score}</span> points!!</p>
 
-            {attempts < maxAttempts ? (
-              <button type='submit' className='btn btn-custom' style={{ display: 'block', margin: 'auto' }} onClick={resetQuiz}>
-                Try Again &#10227;
-              </button>
-            ) : (
-              <p className='max-attempts-message'>Maximum number of attempts crossed</p>
-            )}
-          </div>
+              <div className="section">
+                <p className='section-para'>Total Questions:
+                  <span className="section-number">{questions.length}</span><br />
+                </p>
+                <p className='section-para'>Correct Answers:
+                  <span>{result.correctAnswers}</span><br />
+                </p>
+                <p className='section-para'>Wrong Answers:
+                  <span>{result.wrongAnswers}</span><br />
+                </p>
+                <p className="section-para">
+                  Attempts:
+                  <span>{attempts}</span><br />
+                </p>
+              </div>
 
+              {attempts < maxAttempts ? (
+                <button type='submit' className='btn btn-custom' style={{ display: 'block', margin: 'auto' }} onClick={resetQuiz}>
+                  Try Again &#10227;
+                </button>
+              ) : (
+                <p className='max-attempts-message'>Maximum number of attempts crossed</p>
+              )}
+            </div>
+          )
         )}
       </div>
     </div>

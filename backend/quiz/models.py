@@ -1,9 +1,10 @@
 from django.db import models
 from django.utils import timezone
 from datetime import date
+from studRegistration.models import Student
 
 class QuizResult(models.Model):
-    user_id = models.IntegerField()  # You may want to link this to a user model
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
     score = models.IntegerField()
     correct_answers = models.IntegerField()
     wrong_answers = models.IntegerField()
@@ -11,7 +12,14 @@ class QuizResult(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.user_id} - {self.timestamp}'
+        if self.student:
+            formatted_date = self.timestamp.strftime("%d %b %Y")
+            formatted_time = self.timestamp.strftime("%I:%M %p")
+            return f'{self.student.stdFname} {self.student.stdLname} - {formatted_date}, {formatted_time}'  # Use student's name
+        else:
+            formatted_date = self.timestamp.strftime("%d %b %Y")
+            formatted_time = self.timestamp.strftime("%I:%M %p")
+            return f'Quiz Result - {formatted_date}, {formatted_time}'
 
     class Meta:
         app_label = 'quiz'
