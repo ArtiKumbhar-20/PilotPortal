@@ -24,6 +24,8 @@ export const PanelistForm = () => {
   const [panelistDesignation, setPanelistDesignation] = useState("");
   const [panelistTotalExp, setPanelistTotalExp] = useState("");
   const [panelistIdeaEvaluated, setPanelistIdeaEvaluated] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
 
   // State to hold form field errors
   const [formErrors, setFormErrors] = useState({
@@ -67,6 +69,11 @@ export const PanelistForm = () => {
     };
 
     setFormErrors(newFormErrors);
+
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
 
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       axios({
@@ -192,7 +199,7 @@ export const PanelistForm = () => {
                   )}
                 </div>
 
-                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                <div className={`col-12 col-xl-4 col-lg-4 mb-3${formError && !panelistGender ? 'has-error' : ''}`}>
                   <label className='labelStyle'>Gender</label>
                   <br />
                   <br />
@@ -208,16 +215,18 @@ export const PanelistForm = () => {
                         value='male'
                         style={{ height: 20 }}
                         name={panelistGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setPanelistGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            panelistGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setPanelistGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     panelistGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={panelistGender === 'male'}
+                        onChange={(e) => panelistGender(e.target.value)}
                       />
-                      Male
+                      <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Male</span>
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
@@ -232,16 +241,18 @@ export const PanelistForm = () => {
                         value='female'
                         style={{ height: 20 }}
                         name={panelistGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setPanelistGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            panelistGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setPanelistGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     panelistGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={panelistGender === 'female'}
+                        onChange={(e) => panelistGender(e.target.value)}
                       />
-                      Female
+                      <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Female</span>
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
@@ -256,23 +267,26 @@ export const PanelistForm = () => {
                         value='other'
                         style={{ height: 20 }}
                         name={panelistGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setPanelistGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            panelistGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setPanelistGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     panelistGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={panelistGender === 'other'}
+                        onChange={(e) => panelistGender(e.target.value)}
                       />
-                      Other
+                      <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Other</span>
                     </label>
                   </div>
-                  {formErrors.panelistGender && (
+                  {/* {formErrors.panelistGender && (
                     <div className='invalid-feedback'>
                       {formErrors.panelistGender}
                     </div>
-                  )}
+                  )} */}
+                  {formError && !panelistGender && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Email</label>
@@ -583,6 +597,8 @@ export const PanelistForm = () => {
                     type='checkbox'
                     value=''
                     id='flexcheckDefault'
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
                     style={{
                       height: 20,
                       padding: 0,
@@ -600,6 +616,11 @@ export const PanelistForm = () => {
                     I agree to all terms and conditions.
                   </label>
                 </div>
+                {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
               </div>
 
               <div className='col-12 text-center mt-4'>

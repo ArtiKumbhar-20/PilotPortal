@@ -12,7 +12,7 @@ from .verify import verify_email
 from .otp import resend_email
 import random
 import string
-import string
+
 
 from idea.models import * 
 
@@ -21,6 +21,11 @@ from.serializers import PanelistSerializer
 from idea.serializers import IdeaSubSerializer
 from rest_framework.decorators import api_view
 from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_405_METHOD_NOT_ALLOWED,HTTP_500_INTERNAL_SERVER_ERROR
+from .emails import *
+import random
+import string
+
+
 # Import the logging module for debugging
 import logging
 
@@ -100,7 +105,7 @@ class StudentRegistration(APIView):
                 profile.save()
 
                 # Send the verification email
-                verify_email(student.stdEmail, otp)
+                otp_verify_email(student.stdEmail, otp)
 
                 # Set the OTP in the serializer context
                 serializer.context['verification_otp'] = otp
@@ -174,7 +179,7 @@ class ResendOTP(APIView):
             profile.save()
 
             # Send the new OTP
-            resend_email(student_email=email, otp=otp, email=email)  # Implement this function according to your email sending mechanism
+            resend_otp(student_email=email, otp=otp, email=email)  
 
             return Response({'message': 'New OTP sent successfully'}, status=200)
         except Exception as e:
@@ -246,11 +251,9 @@ class TeamRegistration(APIView):
                 team_cto = request.data['teamCTO']
                 team_cfo = request.data['teamCFO']
 
-                # Check if the team name is already taken (case-insensitive)
                 if Team.objects.filter(teamName__iexact=team_name).exists():
                     return Response({'error': 'Team name already taken.'}, status=status.HTTP_409_CONFLICT)
 
-                # Check if team members are associated or registered with other teams
                 conflicting_members = Student.objects.filter(
                     stdUniqueID__in=[team_ceo, team_coo, team_cmo, team_cto, team_cfo],
                     teamID__isnull=False
@@ -261,22 +264,44 @@ class TeamRegistration(APIView):
                     return Response({'error': f'One or more team members are already associated with other teams: {conflicting_members_list}'}, status=status.HTTP_409_CONFLICT)
 
                 with transaction.atomic():
-                    # Save the team details
                     team_instance = serializer.save()
+                    team_emails = []
+                    team_members = []
 
-                    # Get the team ID
-                    teamID = team_instance.teamID
-
-                    # Update the teamID for each student
-                    student_unique_ids = [team_ceo, team_coo, team_cmo, team_cto, team_cfo]
-
-                    for uniqueID in student_unique_ids:
+                    for uniqueID in [team_ceo, team_coo, team_cmo, team_cto, team_cfo]:
                         try:
                             student = Student.objects.get(stdUniqueID=uniqueID, teamID__isnull=True)
                             student.teamID = team_instance
                             student.save()
+
+                            # Fetch the role from the Team model
+                            team_member_role = ''
+                            if uniqueID == team_ceo:
+                                team_member_role = 'Chief Executive Officer (CEO)'
+                            elif uniqueID == team_coo:
+                                team_member_role = 'Chief Operating Officer (COO)'
+                            elif uniqueID == team_cmo:
+                                team_member_role = 'Chief Marketing Officer (CMO)'
+                            elif uniqueID == team_cto:
+                                team_member_role = 'Chief Technology Officer (CTO)'
+                            elif uniqueID == team_cfo:
+                                team_member_role = 'Chief Financial Officer (CFO)'
+
+                            team_members.append({
+                                'name': student.stdFname + ' ' + student.stdLname,
+                                'role': team_member_role,
+                            })
+                            team_emails.append(student.stdEmail)
                         except Student.DoesNotExist:
                             return Response({'error': f'Student with uniqueID {uniqueID} is already associated with another team.'}, status=status.HTTP_409_CONFLICT)
+
+                    # Send the team email
+                    team_info = {
+                        'teamUniqueID': team_instance.teamUniqueID,
+                        'teamName': team_instance.teamName,
+                        'teamMembers': team_members
+                    }
+                    send_team_email(team_info, team_emails)
 
                 return Response({'message': 'Team created successfully.'}, status=status.HTTP_201_CREATED)
             else:
@@ -285,6 +310,7 @@ class TeamRegistration(APIView):
             logger.exception("Error in TeamRegistration view: %s", str(e))
             return Response({'error': 'Internal Server Error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# Idea Submission
 class IdeaSubGetDataAPIView(APIView):
     def get(self, request):
         team = Team.objects.first()  # Fetch the first team record
@@ -296,7 +322,7 @@ class IdeaSubGetDataAPIView(APIView):
             'panelist': {'id': panelist.panelID, 'name': f"{panelist.panelistFname} {panelist.panelistLname}"},
         }
         return Response(response_data)
-    
+  
 class StudentDetailView(APIView):
     def get(self, request, loggedInStudId):
         try:

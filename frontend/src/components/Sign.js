@@ -53,6 +53,8 @@ export const Sign = () => {
   const [stdParentSupport, setStdParentSupport] = useState("");
   const [stdEduLoan, setStdEduLoan] = useState("");
   const [stdEBC, setStdEBC] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
 
   // Step 2: For Validation
   // State to hold form field errors
@@ -120,6 +122,11 @@ export const Sign = () => {
     // Step 4: For Validation : Will Not Change
     setFormErrors(newFormErrors);
 
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
+
     // Step 5: For Validation : If statement
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       setLoading(true);
@@ -167,7 +174,7 @@ export const Sign = () => {
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
         studentForm.current.reset();
-        navigate('/VerifyEmail');
+        navigate('/verify_email');
       } catch (error) {
         console.error("Error submitting form:", error);
       } finally {
@@ -282,7 +289,7 @@ export const Sign = () => {
                 </div>
 
                 {/* row 2 */}
-                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                <div className={`col-12 col-xl-4 col-lg-4 mb-3${formError && !stdGender ? 'has-error' : ''}`}>
                   <label className='labelStyle'>Gender</label>
                   <br />
                   <br />
@@ -299,16 +306,18 @@ export const Sign = () => {
                         value='Male'
                         style={{ height: 20 }}
                         name={stdGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setStdGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            stdGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setStdGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     stdGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={stdGender === 'Male'}
+                        onChange={(e) => stdGender(e.target.value)}
                       />
-                      Male
+                      <span style={{ color: formError && !stdGender ? 'red' : '' }}>Male</span>
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
@@ -324,16 +333,18 @@ export const Sign = () => {
                         value='Female'
                         style={{ height: 20 }}
                         name={stdGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setStdGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            stdGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setStdGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     stdGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={stdGender === 'Female'}
+                        onChange={(e) => stdGender(e.target.value)}
                       />
-                      Female
+                      <span style={{ color: formError && !stdGender ? 'red' : '' }}>Female</span>
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
@@ -349,23 +360,26 @@ export const Sign = () => {
                         value='other'
                         style={{ height: 20 }}
                         name={stdGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setStdGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            stdGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setStdGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     stdGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={stdGender === 'other'}
+                        onChange={(e) => stdGender(e.target.value)}
                       />
-                      Other
+                      <span style={{ color: formError && !stdGender ? 'red' : '' }}>Other</span>
                     </label>
                   </div>
-                  {formErrors.stdGender && (
+                  {/* {formErrors.stdGender && (
                     <div className='invalid-feedback'>
                       {formErrors.stdGender}
                     </div>
-                  )}
+                  )} */}
+                  {formError && !stdGender && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Mobile Number</label>
@@ -882,7 +896,7 @@ export const Sign = () => {
 
               <br />
               <h2 className='title'>Additional Details</h2>
-              <div className='radio-container'>
+              <div className={`radio-container mb-3 ${formError && !stdTriedStartupBefore ? 'has-error' : ''}`}>
                 <p className='labelStyle'>Have you tried Startup before?</p>
                 <label className='radio-label'>
                   <input
@@ -893,17 +907,20 @@ export const Sign = () => {
                     id='startupYes'
                     value='yes'
                     name='stdTriedStartupBefore'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdTriedStartupBefore(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdTriedStartupBefore: validateRequired(value),
-                      }));
-                    }}
+                    checked={stdTriedStartupBefore === 'yes'}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdTriedStartupBefore(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdTriedStartupBefore: validateRequired(value),
+                    //   }));
+                    // }}
+                    onChange={(e) => stdTriedStartupBefore(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  Yes
+                  <span className='radio-custom' style={{ borderColor: formError && !stdTriedStartupBefore ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdTriedStartupBefore ? 'red' : '' }}>Yes</span>
                 </label>
                 <label className='radio-label'>
                   <input
@@ -914,17 +931,20 @@ export const Sign = () => {
                     id='startupNo'
                     value='no'
                     name='stdTriedStartupBefore'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdTriedStartupBefore(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdTriedStartupBefore: validateRequired(value),
-                      }));
-                    }}
+                    checked={stdTriedStartupBefore === 'no'}
+                    onChange={(e) => stdTriedStartupBefore(e.target.value)}
+                    style={{ marginRight: 5 }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdTriedStartupBefore(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdTriedStartupBefore: validateRequired(value),
+                    //   }));
+                    // }}
                   />
-                  <span className='radio-custom'></span>
-                  No
+                  <span className='radio-custom' style={{ borderColor: formError && !stdTriedStartupBefore ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdTriedStartupBefore ? 'red' : '' }}>No</span>
                 </label>
                 <label className='radio-label'>
                   <input
@@ -935,26 +955,30 @@ export const Sign = () => {
                     id='startupPlanning'
                     value='planning'
                     name='stdTriedStartupBefore'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdTriedStartupBefore(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdTriedStartupBefore: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdTriedStartupBefore(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdTriedStartupBefore: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={stdTriedStartupBefore === 'planning'}
+                    onChange={(e) => stdTriedStartupBefore(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  Planning
+                  <span className='radio-custom' style={{ borderColor: formError && !stdTriedStartupBefore ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdTriedStartupBefore ? 'red' : '' }}>Planning</span>
                 </label>
-                {formErrors.stdTriedStartupBefore && (
+                {/* {formErrors.stdTriedStartupBefore && (
                   <div className='invalid-feedback'>
                     {formErrors.stdTriedStartupBefore}
                   </div>
-                )}
+                )} */}
+                {formError && !stdTriedStartupBefore && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
               </div>
 
-              <div className='radio-container'>
+              <div className={`radio-container mb-3 ${formError && !stdParentSupport ? 'has-error' : ''}`}>
                 <p className='labelStyle'>
                   Do you need us to onboard your parents for their support?
                 </p>
@@ -965,17 +989,20 @@ export const Sign = () => {
                     id='parentSupportYes'
                     value='yes'
                     name='stdParentSupport'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdParentSupport(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdParentSupport: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdParentSupport(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdParentSupport: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={stdParentSupport === 'yes'}
+                    onChange={(e) => stdParentSupport(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  Yes
+                  <span className='radio-custom' style={{ borderColor: formError && !stdParentSupport ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdParentSupport ? 'red' : '' }}>Yes</span>
                 </label>
                 <label className='radio-label'>
                   <input
@@ -984,26 +1011,30 @@ export const Sign = () => {
                     id='parentSupportNo'
                     value='no'
                     name='stdParentSupport'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdParentSupport(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdParentSupport: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdParentSupport(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdParentSupport: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={stdParentSupport === 'no'}
+                    onChange={(e) => stdParentSupport(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  No
+                  <span className='radio-custom' style={{ borderColor: formError && !stdParentSupport ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdParentSupport ? 'red' : '' }}>No</span>
                 </label>
-                {formErrors.stdParentSupport && (
+                {/* {formErrors.stdParentSupport && (
                   <div className='invalid-feedback'>
                     {formErrors.stdParentSupport}
                   </div>
-                )}
+                )} */}
+                {formError && !stdParentSupport && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
               </div>
 
-              <div className='radio-container'>
+              <div className={`radio-container mb-3 ${formError && !stdEduLoan ? 'has-error' : ''}`}>
                 <p className='labelStyle'>Have you taken Educational Loan?</p>
                 <label className='radio-label'>
                   <input
@@ -1012,17 +1043,20 @@ export const Sign = () => {
                     id='eduLoanYes'
                     value='yes'
                     name='stdEduLoan'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdEduLoan(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdEduLoan: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdEduLoan(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdEduLoan: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={stdEduLoan === 'yes'}
+                    onChange={(e) => stdEduLoan(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  Yes
+                  <span className='radio-custom' style={{ borderColor: formError && !stdEduLoan ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdEduLoan ? 'red' : '' }}>Yes</span>
                 </label>
                 <label className='radio-label'>
                   <input
@@ -1031,26 +1065,30 @@ export const Sign = () => {
                     id='eduLoanNo'
                     value='no'
                     name='stdEduLoan'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdEduLoan(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdEduLoan: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdEduLoan(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdEduLoan: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={stdEduLoan === 'no'}
+                    onChange={(e) => stdEduLoan(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  No
+                  <span className='radio-custom' style={{ borderColor: formError && !stdEduLoan ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdEduLoan ? 'red' : '' }}>No</span>
                 </label>
-                {formErrors.stdEduLoan && (
+                {/* {formErrors.stdEduLoan && (
                   <div className='invalid-feedback'>
                     {formErrors.stdEduLoan}
                   </div>
-                )}
+                )} */}
+                {formError && !stdEduLoan && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
               </div>
 
-              <div className='radio-container'>
+              <div className={`radio-container mb-3 ${formError && !stdEBC ? 'has-error' : ''}`}>
                 <p className='labelStyle'>
                   Are you eligible for benefits provided to EBC(Economically
                   Backward Class)?
@@ -1062,17 +1100,20 @@ export const Sign = () => {
                     id='ebcYes'
                     value='yes'
                     name='stdEBC'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdEBC(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdEBC: validateRequired(value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdEBC(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdEBC: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={stdEBC === 'yes'}
+                    onChange={(e) => stdEBC(e.target.value)}
+                    style={{ marginRight: 5 }}
                   />
-                  <span className='radio-custom'></span>
-                  Yes
+                  <span className='radio-custom' style={{ borderColor: formError && !stdEBC ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdEBC ? 'red' : '' }}>Yes</span>
                 </label>
                 <label className='radio-label'>
                   <input
@@ -1081,21 +1122,57 @@ export const Sign = () => {
                     id='ebcNo'
                     value='no'
                     name='stdEBC'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setStdEBC(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        stdEBC: validateRequired(value),
-                      }));
+                    // onChange={(e) => {
+                    //   const value = e.target.value;
+                    //   setStdEBC(value);
+                    //   setFormErrors((prevErrors) => ({
+                    //     ...prevErrors,
+                    //     stdEBC: validateRequired(value),
+                    //   }));
+                    // }}
+                    checked={stdEBC === 'no'}
+                    onChange={(e) => stdEBC(e.target.value)}
+                    style={{ marginRight: 5 }}
+                  />
+                  <span className='radio-custom' style={{ borderColor: formError && !stdEBC ? 'red' : '' }}></span>
+                  <span style={{ color: formError && !stdEBC ? 'red' : '' }}>No</span>
+                </label>
+                {/* {formErrors.stdEBC && (
+                  <div className='invalid-feedback'>{formErrors.stdEBC}</div>
+                )} */}
+                {formError && !stdEBC && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
+              </div>
+              <br />
+
+              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                <div className='form-check'>
+                  <input
+                    className='form-check-input'
+                    type='checkbox'
+                    value=''
+                    id='flexcheckDefault'
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    style={{
+                      height: 20,
+                      padding: 0,
+                      marginBottom: -8,
+                      marginRight: 12,
+                      width: 20,
                     }}
                   />
-                  <span className='radio-custom'></span>
-                  No
-                </label>
-                {formErrors.stdEBC && (
-                  <div className='invalid-feedback'>{formErrors.stdEBC}</div>
-                )}
+                  <label
+                    className='form-check-label labelStyle'
+                    htmlFor='flexCheckDefault'
+                  >
+                    I agree to all terms and conditions.
+                  </label>
+                  {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
+                </div>
               </div>
 
               <div className='col-12 text-center mt-4'>

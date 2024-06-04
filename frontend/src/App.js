@@ -22,7 +22,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 
 // Login Auth
 import { Logout } from "./components/logout";
-import { quiz } from "./components/questions";
+//import { quiz } from "./components/questions";
 import Dashboard from "./components/Dashboard";
 
 
@@ -32,30 +32,30 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route index element={<Home />}></Route>
-        <Route path='/Home' element={<Home />}></Route>
-        <Route path='/InstituteForm' element={<InstituteForm />}></Route>
-        <Route path='/IdeaStatus' element={<IdeaStatus />}></Route>
-        <Route path='/Login' element={<Login />}></Route>
-        <Route path='/FLogin' element={<FirstLogin />}></Route>
-        <Route path='/Idea-Submission' element={<IdeaSub />}></Route>
-        <Route path='/Team-Formation' element={<Team />}></Route>
-        <Route path='/Student-Registration' element={<SignUp />}></Route>
-        <Route path='/PanelistForm' element={<PanelForm />}></Route>
-        <Route path='/IncubatorsForm' element={<IncubatorsForm />}></Route>
-        <Route path='/IdeaEvaluation' element={<IdeaEvaluation />}></Route>
-        <Route path='/CatalystForm' element={<Catalyst />}></Route>
-        <Route path='/Event' element={<Event />}></Route>
-        <Route path='/Idea' element={<Idea />}></Route>
-        <Route path='/Quiz' element={<Quiz />}></Route>
+        <Route path='/home' element={<Home />}></Route>
+        <Route path='/institute_form' element={<InstituteForm />}></Route>
+        <Route path='/idea_status' element={<IdeaStatus />}></Route>
+        <Route path='/login' element={<Login />}></Route>
+        <Route path='/flogin' element={<FirstLogin />}></Route>
+        <Route path='/idea_submission' element={<IdeaSub />}></Route>
+        <Route path='/team_formation' element={<Team />}></Route>
+        <Route path='/student_registration' element={<SignUp />}></Route>
+        <Route path='/panelist_form' element={<PanelForm />}></Route>
+        <Route path='/incubators_form' element={<IncubatorsForm />}></Route>
+        <Route path='/idea_evaluation' element={<IdeaEvaluation />}></Route>
+        <Route path='/catalyst_form' element={<Catalyst />}></Route>
+        <Route path='/event' element={<Event />}></Route>
+        <Route path='/idea' element={<Idea />}></Route>
+        <Route path='/quiz' element={<Quiz />}></Route>
         <Route path='/questions' element={<quiz />}></Route>
-        <Route path='/Password' element={<Password />}></Route>
-        <Route path='/ResetPass/:otp/:email' element={<ResetPass />}></Route>
-        <Route path='/VerifyEmail' element={<VerifyEmail />}></Route>
+        <Route path='/forgot_password' element={<Password />}></Route>
+        <Route path='/reset_password/:otp/:email' element={<ResetPass />}></Route>
+        <Route path='/verify_email' element={<VerifyEmail />}></Route>
 
         {/* Login Auth */}
         <Route path='/logout' element={<Logout />} />
-        <Route path='/Dashboard' element={<Dashboard />}></Route>
-        <Route path='/IdeaUpdate' element={<IdeaUpdate />}></Route>
+        <Route path='/dashboard' element={<Dashboard />}></Route>
+        <Route path='/idea_update' element={<IdeaUpdate />}></Route>
       </Routes>
     </BrowserRouter>
   );

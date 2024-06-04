@@ -27,6 +27,9 @@ export const TeamForm = () => {
   const [alertType, setAlertType] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
 
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
+
   const [formErrors, setFormErrors] = useState({
     teamName: "",
     teamCEO: "",
@@ -37,7 +40,7 @@ export const TeamForm = () => {
     teamInstiID: "",
   });
 
-  // Reset from after successfull submission
+  // Reset from after successful submission
   const teamForm = useRef(null);
 
   const sendTeamDetails = async (event) => {
@@ -57,6 +60,11 @@ export const TeamForm = () => {
     // Step 4
     setFormErrors(newFormErrors);
 
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
+
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
       setLoading(true);
       try {
@@ -73,27 +81,23 @@ export const TeamForm = () => {
           teamInstiID,
         });
 
-        // console.log("response", response)
-        // console.log("response.data", response.data)
-        // console.log("response.data.error", response.data.error)
-        // console.log("response.data.message: ", response.data.message)
-        // console.log("response.message: ", response.message)
-        // console.log("response.error: ", response.error)
-
         if (response.status === 201) {
+          // Set alert message for success
           setAlertType("success");
           setAlertMessage(response.data.message);
+          setLoading(false);
+          teamForm.current.reset();
         } else if (response.status === 409) {
+          // Set alert message for conflict
           setAlertType("danger");
           setAlertMessage(response.data.error);
         }
       } catch (error) {
         setAlertType("danger");
-        setAlertMessage('Failed to reset password. Please try again.');
+        setAlertMessage("Failed. Please try again.");
+      } finally {
+        setLoading(false);
       }
-      // finally {
-      //   setLoading(false);
-      // }
     }
   };
 
@@ -121,7 +125,7 @@ export const TeamForm = () => {
 
               {/* <h2 className='title'>Team Formation</h2> */}
               <div className='row'>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Team Name</label>
                   <input
                     type='text'
@@ -151,7 +155,7 @@ export const TeamForm = () => {
                     </div>
                   )}
                 </div>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Executive Officer (CEO)</label>
                   <input
                     type='text'
@@ -167,7 +171,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCEO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Executive aspects of your ideas'
+                    placeholder='Member looking after Executive aspects'
                     name={teamCEO}
                   />
 
@@ -175,7 +179,7 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCEO}</div>
                   )}
                 </div>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Marketing Officer (CMO)</label>
                   <input
                     type='text'
@@ -191,7 +195,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCMO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Marketing aspects of your ideas'
+                    placeholder='Member looking after Marketing aspects'
                     name={teamCMO}
                   />
 
@@ -199,7 +203,7 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCMO}</div>
                   )}
                 </div>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Operating Officer (COO)</label>
                   <input
                     type='text'
@@ -215,7 +219,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCOO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Operational aspects of your ideas'
+                    placeholder='Member looking after Operational aspects'
                     name={teamCOO}
                   />
 
@@ -224,7 +228,7 @@ export const TeamForm = () => {
                   )}
                 </div>
 
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Financial Officer (CFO)</label>
                   <input
                     type='text'
@@ -240,7 +244,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCFO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Financial aspects of your ideas'
+                    placeholder='Member looking after Financial aspects'
                     name={teamCFO}
                   />
 
@@ -248,7 +252,7 @@ export const TeamForm = () => {
                     <div className='invalid-feedback'>{formErrors.teamCFO}</div>
                   )}
                 </div>
-                <div className='col-6 col-xl-6 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Chief Technology Officer (CTO)</label>
                   <input
                     type='text'
@@ -264,7 +268,7 @@ export const TeamForm = () => {
                     className={
                       "form-control " + (formErrors.teamCTO ? "is-invalid" : "")
                     }
-                    placeholder='Team Member looking after Technological aspects of your ideas'
+                    placeholder='Member looking after Technological aspects'
                     name={teamCTO}
                   />
 
@@ -273,40 +277,7 @@ export const TeamForm = () => {
                   )}
                 </div>
 
-                {/* <div className='col-12 col-xl-12 col-lg-6 mb-3'>
-                  <label className='labelStyle'>Institute Name</label>
-                  <select
-                    className={
-                      "form-select" +
-                      (formErrors.teamInstiID ? "is-invalid" : "")
-                    }
-                    name={teamInstiID}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setteamInstiID(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        teamInstiID: validateRequired(value),
-                      }));
-                    }}
-                  >
-                    <option selected disabled>
-                      Select Institute
-                    </option>
-                    {institutes.map((institute, index) => (
-                      <option key={index} value={institute.instID}>
-                        {institute.instName}
-                      </option>
-                    ))}
-                  </select>
-                  {formErrors.teamInstiID && (
-                    <div className='invalid-feedback'>
-                      {formErrors.teamInstiID}
-                    </div>
-                  )}
-                </div> */}
-
-                <div className='col-12 col-xl-12 col-lg-6 mb-3'>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                   <label className='labelStyle'>Institute Name</label>
                   <select
                     className={
@@ -338,48 +309,49 @@ export const TeamForm = () => {
                     </div>
                   )}
                 </div>
-              </div>
 
-              <div className='col-12 col-xl-12 col-lg-12 mb-3'>
-                <div className='form-check'>
-                  <input
-                    className='form-check-input'
-                    type='checkbox'
-                    value=''
-                    id='flexcheckDefault'
-                    style={{
-                      height: 20,
-                      padding: 0,
-                      marginBottom: -8,
-                      marginRight: 12,
-                      width: 20,
-                    }}
-                  />
-                  <label
-                    className='form-check-label labelStyle'
-                    htmlFor='flexCheckDefault'
-                  >
-                    I agree to all terms and conditions.
-                  </label>
+                <div className='col-12 col-xl-12 col-lg-12 mb-3'>
+                  <div className='form-check'>
+                    <input
+                      className='form-check-input'
+                      type='checkbox'
+                      value=''
+                      id='flexcheckDefault'
+                      checked={agreeTerms}
+                      onChange={(e) => setAgreeTerms(e.target.checked)}
+                      style={{
+                        height: 20,
+                        padding: 0,
+                        marginBottom: -8,
+                        marginRight: 12,
+                        width: 20,
+                      }}
+                    />
+                    <label
+                      className='form-check-label labelStyle'
+                      htmlFor='flexCheckDefault'
+                    >
+                      I agree to all terms and conditions.
+                    </label>
+                    {formError && (
+                      <div className='col-12 mb-3'>
+                        <div className='alert alert-danger'>{formError}</div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
 
-              {/* <div className='col-12 text-center mt-4'>
-                <button className='btn btn-style-one' type='submit'>
-                  <span>Form a team!</span>
-                </button>
-              </div> */}
-
-              <div className='col-12 text-center mt-4'>
-                <button className='btn btn-style-one' type='submit' disabled={loading}>
-                  {loading ? (
-                    <span>
-                      <i className="fa fa-spinner fa-spin" /> Submitting...
-                    </span>
-                  ) : (
-                    <span>Form a team!</span>
-                  )}
-                </button>
+                <div className='col-12 text-center mt-4'>
+                  <button className='btn btn-style-one' type='submit' disabled={loading}>
+                    {loading ? (
+                      <span>
+                        <i className="fa fa-spinner fa-spin" /> Submitting...
+                      </span>
+                    ) : (
+                      <span>Form a team!</span>
+                    )}
+                  </button>
+                </div>
               </div>
             </form>
           </div>

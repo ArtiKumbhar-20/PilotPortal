@@ -106,7 +106,7 @@ export const EmailVerification = () => {
               data-wow-delay='.1s'
             >
               <h2 className='title'>Verify Email</h2>
-              <div style={{ marginTop: '-25px',marginBottom: '10px', color: 'gray' }}>An email has been sent to {studentEmail}. Please verify your email with the OTP.</div>
+              <div style={{ marginTop: '-25px',marginBottom: '10px', color: '#ef4444' }}>An OTP has been sent to {studentEmail}. Please verify your email with the OTP.</div>
               {error && <div className='alert alert-danger' role='alert'>{error}</div>}
               {message && <div className='alert alert-success' role='alert'>{message}</div>}
              
@@ -124,7 +124,7 @@ export const EmailVerification = () => {
                 </div>
               </div>
               <div className='text-center mt-4'>
-                <div style={{ display: 'inline-block', marginRight: '10px' }}>
+                <div style={{ display: 'inline-block' }}>
                   <button className='btn btn-style-five' type='submit' disabled={loading} style={{ color: 'white', margin:'4px' }}>
                     {loading ? 'Verifying...' : 'Verify OTP'}
                   </button>

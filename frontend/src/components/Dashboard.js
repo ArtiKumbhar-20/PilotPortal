@@ -13,7 +13,7 @@ const apiUrl = `${config.backendUrl}/dashboard/`;
 
 const Dashboard = () => {
   const [userDetails, setUserDetails] = useState({});
-  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const [isLoading, setIsLoading] = useState(true); // loading state
 
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {

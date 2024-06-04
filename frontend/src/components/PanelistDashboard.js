@@ -18,8 +18,8 @@ const PanelistDashboard = ({ userDetails }) => {
       ideaTeamID,
     });
       // console.log(queryParams)  
-    // Redirect to /ideaevaluation with the constructed query parameters
-    navigate(`/ideaevaluation?${queryParams.toString()}`);
+    // Redirect to /idea_evaluation with the constructed query parameters
+    navigate(`/idea_evaluation?${queryParams.toString()}`);
   };
   
 

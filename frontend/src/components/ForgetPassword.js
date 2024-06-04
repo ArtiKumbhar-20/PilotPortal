@@ -77,7 +77,7 @@ export const ForgetPassword = () => {
         setMessage(data.message);
         setError('');
         setTimeout(() => {
-          navigate(`/ResetPass/${otp}/${email}`);
+          navigate(`/reset_password/${otp}/${email}`);
         }, 1000);
       } else {
         setError(data.error || 'Failed to verify OTP. Please try again.');
@@ -101,7 +101,7 @@ export const ForgetPassword = () => {
                 data-wow-duration='1.5s'
                 data-wow-delay='.1s'
               >
-                <h2 className='title'>Forget Password</h2>
+                <h2 className='title'>Forgot Password</h2>
                 {error && <div className='alert alert-danger' role='alert'>{error}</div>}
                 {message && <div className='alert alert-success' role='alert'>{message}</div>}
                 <div className='row'>
@@ -148,7 +148,7 @@ export const ForgetPassword = () => {
                   </div>
                 </div>
                 <div className='col-12 text-center mt-4'>
-                  <button className='btn btn-style-one' type='submit' disabled={loading} style={{ color: 'white' }}>
+                  <button className='btn btn-style-one' type='submit' disabled={loading} style={{ color: 'white'  }}>
                     {loading ? 'Verifying...' : 'Verify OTP'}
                   </button>
                 </div>

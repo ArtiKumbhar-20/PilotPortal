@@ -19,7 +19,7 @@ export default class Home extends React.Component {
         <ContactModal />
         <AboutHome />
         <Methodology />
-        <YoutubeLink/>
+        <YoutubeLink />
         <Companions />
         <EventsList />
         <Testimonials />

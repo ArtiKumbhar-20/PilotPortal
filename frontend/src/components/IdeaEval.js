@@ -780,5 +780,4 @@ export const IdeaEval = ({ onIdeaEvaluated }) => {
     </div>
   );
 };
-
 export default IdeaEval;

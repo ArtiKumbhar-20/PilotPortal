@@ -19,6 +19,8 @@ export const IdeaStat = () => {
   const [ideaStatTeamPlacement, setideaStatTeamPlacement] = useState("");
   const [ideaStatIncorpStatus, setideaStatIncorpStatus] = useState("");
   const [ideaStatEmploybilitySkilling, setideaStatEmploybilitySkilling] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [formError, setFormError] = useState("");
 
   // Step 2: For Validation
   // State to hold form field errors
@@ -36,6 +38,7 @@ export const IdeaStat = () => {
     ideaStatTeamPlacement: "",
     ideaStatIncorpStatus: "",
     ideaStatEmploybilitySkilling: "",
+    termsAgreed: "", // New error field for the checkbox
   });
 
   // Reset from after successfull submission
@@ -63,6 +66,11 @@ export const IdeaStat = () => {
 
     // Step 4: For Validation : Will Not Change
     setFormErrors(newFormErrors);
+
+    if (!agreeTerms) {
+      setFormError("You must agree to the terms and conditions.");
+      return;
+    }
 
     // Step 5: For Validation : If statement
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
@@ -495,15 +503,27 @@ export const IdeaStat = () => {
               <div className='col-12 col-xl-12 col-lg-12 mb-3'>
                 <div className='form-check'>
                   <input
-                    className='form-check-input'
                     type='checkbox'
                     value=''
                     id='flexcheckDefault'
                     style={{ height: 20, padding: 0, marginBottom:-8, marginRight: 12, width: 20 }}
+                    name='termsAgreed'
+                    checked={agreeTerms}
+                    onChange={(e) => setAgreeTerms(e.target.checked)}
+                    // Change className based on validation
+                    className={
+                      "form-check-input " +
+                      (formErrors.termsAgreed ? "is-invalid" : "")
+                    }
                   />
-                  <label className='form-check-label labelStyle' htmlFor='flexCheckDefault'>
+                  <label className='labelStyle' htmlFor='flexCheckDefault'>
                     I agree to all terms and conditions.
                   </label>
+                  {formError && (
+                <div className='col-12 mb-3'>
+                  <div className='alert alert-danger'>{formError}</div>
+                </div>
+              )}
                 </div>
               </div>
 

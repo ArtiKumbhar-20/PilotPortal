@@ -4,19 +4,18 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
 from django.contrib.auth.models import User
-from .helpers import send_forget_password_mail
+from .forgot_pass_otp import send_forget_password_mail
 from django.utils import timezone
 from .models import Profile
 from .serializers import ProfileSerializer
 import random
 import string
-from .helpers import send_forget_password_mail
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.hashers import check_password
 
-
+# Dashboard
 class HomeView(APIView):
     permission_classes = (IsAuthenticated, )
 
@@ -49,8 +48,7 @@ class HomeView(APIView):
 
         return Response(content)
 
-
-
+# Change Password (ON Dashboard)
 class ChangePasswordView(APIView):
     permission_classes = (IsAuthenticated, )
 
@@ -88,7 +86,7 @@ class ChangePasswordView(APIView):
         return Response({'message': 'Password changed successfully'}, status=status.HTTP_200_OK)
 
 
-
+# Logout 
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
     def post(self, request):
@@ -102,7 +100,7 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
-
+# Forget Password (OUTSIDE Dashboard ON Login Page)
 class ForgetPassword(APIView):
     def post(self, request):
         try:
@@ -129,6 +127,7 @@ class ForgetPassword(APIView):
             return Response({'error': 'An error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+# Email Verification via OTP for Changing Password
 class VerifyOTP(APIView):
     def post(self, request):
         try:
@@ -145,6 +144,7 @@ class VerifyOTP(APIView):
         except Exception as e:
             return Response({'error': 'An error occurred.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+# Change Password (OUTSIDE Dashboard)
 class ChangePasswordWithOTP(APIView):
     def post(self, request, otp, email):
         try:

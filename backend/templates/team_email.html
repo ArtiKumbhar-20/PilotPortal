@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team Registration Successful</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #FFFFFF;
+        }
+        .card-container {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border: 0.1px solid gray; 
+        }
+        .card-container h1 {
+            font-size: 24px;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+        .card-container p {
+            font-size: 16px;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+        .code {
+            font-size: 100%;
+            font-weight: bold;
+        }
+        .footer {
+            text-align: center;
+            color: #999999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <h1>Team Registration Successful</h1>
+        <p>Hi Team,<br>
+            Your team has been successfully registered.</p>
+        <p>Team Name: <span class="code">{{ teamName }}</span></p>
+        <p>Team Unique ID: <span class="code">{{ teamUniqueID }}</span></p>
+        <p>Team Members:</p>
+        <ul>
+            {% for member in teamMembers %}
+                <li>{{ member.name }} - {{ member.role }}</li>
+            {% endfor %}
+        </ul>
+        <p>Regards,<br>EvolvingX Team.</p>
+        <p class="footer">Happy Teaming!</p>
+    </div>
+</body>
+</html>
