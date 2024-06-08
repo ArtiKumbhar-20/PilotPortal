@@ -21,8 +21,7 @@ export const CatalystForm = () => {
   const [catalystStreamBranch, setCatalystStreamBranch] = useState("");
   const [catalystGender, setCatalystGender] = useState("");
   const [catalystDOB, setCatalystDOB] = useState("");
-  const [catalystTriedStartupBefore, setCatalystTriedStartupBefore] =
-    useState("");
+  const [catalystTriedStartupBefore, setCatalystTriedStartupBefore] = useState("");
   const [catalystFamilyBackground, setCatalystFamilyBackground] = useState("");
   const [catalystEBC, setCatalystEBC] = useState("");
   const [catalystAadhar, setCatalystAadhar] = useState("");
@@ -274,7 +273,7 @@ export const CatalystForm = () => {
                         //   }));
                         // }}
                         checked={catalystGender === 'male'}
-                        onChange={(e) => catalystGender(e.target.value)}
+                        onChange={(e) => setCatalystGender(e.target.value)}
                       />
 
     <span style={{ color: formError && !catalystGender ? 'red' : '' }}>Male</span>
@@ -302,7 +301,7 @@ export const CatalystForm = () => {
                         //   }));
                         // }}
                         checked={catalystGender === 'female'}
-      onChange={(e) => catalystGender(e.target.value)}
+      onChange={(e) => setCatalystGender(e.target.value)}
                       />
     <span style={{ color: formError && !catalystGender ? 'red' : '' }}>Female</span>
                     </label>
@@ -329,7 +328,7 @@ export const CatalystForm = () => {
                         //   }));
                         // }}
                         checked={catalystGender === 'other'}
-                        onChange={(e) => catalystGender(e.target.value)}
+                        onChange={(e) => setCatalystGender(e.target.value)}
                       />
                       {/* <span className='radio-custom' style={{ borderColor: formError && !catalystGender ? 'red' : '' }}></span> */}
     <span style={{ color: formError && !catalystGender ? 'red' : '' }}>Other</span>
@@ -882,7 +881,7 @@ export const CatalystForm = () => {
                     //   }));
                     // }}
                     checked={catalystTriedStartupBefore === 'yes'}
-                    onChange={(e) => catalystTriedStartupBefore(e.target.value)}
+                    onChange={(e) => setCatalystTriedStartupBefore(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !catalystTriedStartupBefore ? 'red' : '' }}></span>
@@ -906,7 +905,7 @@ export const CatalystForm = () => {
                     //   }));
                     // }}
                     checked={catalystTriedStartupBefore === 'no'}
-                    onChange={(e) => catalystTriedStartupBefore(e.target.value)}
+                    onChange={(e) => setCatalystTriedStartupBefore(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !catalystTriedStartupBefore ? 'red' : '' }}></span>
@@ -930,7 +929,7 @@ export const CatalystForm = () => {
                     //   }));
                     // }}
                     checked={catalystTriedStartupBefore === 'planning'}
-                    onChange={(e) => catalystTriedStartupBefore(e.target.value)}
+                    onChange={(e) => setCatalystTriedStartupBefore(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !catalystTriedStartupBefore ? 'red' : '' }}></span>
@@ -965,7 +964,7 @@ export const CatalystForm = () => {
                     //   }));
                     // }}
                     checked={catalystEBC === 'yes'}
-                    onChange={(e) => catalystEBC(e.target.value)}
+                    onChange={(e) => setCatalystEBC(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !catalystEBC ? 'red' : '' }}></span>
@@ -987,7 +986,7 @@ export const CatalystForm = () => {
                     //   }));
                     // }}
                     checked={catalystEBC === 'no'}
-                    onChange={(e) => catalystEBC(e.target.value)}
+                    onChange={(e) => setCatalystEBC(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !catalystEBC ? 'red' : '' }}></span>
