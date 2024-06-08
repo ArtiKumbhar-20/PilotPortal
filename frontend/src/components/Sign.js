@@ -315,7 +315,7 @@ export const Sign = () => {
                         //   }));
                         // }}
                         checked={stdGender === 'Male'}
-                        onChange={(e) => stdGender(e.target.value)}
+                        onChange={(e) => setStdGender(e.target.value)}
                       />
                       <span style={{ color: formError && !stdGender ? 'red' : '' }}>Male</span>
                     </label>
@@ -342,7 +342,7 @@ export const Sign = () => {
                         //   }));
                         // }}
                         checked={stdGender === 'Female'}
-                        onChange={(e) => stdGender(e.target.value)}
+                        onChange={(e) => setStdGender(e.target.value)}
                       />
                       <span style={{ color: formError && !stdGender ? 'red' : '' }}>Female</span>
                     </label>
@@ -369,7 +369,7 @@ export const Sign = () => {
                         //   }));
                         // }}
                         checked={stdGender === 'other'}
-                        onChange={(e) => stdGender(e.target.value)}
+                        onChange={(e) => setStdGender(e.target.value)}
                       />
                       <span style={{ color: formError && !stdGender ? 'red' : '' }}>Other</span>
                     </label>
@@ -916,7 +916,7 @@ export const Sign = () => {
                     //     stdTriedStartupBefore: validateRequired(value),
                     //   }));
                     // }}
-                    onChange={(e) => stdTriedStartupBefore(e.target.value)}
+                    onChange={(e) => setStdTriedStartupBefore(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !stdTriedStartupBefore ? 'red' : '' }}></span>
@@ -932,7 +932,7 @@ export const Sign = () => {
                     value='no'
                     name='stdTriedStartupBefore'
                     checked={stdTriedStartupBefore === 'no'}
-                    onChange={(e) => stdTriedStartupBefore(e.target.value)}
+                    onChange={(e) => setStdTriedStartupBefore(e.target.value)}
                     style={{ marginRight: 5 }}
                     // onChange={(e) => {
                     //   const value = e.target.value;
@@ -964,7 +964,7 @@ export const Sign = () => {
                     //   }));
                     // }}
                     checked={stdTriedStartupBefore === 'planning'}
-                    onChange={(e) => stdTriedStartupBefore(e.target.value)}
+                    onChange={(e) => setStdTriedStartupBefore(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !stdTriedStartupBefore ? 'red' : '' }}></span>
@@ -998,7 +998,7 @@ export const Sign = () => {
                     //   }));
                     // }}
                     checked={stdParentSupport === 'yes'}
-                    onChange={(e) => stdParentSupport(e.target.value)}
+                    onChange={(e) => setStdParentSupport(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !stdParentSupport ? 'red' : '' }}></span>
@@ -1020,7 +1020,7 @@ export const Sign = () => {
                     //   }));
                     // }}
                     checked={stdParentSupport === 'no'}
-                    onChange={(e) => stdParentSupport(e.target.value)}
+                    onChange={(e) => setStdParentSupport(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !stdParentSupport ? 'red' : '' }}></span>
@@ -1052,7 +1052,7 @@ export const Sign = () => {
                     //   }));
                     // }}
                     checked={stdEduLoan === 'yes'}
-                    onChange={(e) => stdEduLoan(e.target.value)}
+                    onChange={(e) => setStdEduLoan(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !stdEduLoan ? 'red' : '' }}></span>
@@ -1074,7 +1074,7 @@ export const Sign = () => {
                     //   }));
                     // }}
                     checked={stdEduLoan === 'no'}
-                    onChange={(e) => stdEduLoan(e.target.value)}
+                    onChange={(e) => setStdEduLoan(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !stdEduLoan ? 'red' : '' }}></span>
@@ -1109,7 +1109,7 @@ export const Sign = () => {
                     //   }));
                     // }}
                     checked={stdEBC === 'yes'}
-                    onChange={(e) => stdEBC(e.target.value)}
+                    onChange={(e) => setStdEBC(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !stdEBC ? 'red' : '' }}></span>
@@ -1131,7 +1131,7 @@ export const Sign = () => {
                     //   }));
                     // }}
                     checked={stdEBC === 'no'}
-                    onChange={(e) => stdEBC(e.target.value)}
+                    onChange={(e) => setStdEBC(e.target.value)}
                     style={{ marginRight: 5 }}
                   />
                   <span className='radio-custom' style={{ borderColor: formError && !stdEBC ? 'red' : '' }}></span>
