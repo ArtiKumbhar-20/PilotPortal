@@ -224,7 +224,7 @@ export const PanelistForm = () => {
                         //   }));
                         // }}
                         checked={panelistGender === 'male'}
-                        onChange={(e) => panelistGender(e.target.value)}
+                        onChange={(e) => setPanelistGender(e.target.value)}
                       />
                       <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Male</span>
                     </label>
@@ -250,7 +250,7 @@ export const PanelistForm = () => {
                         //   }));
                         // }}
                         checked={panelistGender === 'female'}
-                        onChange={(e) => panelistGender(e.target.value)}
+                        onChange={(e) => setPanelistGender(e.target.value)}
                       />
                       <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Female</span>
                     </label>
@@ -276,7 +276,7 @@ export const PanelistForm = () => {
                         //   }));
                         // }}
                         checked={panelistGender === 'other'}
-                        onChange={(e) => panelistGender(e.target.value)}
+                        onChange={(e) => setPanelistGender(e.target.value)}
                       />
                       <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Other</span>
                     </label>
