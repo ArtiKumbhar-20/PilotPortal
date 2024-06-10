@@ -199,7 +199,7 @@ export const PanelistForm = () => {
                   )}
                 </div>
 
-                <div className='col-12 col-xl-4 col-lg-4 mb-3'>
+                <div className={`col-12 col-xl-4 col-lg-4 mb-3${formError && !panelistGender ? 'has-error' : ''}`}>
                   <label className='labelStyle'>Gender</label>
                   <br />
                   <br />
@@ -215,16 +215,18 @@ export const PanelistForm = () => {
                         value='male'
                         style={{ height: 20 }}
                         name={panelistGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setPanelistGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            panelistGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setPanelistGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     panelistGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={panelistGender === 'male'}
+                        onChange={(e) => setPanelistGender(e.target.value)}
                       />
-                      Male
+                      <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Male</span>
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
@@ -239,16 +241,18 @@ export const PanelistForm = () => {
                         value='female'
                         style={{ height: 20 }}
                         name={panelistGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setPanelistGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            panelistGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setPanelistGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     panelistGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={panelistGender === 'female'}
+                        onChange={(e) => setPanelistGender(e.target.value)}
                       />
-                      Female
+                      <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Female</span>
                     </label>
                   </div>
                   <div className='form-check form-check-inline'>
@@ -263,23 +267,26 @@ export const PanelistForm = () => {
                         value='other'
                         style={{ height: 20 }}
                         name={panelistGender}
-                        onChange={(e) => {
-                          const value = e.target.value;
-                          setPanelistGender(value);
-                          setFormErrors((prevErrors) => ({
-                            ...prevErrors,
-                            panelistGender: validateRequired(value),
-                          }));
-                        }}
+                        // onChange={(e) => {
+                        //   const value = e.target.value;
+                        //   setPanelistGender(value);
+                        //   setFormErrors((prevErrors) => ({
+                        //     ...prevErrors,
+                        //     panelistGender: validateRequired(value),
+                        //   }));
+                        // }}
+                        checked={panelistGender === 'other'}
+                        onChange={(e) => setPanelistGender(e.target.value)}
                       />
-                      Other
+                      <span style={{ color: formError && !panelistGender ? 'red' : '' }}>Other</span>
                     </label>
                   </div>
-                  {formErrors.panelistGender && (
+                  {/* {formErrors.panelistGender && (
                     <div className='invalid-feedback'>
                       {formErrors.panelistGender}
                     </div>
-                  )}
+                  )} */}
+                  {formError && !panelistGender && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Email</label>

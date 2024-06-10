@@ -11,7 +11,7 @@ class IdeaSubAdmin(admin.ModelAdmin):
         'ideaTeamSolnCount','ideaTeamTopSoln1','ideaTeamTopSoln2','ideaTeamTopSoln3',
         'ideaTeamQuickVal','ideaTeamFinalSoln','ideaTeamOfferingType','ideaTeamTechReq',
         'ideaTeamHardwareReq','ideaTeamNonTechReq','ideaTeamProtoTime','ideaTeamProtoCost',
-        'ideaTeamIncuSupport','ideaStatus','recordCreatedOn','recordCreatedBy','recordUpdatedOn','recordUpdatedBy'
+        'ideaTeamIncuSupport','ideaStatus','evaluateStatus','recordCreatedOn','recordCreatedBy','recordUpdatedOn','recordUpdatedBy'
     )
 
 @admin.register(IdeaStat)
@@ -21,4 +21,36 @@ class IdeaStatAdmin(admin.ModelAdmin):
         'ideaStatIncuSupport','ideaStatIPRTrademark','ideaStatIPRPatent','ideaStatIPRCopyright','ideaStatBusinessPlan',
         'ideaStatIPRTradeSecrets','ideaStatProto','ideaStatTeamPlacement','ideaStatIncorpStatus',
         'ideaStatEmploybilitySkilling','recordCreatedOn','recordCreatedBy','recordUpdatedOn','recordUpdatedBy'
+    )
+
+@admin.register(IdeaEval)
+class IdeaEvalAdmin(admin.ModelAdmin):
+    list_display = (
+        'evalID',
+        'evalPanelistID',
+        'evalTeamID',
+        'ideaID',
+        'evalAffordable',
+        'evalSustainable',
+        'evalScalable',
+        'evalUniversal',
+        'evalRapid',
+        'evalExcellent',
+        'evalDistinctive',
+        'evalWow',
+        'evalScopeIPs',
+        'evalMarketNeed',
+        'evalSupplyChain',
+        'evalScopeRevenue',
+        'evalCompetition',
+        'evalEaseOfOperation',
+        'evalBonus',
+        'evalRecommendedToIncu',
+        'evalAreaOfImprov',
+        'evalOverallFeedback',
+        'ideaTeamPSdetail',
+        'recordCreatedOn',
+        'recordCreatedBy',
+        'recordUpdatedOn',
+        'recordUpdatedBy',
     )

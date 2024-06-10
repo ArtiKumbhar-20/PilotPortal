@@ -16,4 +16,13 @@ urlpatterns = [
     path('getInstitutesList/', InstituteListView.as_view(), name='institute-list'),
     path('student-verify-otp/', OTPVerification.as_view(), name='student-verify_otp'),
     path('resend-otp/', ResendOTP.as_view(), name='resend-otp'), 
+
+    path('assign_ideas_to_panelist/', assign_ideas_to_panelists, name='assign_ideas_to_panelists'), #hit this api to asssign ideas to panelist randomly
+    path('panelist/<int:panel_id>/ideas/', get_assigned_ideas_for_panelist, name='get_assigned_ideas'),
+
+    # path('assigned/<int:panelid>/', list_assigned_ideas_by_panelist, name='list_assigned_ideas_by_panelist'),
+    path('list-assigned-ideas/', list_assigned_ideas, name='list-assigned-ideas'),
+
+    path('panelist/<int:pk>/', update_panelist, name='update_panelist'), #update profile details_panelsit
+
 ]

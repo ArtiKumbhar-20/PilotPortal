@@ -124,33 +124,40 @@ export const IncubatorsForm = () => {
                   </select>
                 </div>
 
-                <div class='radio-container mb-3'>
-                  <p className='labelStyle'>
-                    Does your incubators have fund to support students startup?
-                  </p>
-                  <label class='radio-label'>
-                    <input
-                      type='radio'
-                      value='yes'
-                      id='FundYes'
-                      name={incuFundAvailable}
-                      onChange={(e) => setincuFundAvailable(e.target.value)}
-                    />
-                    <span class='radio-custom'></span>
-                    Yes
-                  </label>
-                  <label class='radio-label'>
-                    <input
-                      type='radio'
-                      value='no'
-                      id='FundNo'
-                      name={incuFundAvailable}
-                      onChange={(e) => setincuFundAvailable(e.target.value)}
-                    />
-                    <span class='radio-custom'></span>
-                    No
-                  </label>
-                </div>
+                {/* Radio button field */}
+<div className={`radio-container mb-3 ${formError && !incuFundAvailable ? 'has-error' : ''}`}>
+  <p className='labelStyle'>
+    Does your incubator have funds to support student startups?
+  </p>
+  <label className='radio-label'>
+    <input
+      type='radio'
+      value='yes'
+      id='FundYes'
+      name='incuFundAvailable'
+      checked={incuFundAvailable === 'yes'}
+      onChange={(e) => setincuFundAvailable(e.target.value)}
+      style={{ marginRight: 5 }}
+    />
+    <span className='radio-custom' style={{ borderColor: formError && !incuFundAvailable ? 'red' : '' }}></span>
+    <span style={{ color: formError && !incuFundAvailable ? 'red' : '' }}>Yes</span>
+  </label>
+  <label className='radio-label'>
+    <input
+      type='radio'
+      value='no'
+      id='FundNo'
+      name='incuFundAvailable'
+      checked={incuFundAvailable === 'no'}
+      onChange={(e) => setincuFundAvailable(e.target.value)}
+      style={{ marginRight: 5 }}
+    />
+    <span className='radio-custom' style={{ borderColor: formError && !incuFundAvailable ? 'red' : '' }}></span>
+    <span style={{ color: formError && !incuFundAvailable ? 'red' : '' }}>No</span>
+  </label>
+  {formError && !incuFundAvailable && <div className='error-message' style={{ color: 'red' }}>This field is required</div>}
+</div>
+
 
                 {/* row 3 */}
                 <div className='col-12 col-xl-12 col-lg-12 mb-3'>

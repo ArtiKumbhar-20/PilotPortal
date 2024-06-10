@@ -6,9 +6,9 @@ import { NavLink } from "react-router-dom";
 
 import IdeaDetailModal from './IdeaDetailModal';
 
-
 const StudentDashboard = ({ userDetails }) => {
   const loggedInStudId = userDetails.student_id;
+  sessionStorage.setItem('loggedInStudId', loggedInStudId);
   const loggedInPanelId = userDetails.paneID;
   const apiUrl = `${config.backendUrl}/StudGetData/${userDetails.student_id}/`;
   const [stud, setStud] = useState({});
@@ -632,6 +632,7 @@ const handleSubmit = async (e) => {
               <h3>Idea Status</h3>
               <hr style={{ borderBottom: '2px solid #000', margin: '15px 0 30px 0' }} />
               {/* <p><b>Idea Status: </b>{ideaDetail.ideaStatus}</p> */}
+              {/* {ideaDetail.ideaStatus = 'Submitted'} */}
               <ol className="process_checkout">
                 <li className={`step ${ideaDetail.ideaStatus === 'Submitted' ? 'completed' : (ideaDetail.ideaStatus === 'Reviewed' || ideaDetail.ideaStatus === 'Remarked' || ideaDetail.ideaStatus === 'Closed' ? 'completed' : 'active')}`}>
                   <span className="step-icon"></span>

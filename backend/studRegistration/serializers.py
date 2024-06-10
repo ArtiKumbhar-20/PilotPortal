@@ -1,6 +1,15 @@
 from rest_framework import serializers
 from .models import *
+from idea.models import IdeaSub
 
+from django.contrib.auth.models import User
+
+#Idea form Serializer
+
+class IdeaSubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IdeaSub
+        fields = '__all__'
 
 
 # Institute Form
@@ -49,3 +58,11 @@ class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = '__all__'
+
+
+class AssignedIdeaSerializer(serializers.ModelSerializer):
+    panelist_username = serializers.CharField(source='panelistID.username', read_only=True)
+
+    class Meta:
+        model = IdeaSub
+        fields = ['ideaID', 'panelist_username']  # Include other fields as needed

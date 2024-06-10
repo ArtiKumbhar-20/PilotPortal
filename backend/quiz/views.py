@@ -12,9 +12,9 @@ class QuestionListAPIView(generics.ListAPIView):
         selected_questions = []
 
         # Fetch random questions for each score category
-        questions_score_1 = Question.objects.filter(score=1).order_by('?')[:1] #[4]
-        questions_score_2 = Question.objects.filter(score=2).order_by('?')[:1] #[3]
-        questions_score_3 = Question.objects.filter(score=3).order_by('?')[:1] #[3]
+        questions_score_1 = Question.objects.filter(score=1).order_by('?')[:4] #[1] No.of Que. to fetch of each cate. 
+        questions_score_2 = Question.objects.filter(score=2).order_by('?')[:3] #[1]
+        questions_score_3 = Question.objects.filter(score=3).order_by('?')[:3] #[1]
 
         # Select unique questions from each score category until we have a total of 10 questions
         for questions_set in [questions_score_1, questions_score_2, questions_score_3]:
@@ -23,12 +23,12 @@ class QuestionListAPIView(generics.ListAPIView):
                 if question not in selected_questions:
                     selected_questions.append(question)
                     # Break the loop if we have selected 10 questions
-                    if len(selected_questions) == 3:
-                    # if len(selected_questions) == 10:
+                    # if len(selected_questions) == 3:
+                    if len(selected_questions) == 10:
                         break
             # Break the outer loop if we have selected 10 questions
-            if len(selected_questions) == 3:
-            # if len(selected_questions) == 10:
+            # if len(selected_questions) == 3:
+            if len(selected_questions) == 10:
                 break
 
         return selected_questions

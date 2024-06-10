@@ -2,13 +2,31 @@ import React, { useRef, useState } from "react";
 import axios from "axios";
 import { validateRequired } from "./formValidator";
 import config from "./config";
-const apiUrl = `${config.backendUrl}/ideaeval/`; // Construct Backend API URL
+import Button from 'react-bootstrap/Button';
+import IdeaModal from "./ideaModal";
+import { useSearchParams, useHistory } from 'react-router-dom';
 
-export const IdeaEval = () => {
-  // const [evaluationID, setEvaluationID] = useState('');
-  const [evalPanelistID, setevalPanelistID] = useState("");
-  const [evalTeamID, setevalTeamID] = useState("");
-  const [evalTeamName, setevalTeamName] = useState("");
+const apiUrl = `${config.backendUrl}/ideaeval/`;
+
+export const IdeaEval = ({ onIdeaEvaluated }) => {
+  const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
+  const ideaID = searchParams.get('ideaID');
+  const panelistID = searchParams.get('panelistID');
+  const ideaTeamName = searchParams.get('ideaTeamName');
+  const ideaTeamID = searchParams.get('ideaTeamID');
+  const [ideateamspdetails, setIdeateamspdetails] = useState(null);
+
+  // Extract the required detail from ideateamspdetails
+  const ideaTeamPSdetail = ideateamspdetails ? ideateamspdetails.ideaTeamPSdetail : "";
+
+  console.log(`Idea ID: ${ideaID}, Panelist ID: ${panelistID}, Team Name: ${ideaTeamName}, Team SP Details: ${ideaTeamPSdetail}`);
+
+  // Modal function
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   const [evalAffordable, setevalAffordable] = useState("");
   const [evalSustainable, setevalSustainable] = useState("");
   const [evalScalable, setevalScalable] = useState("");
@@ -27,15 +45,8 @@ export const IdeaEval = () => {
   const [evalRecommendedToIncu, setevalRecommendedToIncu] = useState("");
   const [evalAreaOfImprov, setevalAreaOfImprov] = useState("");
   const [evalOverallFeedback, setevalOverallFeedback] = useState("");
-  const [agreeTerms, setAgreeTerms] = useState(false);
-  const [formError, setFormError] = useState("");
 
-  // Step 2: For Validation
-  // State to hold form field errors
   const [formErrors, setFormErrors] = useState({
-    evalPanelistID: "",
-    evalTeamID: "",
-    evalTeamName: "",
     evalAffordable: "",
     evalSustainable: "",
     evalScalable: "",
@@ -56,17 +67,12 @@ export const IdeaEval = () => {
     evalOverallFeedback: "",
   });
 
-  // Reset from after successfull submission
   const ideaEvaluate = useRef(null);
 
-  const sendIdeaEvalDetails = (event) => {
+  const sendIdeaEvalDetails = async (event) => {
     event.preventDefault();
 
-    // Step 3: For Validation
     const newFormErrors = {
-      evalPanelistID: validateRequired(evalPanelistID),
-      evalTeamID: validateRequired(evalTeamID),
-      evalTeamName: validateRequired(evalTeamName),
       evalAffordable: validateRequired(evalAffordable),
       evalSustainable: validateRequired(evalSustainable),
       evalScalable: validateRequired(evalScalable),
@@ -87,25 +93,17 @@ export const IdeaEval = () => {
       evalOverallFeedback: validateRequired(evalOverallFeedback),
     };
 
-    // Step 4: For Validation : Will Not Change
     setFormErrors(newFormErrors);
 
-    if (!agreeTerms) {
-      setFormError("You must agree to the terms and conditions.");
-      return;
-    }
-
-    // Step 5: For Validation : If statement
     if (!Object.values(newFormErrors).some((error) => error !== "")) {
-      console.log(formErrors); // Add this line before the axios call
-      axios({
-        method: "post",
-        url: apiUrl,
-        data: {
-          // ideaID,
-          evalPanelistID,
-          evalTeamID,
-          evalTeamName,
+      setLoading(true);
+      try {
+        const response = await axios.post(apiUrl, {
+          evalPanelistID: panelistID,
+          evalTeamID: ideaTeamID,
+          evalTeamName: ideaTeamName,
+          ideaTeamPSdetail, // Include the PS detail
+          ideaID,
           evalAffordable,
           evalSustainable,
           evalScalable,
@@ -124,31 +122,19 @@ export const IdeaEval = () => {
           evalRecommendedToIncu,
           evalAreaOfImprov,
           evalOverallFeedback,
-        },
-      }).then((response) => {
+        });
         alert(`Thank you for submitting your details.`);
         console.log(response.data);
         ideaEvaluate.current.reset();
-      });
-    } // Closing of If statment
+        window.location.href = "http://localhost:3000/Dashboard";
+
+      } catch (error) {
+        console.error("Error submitting form:", error.response ? error.response.data : error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
-  // const IdeaEval=()=> {
-  //   const [team, setTeam] = useState({});
-  //   const [panelist, setPanelist] = useState({});
-
-  //   useEffect(() => {
-  //     // Fetch data from Django API
-  //     axios
-  //       .get('http://localhost:8000/IdeaEvalView')
-  //       .then((response) => {
-  //         setTeam(response.data.team);
-  //         setPanelist(response.data.panelist);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching data:", error);
-  //       });
-  //   }, []);
-
   return (
     <div className='section-padding'>
       <div className='container'>
@@ -162,107 +148,40 @@ export const IdeaEval = () => {
               ref={ideaEvaluate}
               onSubmit={sendIdeaEvalDetails}
             >
-              {/* Title */}
+              < IdeaModal  ideaID={ideaID} onFetchDetails={setIdeateamspdetails} />
               <h2 className='title'>Idea Evaluation</h2>
-              
+
               <div className='row'>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
-                  <label className='labelStyle'> Panelist ID</label>
+                  <label className='labelStyle'>Panelist ID</label>
                   <input
-                    type='name'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setevalPanelistID(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        evalPanelistID: validateRequired(value),
-                      }));
-                    }}
-                    onInput={(e) => {
-                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                    }}
-                    className={
-                      "form-control " +
-                      (formErrors.evalPanelistID ? "is-invalid" : "")
-                    }
-                    //className='form-control'
-                    id='name'
-                    aria-describedby='emailHelp'
-                    placeholder='Panelist ID'
-                    // value={panelist.id}
-
-                    name={evalPanelistID}
-
+                    type='text'
+                    id='panelistID'
+                    className='form-control'
+                    value={panelistID}
+                    readOnly
                   />
-                  {formErrors.evalPanelistID && (
-                    <div className='invalid-feedback'>
-                      {formErrors.evalPanelistID}
-                    </div>
-                  )}
                 </div>
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Team ID</label>
                   <input
-                    type='name'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setevalTeamID(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        evalTeamID: validateRequired(value),
-                      }));
-                    }}
-                    onInput={(e) => {
-                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                    }}
-                    className={
-                      "form-control " +
-                      (formErrors.evalTeamID ? "is-invalid" : "")
-                    }
-                    id='name'
-                    aria-describedby='emailHelp'
-                    placeholder='Team ID'
-                    // value={team.id}
-                    name={evalTeamID}
+                    type='text'
+                    id='teamID'
+                    className='form-control'
+                    value={ideaTeamID}
+                    readOnly
                   />
-                  {formErrors.evalTeamID && (
-                    <div className='invalid-feedback'>
-                      {formErrors.evalTeamID}
-                    </div>
-                  )}
                 </div>
-
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
                   <label className='labelStyle'>Team Name</label>
                   <input
-                    type='name'
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      setevalTeamName(value);
-                      setFormErrors((prevErrors) => ({
-                        ...prevErrors,
-                        evalTeamName: validateRequired(value),
-                      }));
-                    }}
-                    className={
-                      "form-control " +
-                      (formErrors.evalTeamName ? "is-invalid" : "")
-                    }
-                    id='name'
-                    aria-describedby='emailHelp'
-                    placeholder='Team Name'
-                    // value={team.id}
-                    name={evalTeamName}
+                    type='text'
+                    id='teamName'
+                    className='form-control'
+                    value={ideaTeamName}
+                    readOnly
                   />
-                  {formErrors.evalTeamName && (
-                    <div className='invalid-feedback'>
-                      {formErrors.evalTeamName}
-                    </div>
-                  )}
                 </div>
-
-
-
 
                 {/* RadioButton */}
                 <div className='col-12 col-xl-4 col-lg-4 mb-3'>
@@ -829,8 +748,6 @@ export const IdeaEval = () => {
                       type='checkbox'
                       value=''
                       id='flexcheckDefault'
-                      checked={agreeTerms}
-                      onChange={(e) => setAgreeTerms(e.target.checked)}
                       style={{
                         height: 20,
                         padding: 0,
@@ -847,18 +764,14 @@ export const IdeaEval = () => {
                       I agree to all terms and conditions.
                     </label>
                   </div>
-                  {formError && (
-                <div className='col-12 mb-3'>
-                  <div className='alert alert-danger'>{formError}</div>
                 </div>
-              )}
+              
+
+                <div className='col-12 text-center mt-4'>
+                  <button className='btn btn-style-one' type='submit' disabled={loading}>
+                    <span>{loading ? 'Submitting...' : 'Submit Now'}</span>
+                  </button>
                 </div>
-              </div>
-              {/* Submit */}
-              <div className='col-12 text-center mt-4'>
-                <button className='btn btn-style-one' type='submit'>
-                  <span>Submit Now</span>
-                </button>
               </div>
             </form>
           </div>
@@ -867,5 +780,4 @@ export const IdeaEval = () => {
     </div>
   );
 };
-// };                   
 export default IdeaEval;

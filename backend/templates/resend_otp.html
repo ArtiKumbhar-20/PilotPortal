@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resend Email Verification</title>
+    <style>
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #FFFFFF;
+        }
+
+        .card-container {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border: 0.1px solid gray; 
+        }
+
+        
+        .card-container h1 {
+            font-size: 24px;
+            color: #000000;
+            margin-bottom: 10px;
+        }
+
+        .card-container p {
+            font-size: 16px; 
+            color: #000000;
+            margin-bottom: 10px;
+        }
+
+        .code {
+            font-size: 150%; 
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            color: #999999;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <!-- <img src="https://example.com/assets/images/logo/logo.png" alt="Company Logo" class="logo"> -->
+        <h1>Email Verification OTP</h1>
+        <p>Hi,<br>
+            Please use the follwing OTP to verify your login id and create your profile.</p>
+        <h3 class="code">{{ otp }}</h3>
+        <p>If you didn’t request this, you can ignore this email.</p>
+        <p>Regards,<br>EvolvingX Team.</p>
+        <p class="footer">Happy Login!</p>
+    </div>
+</body>
+</html>

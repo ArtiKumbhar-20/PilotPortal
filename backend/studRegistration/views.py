@@ -7,6 +7,20 @@ from .serializers import *
 from .models import *
 from django.http import JsonResponse
 from django.db import transaction
+from .register import send_welcome_email
+from .verify import verify_email
+from .otp import resend_email
+import random
+import string
+
+
+from idea.models import * 
+
+from.serializers import PanelistSerializer
+
+from idea.serializers import IdeaSubSerializer
+from rest_framework.decorators import api_view
+from rest_framework.status import HTTP_404_NOT_FOUND, HTTP_200_OK, HTTP_405_METHOD_NOT_ALLOWED,HTTP_500_INTERNAL_SERVER_ERROR
 from .emails import *
 import random
 import string
@@ -396,6 +410,7 @@ class PanelistDetailView(APIView):
                 'panelistWhatsapp': panelist.panelistWhatsapp,
                 'panelistAadhar': panelist.panelistAadhar,
                 'panelistInstiID': institute_serializer.data,
+
                 'panelistDomain': panelist.panelistDomain,
                 'panelistDegree': panelist.panelistDegree,
                 'panelistDesignation': panelist.panelistDesignation,
@@ -413,3 +428,73 @@ class InstituteListView(APIView):
     def get(self, request, *args, **kwargs):
         institutes = Institute.objects.values('instID', 'instName')
         return JsonResponse({'institutes': list(institutes)}, safe=False)
+    
+@api_view(['GET'])
+def list_assigned_ideas(request):
+    assigned_ideas = IdeaSub.objects.filter(panelistID__isnull=False)
+    serializer = AssignedIdeaSerializer(assigned_ideas, many=True)
+    return Response(serializer.data)
+
+
+
+@api_view(['POST'])
+def assign_ideas_to_panelists(request):
+    if request.method == 'POST':
+        # Convert QuerySets to lists for shuffling
+        panelists = list(Panelist.objects.all())
+        ideas = list(IdeaSub.objects.filter(panelistID__isnull=True))
+
+        # Shuffle panelists and ideas
+        random.shuffle(panelists)
+        random.shuffle(ideas)
+
+        # Iterate until all ideas are assigned
+        while ideas:
+            # Assign an idea to a panelist
+            if panelists:
+                panelist = panelists.pop()  # Pop and return the last element from the list
+                idea = ideas.pop()  # Pop and return the last element from the list
+                idea.panelistID = panelist
+                idea.save()
+            else:
+                # If there are no panelists left, re-shuffle the ideas
+                random.shuffle(ideas)
+                continue  # Skip to the next iteration
+
+        return Response({"message": "All ideas assigned successfully."}, status=status.HTTP_200_OK)
+    else:
+        return Response({"message": "Invalid request method."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+
+
+
+@api_view(['GET'])
+def get_assigned_ideas_for_panelist(request, panel_id):
+    try:
+        panelist = Panelist.objects.get(panelID=panel_id)
+    except Panelist.DoesNotExist:
+        return Response({"error": "Panelist with ID {} does not exist.".format(panel_id)}, status=status.HTTP_404_NOT_FOUND)
+
+    # Fetch all assigned ideas for the panelist
+    ideas = IdeaSub.objects.filter(panelistID=panelist)
+    if not ideas.exists():
+        return Response({"message": "No assigned ideas found for panelist ID: {}".format(panel_id)}, status=status.HTTP_404_NOT_FOUND)
+
+    # Serialize the ideas to JSON format
+    serializer = IdeaSubSerializer(ideas, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+#update profile panelist 
+@api_view(['PUT'])
+def update_panelist(request, pk):
+    try:
+        panelist = Panelist.objects.get(pk=pk)
+    except Panelist.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = PanelistSerializer(panelist, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

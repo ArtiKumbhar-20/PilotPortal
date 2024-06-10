@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-  
 import Header from "../components/Header";
 import ContactModal from "../components/ContactModal";
 import Footer from "../components/Footer";
@@ -14,6 +13,8 @@ const apiUrl = `${config.backendUrl}/dashboard/`;
 
 const Dashboard = () => {
   const [userDetails, setUserDetails] = useState({});
+  const [isLoading, setIsLoading] = useState(true); // loading state
+
   useEffect(() => {
     if (localStorage.getItem("access_token") === null) {
       return (window.location.href = "/Login");
@@ -27,24 +28,30 @@ const Dashboard = () => {
             },
           });
           setUserDetails(data);
+          setIsLoading(false); // Update loading state after setting userDetails
         } catch (error) {
           console.error("Not auth | Error:", error);
+          setIsLoading(false); // Also update loading state on error
         }
       })();
     }
   }, []);
 
   const renderDashboard = () => {
-    if (userDetails.user_type === "Student") {
-      return <StudentDashboard userDetails={userDetails} />;
-    } else if (userDetails.user_type === "Panelist") {
-      return <PanelistDashboard userDetails={userDetails} />;
-    } else if (userDetails.user_type === "Catylist") {
-      return <CatylistDashboard userDetails={userDetails} />;
-    } else if (userDetails.user_type === "Champion") {
-      return <ChampionDashboard userDetails={userDetails} />;
+    if (!isLoading && userDetails.user_type) { // Check if isLoading is false and userDetails.user_type exists
+      if (userDetails.user_type === "Student") {
+        return <StudentDashboard userDetails={userDetails} />;
+      } else if (userDetails.user_type === "Panelist") {
+        return <PanelistDashboard userDetails={userDetails} />;
+      } else if (userDetails.user_type === "Catylist") {
+        return <CatylistDashboard userDetails={userDetails} />;
+      } else if (userDetails.user_type === "Champion") {
+        return <ChampionDashboard userDetails={userDetails} />;
+      } else {
+        return null; // Handle other user types if needed
+      }
     } else {
-      return null; // Handle other user types if needed
+      return <p>Loading...</p>; // Show loading message while waiting for API response
     }
   };
 
